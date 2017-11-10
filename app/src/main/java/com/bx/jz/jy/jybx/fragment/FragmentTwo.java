@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,6 +38,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +71,7 @@ public class FragmentTwo extends Fragment {
     @BindView(R.id.all_goods)
     LinearLayout allGoods;
     @BindView(R.id.RecyclerView)
-    android.support.v7.widget.RecyclerView RecyclerView;
+    SwipeMenuRecyclerView RecyclerView;
     @BindView(R.id.SwipeRefreshLayout)
     SwipeRefreshLayout SwipeRefreshLayout;
     @BindView(R.id.tv_all_goods)
@@ -120,8 +127,63 @@ public class FragmentTwo extends Fragment {
         return view;
     }
 
+    // 创建菜单
+    SwipeMenuCreator mSwipeMenuCreator = new SwipeMenuCreator() {
+        @Override
+        public void onCreateMenu(SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) {
+            int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            SwipeMenuItem addItem = new SwipeMenuItem(getActivity())
+                    .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
+                    .setBackground(R.mipmap.gary)
+                    .setWidth(width)
+                    .setHeight(height)
+                    .setText("编辑")
+                    .setTextColor(Color.WHITE);
+            rightMenu.addMenuItem(addItem);
+
+            SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity())
+                    .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
+                    .setBackground(R.mipmap.red)
+                    .setWidth(width)
+                    .setHeight(height)
+                    .setText("删除")
+                    .setTextColor(Color.WHITE);
+            rightMenu.addMenuItem(deleteItem);
+        }
+    };
+
+    // 菜单点击监听。
+    SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener() {
+        @Override
+        public void onItemClick(SwipeMenuBridge menuBridge) {
+            // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
+            menuBridge.closeMenu();
+
+            int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
+            int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
+            int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
+
+            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION) {
+                switch (menuPosition) {
+                    case 0:
+                        T.showShort(getActivity(),"点击了 " + adapterPosition + "的编辑");
+                        startActivity(new Intent(getActivity(),AddGoodsActivity.class));
+                        break;
+                    case 1:
+                        T.showShort(getActivity(),"点击了 " + adapterPosition + "的删除");
+//                        ingredientsList.remove(adapterPosition);
+                        mAdapter.notifyItemRemoved(adapterPosition);
+                        break;
+                }
+            }
+        }
+    };
+
     private void initView() {
         RecyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getActivity()));
+        RecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
+        RecyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
 
         notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) RecyclerView.getParent(), false);
         notDataView.setOnClickListener(new View.OnClickListener() {
@@ -144,59 +206,7 @@ public class FragmentTwo extends Fragment {
             }
         });
 
-//        OnItemDragListener listener = new OnItemDragListener() {
-//            @Override
-//            public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
-//                L.d(TAG, "drag start");
-//                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-////                holder.setTextColor(R.id.tv, Color.WHITE);
-//            }
-//
-//            @Override
-//            public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
-//                L.d(TAG, "move from: " + source.getAdapterPosition() + " to: " + target.getAdapterPosition());
-//            }
-//
-//            @Override
-//            public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
-//                L.d(TAG, "drag end");
-//                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-////                holder.setTextColor(R.id.tv, Color.BLACK);
-//            }
-//        };
-//        final Paint paint = new Paint();
-//        paint.setAntiAlias(true);
-//        paint.setTextSize(20);
-//        paint.setColor(Color.BLACK);
-        OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
-            @Override
-            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-                L.d(TAG, "view swiped start: " + pos);
-                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-            }
-
-            @Override
-            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
-                L.d(TAG, "View reset: " + pos);
-                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-            }
-
-            @Override
-            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-                L.d(TAG, "View Swiped: " + pos);
-                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-            }
-
-            @Override
-            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
-                canvas.drawColor(ContextCompat.getColor(getActivity(), R.color.color_0e));
-//                canvas.drawText("Just some text", 0, 40, paint);
-                L.d(TAG, "View Moving: " + isCurrentlyActive);
-            }
-        };
-
         mAdapter = new GoodsListAdapter(ingredientsList, getActivity());
-
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -205,17 +215,8 @@ public class FragmentTwo extends Fragment {
             }
         });
 
-        ItemDragAndSwipeCallback mItemDragAndSwipeCallback = new ItemDragAndSwipeCallback(mAdapter);
-        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(mItemDragAndSwipeCallback);
-        mItemTouchHelper.attachToRecyclerView(RecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mAdapter.isFirstOnly(false);
-        mItemDragAndSwipeCallback.setSwipeMoveFlags(ItemTouchHelper.START );//| ItemTouchHelper.END
-        mAdapter.enableSwipeItem();
-        mAdapter.setOnItemSwipeListener(onItemSwipeListener);
-//        mAdapter.enableDragItem(mItemTouchHelper);
-//        mAdapter.setOnItemDragListener(listener);
-//        mRecyclerView.addItemDecoration(new GridItemDecoration(this ,R.drawable.list_divider));
 
         RecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -225,7 +226,6 @@ public class FragmentTwo extends Fragment {
             }
         });
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -304,7 +304,7 @@ public class FragmentTwo extends Fragment {
                 new AlertDialog.Builder(getActivity()).setAdapter(adapter, clickListener).create().show();
                 break;
             case R.id.img_search:
-                startActivity(new Intent(getActivity(),SearchActivity.class));
+                startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.img_add:
                 startActivity(new Intent(getActivity(), AddGoodsActivity.class));
@@ -321,7 +321,7 @@ public class FragmentTwo extends Fragment {
                     mAdapter.loadMoreFail();
                 }
                 mAdapter.setEmptyView(errorView);
-                if(SwipeRefreshLayout != null){
+                if (SwipeRefreshLayout != null) {
                     SwipeRefreshLayout.setRefreshing(false);
                 }
             }
@@ -334,7 +334,7 @@ public class FragmentTwo extends Fragment {
                     temp++;
                     setData(isRefresh, response.getList());
                 }
-                if(SwipeRefreshLayout != null){
+                if (SwipeRefreshLayout != null) {
                     SwipeRefreshLayout.setRefreshing(false);
                 }
             }

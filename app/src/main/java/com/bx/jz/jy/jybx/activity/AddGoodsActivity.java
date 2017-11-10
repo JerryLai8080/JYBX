@@ -67,8 +67,6 @@ public class AddGoodsActivity extends BaseActivity {
     TextView tvNum;
     @BindView(R.id.tv_date)
     TextView tvDate;
-    @BindView(R.id.img_complete)
-    ImageView imgComplete;
 
     private int durabilityPeriod = 0;
     private int howMuch = 0;
@@ -82,7 +80,6 @@ public class AddGoodsActivity extends BaseActivity {
         ButterKnife.bind(this);
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
-        imgComplete.setVisibility(View.VISIBLE);
         tvTitle.setText("食材编辑");
 
         discreteSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
@@ -102,7 +99,6 @@ public class AddGoodsActivity extends BaseActivity {
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
             }
         });
-
 
         SeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override

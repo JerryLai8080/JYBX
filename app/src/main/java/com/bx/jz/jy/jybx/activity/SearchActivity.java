@@ -38,8 +38,6 @@ public class SearchActivity extends BaseActivity {
     ImageView imgDelete;
     @BindView(R.id.ll_record)
     LinearLayout llRecord;
-    @BindView(R.id.img_complete)
-    ImageView imgComplete;
 
     @Override
     protected void setStatusBar() {
@@ -64,7 +62,6 @@ public class SearchActivity extends BaseActivity {
         ButterKnife.bind(this);
         baseLl.setVisibility(View.VISIBLE);
         tvTitle.setVisibility(View.GONE);
-        imgComplete.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.img_back, R.id.img_delete})

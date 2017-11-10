@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.EditText;
 
 import com.bx.jz.jy.jybx.R;
+import com.bx.jz.jy.jybx.activity.FoodEncyclopediaActivity;
 import com.bx.jz.jy.jybx.utils.AppManager;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.KeyBoardUtils;
@@ -32,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     protected void setStatusBar() {
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+//        StatusBarUtil.setTranslucentForImageViewInFragment(BaseActivity.this, null);
     }
 
     /**

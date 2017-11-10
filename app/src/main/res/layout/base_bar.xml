@@ -32,30 +32,30 @@
 
         <LinearLayout
             android:id="@+id/base_ll"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginRight="20dp"
             android:layout_toEndOf="@+id/img_back"
             android:background="@mipmap/search_bg"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="visible">
 
             <android.support.v7.widget.AppCompatAutoCompleteTextView
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:hint="输入你感兴趣的内容"
                 android:id="@+id/et_search"
-                android:textSize="14sp"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:textColorHint="@color/color_c7"
-                android:textColor="@color/color_9d"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="30dp"
-                android:background="@null"/>
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="输入你感兴趣的内容"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/color_9d"
+                android:textColorHint="@color/color_c7"
+                android:textSize="14sp" />
 
         </LinearLayout>
 

@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="克"
+                    android:text="0克"
                     android:textColor="@color/color_333"
                     android:textSize="14sp" />
 
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="天"
+                    android:text="0天"
                     android:textColor="@color/color_333"
                     android:textSize="14sp" />
 

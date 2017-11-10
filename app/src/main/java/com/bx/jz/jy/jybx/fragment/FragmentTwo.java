@@ -27,6 +27,7 @@ import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddGoodsActivity;
 import com.bx.jz.jy.jybx.activity.SearchActivity;
 import com.bx.jz.jy.jybx.adapter.GoodsListAdapter;
+import com.bx.jz.jy.jybx.base.BaseEntity;
 import com.bx.jz.jy.jybx.base.BaseListEntity;
 import com.bx.jz.jy.jybx.bean.Ingredients;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
@@ -131,7 +132,7 @@ public class FragmentTwo extends Fragment {
     SwipeMenuCreator mSwipeMenuCreator = new SwipeMenuCreator() {
         @Override
         public void onCreateMenu(SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) {
-            int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
+            int width = getResources().getDimensionPixelSize(R.dimen.dp_80);
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             SwipeMenuItem addItem = new SwipeMenuItem(getActivity())
                     .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
@@ -171,14 +172,38 @@ public class FragmentTwo extends Fragment {
                         startActivity(new Intent(getActivity(),AddGoodsActivity.class));
                         break;
                     case 1:
-                        T.showShort(getActivity(),"点击了 " + adapterPosition + "的删除");
-//                        ingredientsList.remove(adapterPosition);
-                        mAdapter.notifyItemRemoved(adapterPosition);
+                        Ingredients Ingredients = mAdapter.getData().get(adapterPosition);
+                        deleteFoods(Ingredients.getIngredientsId(),Ingredients.getUserId(),adapterPosition);
                         break;
                 }
             }
         }
     };
+
+    private void deleteFoods(Long ingredientsId, Long userId, final int adapterPosition){
+        OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.DELETEFOODS, deleteRequest(ingredientsId, userId), new OkHttpUtils.RequestCallBack<BaseEntity>() {
+            @Override
+            public void onError(Call call, Exception e) {
+                T.showShort(getActivity(),e.getMessage());
+            }
+
+            @Override
+            public void onResponse(BaseEntity response) {
+                if(response.getCode().equals("1")){
+                    mAdapter.notifyItemRemoved(adapterPosition);
+                    T.showShort(getActivity(),"删除成功");
+                }
+            }
+        });
+    }
+
+    private Map<String, Object> deleteRequest(Long ingredientsId,Long userId) {
+        Map<String, Object> object = new HashMap<String, Object>();
+        object.put("ingredients.refrigeratorId", 1);
+        object.put("ingredients.ingredientsId", ingredientsId);
+        object.put("ingredients.userId", userId);
+        return object;
+    }
 
     private void initView() {
         RecyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getActivity()));

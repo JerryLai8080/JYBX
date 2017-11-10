@@ -6,6 +6,8 @@ package com.bx.jz.jy.jybx.bean;
 */ 
 public class Ingredients{
 
+	private Long userId;
+
 	/**
 	 * 食材id
 	 */
@@ -65,6 +67,14 @@ public class Ingredients{
 	
 	public Ingredients() {
     }
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
 	/**
 	 * 食材id

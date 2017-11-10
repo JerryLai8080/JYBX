@@ -339,8 +339,6 @@ public class FragmentOne extends Fragment {
     private void showSettingView() {
         final ViewGroup mContainerView;
         final SettingDialog dialog = new SettingDialog(getActivity());
-
-
         LayoutInflater inflater = getLayoutInflater();
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.setting_view, null);
         ImageView imageView = layout.findViewById(R.id.setting_back);

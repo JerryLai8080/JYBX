@@ -370,7 +370,6 @@ public class FragmentOne extends Fragment {
         });
 
         seekBar2.setProgress(500);
-
         seekBar2.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
@@ -389,7 +388,6 @@ public class FragmentOne extends Fragment {
         });
 
         seekBar3.setProgress(250);
-
         seekBar3.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {

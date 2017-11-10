@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +18,15 @@ import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
+import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
-import com.bx.jz.jy.jybx.view.FullScreenDialog;
 import com.bx.jz.jy.jybx.view.MyViewPager;
 import com.bx.jz.jy.jybx.view.SettingDialog;
-import com.google.gson.Gson;
 import com.suke.widget.SwitchButton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,9 +37,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class FragmentOne extends Fragment {
 
@@ -330,7 +323,6 @@ public class FragmentOne extends Fragment {
         unbinder.unbind();
     }
 
-
     @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -345,11 +337,76 @@ public class FragmentOne extends Fragment {
     }
 
     private void showSettingView() {
+        final ViewGroup mContainerView;
         final SettingDialog dialog = new SettingDialog(getActivity());
         LayoutInflater inflater = getLayoutInflater();
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.setting_view, null);
-
+        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.setting_view, null);
         ImageView imageView = layout.findViewById(R.id.setting_back);
+
+        mContainerView = (ViewGroup) layout.findViewById(R.id.container);
+
+        final ViewGroup newView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(
+                R.layout.add_layout_1, mContainerView, false);
+
+        DiscreteSeekBar seekBar1 = newView.findViewById(R.id.seekBar1);
+        DiscreteSeekBar seekBar2 = newView.findViewById(R.id.seekBar2);
+        DiscreteSeekBar seekBar3 = newView.findViewById(R.id.seekBar3);
+
+        seekBar1.setProgress(1000);
+        seekBar1.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                L.e(TAG, value + "  seekBar1 ");
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+        });
+
+        seekBar2.setProgress(500);
+
+        seekBar2.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                L.e(TAG, value + "  seekBar2 ");
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+        });
+
+        seekBar3.setProgress(250);
+
+        seekBar3.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                L.e(TAG, value + "  seekBar3 ");
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+        });
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -366,6 +423,20 @@ public class FragmentOne extends Fragment {
 
         switchbutton2.setChecked(true);
         switchbutton6.setChecked(true);
+
+        switchbutton1.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if(isChecked){
+                    mContainerView.addView(newView,1);
+                    if (mContainerView.getChildCount() == 0) {
+                        layout.findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    mContainerView.removeView(newView);
+                }
+            }
+        });
 
         dialog.show();
         dialog.setCancelable(false);

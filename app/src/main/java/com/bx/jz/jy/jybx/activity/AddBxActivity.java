@@ -2,19 +2,21 @@ package com.bx.jz.jy.jybx.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.T;
+import com.bx.jz.jy.jybx.view.FullScreenDialog;
 import com.google.zxing.Result;
 import com.google.zxing.client.android.AutoScannerView;
 import com.google.zxing.client.android.BaseCaptureActivity;
@@ -85,9 +87,32 @@ public class AddBxActivity extends BaseCaptureActivity {
                 break;
             case R.id.add_by_self:
 //                this.finish();
-                T.showShort(this,"别急，后面的界面还没写好 :)");
+//                T.showShort(this,"别急，后面的界面还没写好 :)");
+                getDialog();
                 break;
         }
+    }
+
+    public void getDialog() {
+        final FullScreenDialog dialog = new FullScreenDialog(this);
+        LayoutInflater inflater = getLayoutInflater();
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.dialog_add_bx_complete, null);
+        TextView content = layout.findViewById(R.id.complete_content);
+        TextView title = layout.findViewById(R.id.complete_title);
+        title.setText("添加成功");
+        content.setText("您好，您已成功添加设备");
+
+        layout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.cancel();
+                AddBxActivity.this.finish();
+            }
+        }, 1500);
+
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.setContentView(layout);
     }
 
 }

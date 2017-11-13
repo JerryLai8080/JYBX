@@ -1,18 +1,12 @@
 package com.bx.jz.jy.jybx.activity;
 
-import android.app.Dialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +17,6 @@ import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
-import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.FullScreenDialog;
 import com.jaeger.library.StatusBarUtil;
 
@@ -181,7 +174,9 @@ public class AddGoodsActivity extends BaseActivity {
     public void getDialog() {
         final FullScreenDialog dialog = new FullScreenDialog(this);
         LayoutInflater inflater = getLayoutInflater();
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.add_dialog, null);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.dialog_add_edit, null);
+        TextView content = layout.findViewById(R.id.content);
+        content.setText("添加成功");
 
         layout.postDelayed(new Runnable() {
             @Override

@@ -1,5 +1,6 @@
 package com.bx.jz.jy.jybx.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -94,6 +95,8 @@ public class FragmentTwo extends Fragment {
 
     String[] arrayList = {"所有", "冷藏", "变温", "冷冻"};
 
+    private Map<Integer,String> positionList;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -123,7 +126,7 @@ public class FragmentTwo extends Fragment {
                 getGoodList(temp, Order);
             }
         });
-
+        positionList = new HashMap<>();
         initView();
         return view;
     }
@@ -168,36 +171,36 @@ public class FragmentTwo extends Fragment {
             if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION) {
                 switch (menuPosition) {
                     case 0:
-                        T.showShort(getActivity(),"点击了 " + adapterPosition + "的编辑");
-                        startActivity(new Intent(getActivity(),AddGoodsActivity.class));
+                        T.showShort(getActivity(), "点击了 " + adapterPosition + "的编辑");
+                        startActivity(new Intent(getActivity(), AddGoodsActivity.class));
                         break;
                     case 1:
                         Ingredients Ingredients = mAdapter.getData().get(adapterPosition);
-                        deleteFoods(Ingredients.getIngredientsId(),Ingredients.getUserId(),adapterPosition);
+                        deleteFoods(Ingredients.getIngredientsId(), Ingredients.getUserId(), adapterPosition);
                         break;
                 }
             }
         }
     };
 
-    private void deleteFoods(Long ingredientsId, Long userId, final int adapterPosition){
+    private void deleteFoods(Long ingredientsId, Long userId, final int adapterPosition) {
         OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.DELETEFOODS, deleteRequest(ingredientsId, userId), new OkHttpUtils.RequestCallBack<BaseEntity>() {
             @Override
             public void onError(Call call, Exception e) {
-                T.showShort(getActivity(),e.getMessage());
+                T.showShort(getActivity(), e.getMessage());
             }
 
             @Override
             public void onResponse(BaseEntity response) {
-                if(response.getCode().equals("1")){
+                if (response.getCode().equals("1")) {
                     mAdapter.notifyItemRemoved(adapterPosition);
-                    T.showShort(getActivity(),"删除成功");
+                    T.showShort(getActivity(), "删除成功");
                 }
             }
         });
     }
 
-    private Map<String, Object> deleteRequest(Long ingredientsId,Long userId) {
+    private Map<String, Object> deleteRequest(Long ingredientsId, Long userId) {
         Map<String, Object> object = new HashMap<String, Object>();
         object.put("ingredients.refrigeratorId", 1);
         object.put("ingredients.ingredientsId", ingredientsId);
@@ -247,7 +250,9 @@ public class FragmentTwo extends Fragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                positionList.put(position,mAdapter.getData().get(position).getIngredientsName());
                 T.showShort(getActivity(), "点击了" + position);
+                L.e(TAG, positionList + "");
             }
         });
     }
@@ -262,6 +267,13 @@ public class FragmentTwo extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        positionList.clear();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        positionList.clear();
     }
 
     @OnClick({R.id.durability_period, R.id.all_goods, R.id.img_search, R.id.img_add})

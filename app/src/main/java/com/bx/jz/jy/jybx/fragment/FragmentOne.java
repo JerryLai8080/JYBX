@@ -1,5 +1,6 @@
 package com.bx.jz.jy.jybx.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
+import com.bx.jz.jy.jybx.activity.AddBxActivity;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
 import com.bx.jz.jy.jybx.utils.L;
@@ -85,7 +87,10 @@ public class FragmentOne extends Fragment {
     ImageView point2;
     @BindView(R.id.point3)
     ImageView point3;
-
+    @BindView(R.id.ll_bx_info)
+    LinearLayout bxInfo;
+    @BindView(R.id.ll_add_bx)
+    LinearLayout bxAdd;
 
     Unbinder unbinder;
 
@@ -96,10 +101,17 @@ public class FragmentOne extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_one_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         getWeather();
         getGoodList();
         return view;
+    }
+
+    private void setZeroView() {
+        openCamera.setVisibility(View.VISIBLE);
+        setting.setVisibility(View.VISIBLE);
+        llAiMode.setVisibility(View.VISIBLE);
+        bxInfo.setVisibility(View.VISIBLE);
+        bxAdd.setVisibility(View.GONE);
     }
 
     private void initView(ImgBean imgBean) {
@@ -277,6 +289,7 @@ public class FragmentOne extends Fragment {
             public void onResponse(WeatherBean response) {
                 if (response != null) {
                     if (response.getCode().equals("1")) {
+                        L.e(TAG, String.valueOf(response.getWeatherBean().getWeatherinfo().getTemp1() + "~" + response.getWeatherBean().getWeatherinfo().getTemp2()));
                         tvWeather.setText(String.valueOf(response.getWeatherBean().getWeatherinfo().getTemp1() + "~" + response.getWeatherBean().getWeatherinfo().getTemp2()));
                     }
                 }
@@ -286,7 +299,7 @@ public class FragmentOne extends Fragment {
 
     private Map<String, Object> WeatherMap() {
         Map<String, Object> object = new HashMap<String, Object>();
-        object.put("code", "101210101");
+        object.put("code", ConstantPool.CITYCODE);
         return object;
     }
 
@@ -323,7 +336,7 @@ public class FragmentOne extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode})
+    @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode, R.id.ll_add_bx})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.open_camera:
@@ -332,6 +345,10 @@ public class FragmentOne extends Fragment {
                 showSettingView();
                 break;
             case R.id.ll_ai_mode:
+                break;
+            case R.id.ll_add_bx:
+//                setZeroView();
+                startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
         }
     }
@@ -412,12 +429,12 @@ public class FragmentOne extends Fragment {
             }
         });
 
-        SwitchButton switchbutton1 = layout.findViewById(R.id.switchbutton1);
-        SwitchButton switchbutton2 = layout.findViewById(R.id.switchbutton2);
-        SwitchButton switchbutton3 = layout.findViewById(R.id.switchbutton3);
-        SwitchButton switchbutton4 = layout.findViewById(R.id.switchbutton4);
-        SwitchButton switchbutton5 = layout.findViewById(R.id.switchbutton5);
-        SwitchButton switchbutton6 = layout.findViewById(R.id.switchbutton6);
+        final SwitchButton switchbutton1 = layout.findViewById(R.id.switchbutton1);
+        final SwitchButton switchbutton2 = layout.findViewById(R.id.switchbutton2);
+        final SwitchButton switchbutton3 = layout.findViewById(R.id.switchbutton3);
+        final SwitchButton switchbutton4 = layout.findViewById(R.id.switchbutton4);
+        final SwitchButton switchbutton5 = layout.findViewById(R.id.switchbutton5);
+        final SwitchButton switchbutton6 = layout.findViewById(R.id.switchbutton6);
 
         switchbutton2.setChecked(true);
         switchbutton6.setChecked(true);
@@ -425,13 +442,105 @@ public class FragmentOne extends Fragment {
         switchbutton1.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-                if(isChecked){
-                    mContainerView.addView(newView,1);
+                if (isChecked) {
+                    mContainerView.addView(newView, 1);
+                    if (switchbutton2.isChecked()) {
+                        switchbutton2.setChecked(false);
+                    }
+                    if (switchbutton3.isChecked()) {
+                        switchbutton3.setChecked(false);
+                    }
+                    if (switchbutton4.isChecked()) {
+                        switchbutton4.setChecked(false);
+                    }
+                    if (switchbutton5.isChecked()) {
+                        switchbutton5.setChecked(false);
+                    }
                     if (mContainerView.getChildCount() == 0) {
                         layout.findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
                     }
-                }else {
+                } else {
                     mContainerView.removeView(newView);
+                }
+            }
+        });
+
+        switchbutton2.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if (isChecked) {
+                    if (switchbutton1.isChecked()) {
+                        switchbutton1.setChecked(false);
+                    }
+                    if (switchbutton3.isChecked()) {
+                        switchbutton3.setChecked(false);
+                    }
+                    if (switchbutton4.isChecked()) {
+                        switchbutton4.setChecked(false);
+                    }
+                    if (switchbutton5.isChecked()) {
+                        switchbutton5.setChecked(false);
+                    }
+                }
+            }
+        });
+
+        switchbutton3.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if (isChecked) {
+                    if (switchbutton1.isChecked()) {
+                        switchbutton1.setChecked(false);
+                    }
+                    if (switchbutton2.isChecked()) {
+                        switchbutton2.setChecked(false);
+                    }
+                    if (switchbutton4.isChecked()) {
+                        switchbutton4.setChecked(false);
+                    }
+                    if (switchbutton5.isChecked()) {
+                        switchbutton5.setChecked(false);
+                    }
+                }
+            }
+        });
+
+        switchbutton4.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if (isChecked) {
+                    if (switchbutton1.isChecked()) {
+                        switchbutton1.setChecked(false);
+                    }
+                    if (switchbutton2.isChecked()) {
+                        switchbutton2.setChecked(false);
+                    }
+                    if (switchbutton3.isChecked()) {
+                        switchbutton3.setChecked(false);
+                    }
+                    if (switchbutton5.isChecked()) {
+                        switchbutton5.setChecked(false);
+                    }
+                }
+            }
+        });
+
+        switchbutton5.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if (isChecked) {
+                    if (switchbutton1.isChecked()) {
+                        switchbutton1.setChecked(false);
+                    }
+                    if (switchbutton2.isChecked()) {
+                        switchbutton2.setChecked(false);
+                    }
+                    if (switchbutton3.isChecked()) {
+                        switchbutton3.setChecked(false);
+                    }
+                    if (switchbutton4.isChecked()) {
+                        switchbutton4.setChecked(false);
+                    }
                 }
             }
         });

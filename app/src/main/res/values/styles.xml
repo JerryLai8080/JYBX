@@ -41,5 +41,5 @@
         <!--<item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>-->
         <item name="android:windowBackground">@color/color_00</item>
     </style>
-    
+
 </resources>

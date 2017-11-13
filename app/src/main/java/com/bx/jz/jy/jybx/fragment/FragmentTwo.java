@@ -220,7 +220,7 @@ public class FragmentTwo extends Fragment {
                 getGoodList(temp, Order);
             }
         });
-        errorView = getLayoutInflater().inflate(R.layout.error_view, (ViewGroup) RecyclerView.getParent(), false);
+        errorView = getLayoutInflater().inflate(R.layout.error_list_view, (ViewGroup) RecyclerView.getParent(), false);
         errorView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

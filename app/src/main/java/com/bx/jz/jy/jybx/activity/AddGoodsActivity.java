@@ -135,7 +135,7 @@ public class AddGoodsActivity extends BaseActivity {
         StatusBarUtil.setTranslucentForImageViewInFragment(AddGoodsActivity.this, null);
     }
 
-    @OnClick({R.id.cang, R.id.wen, R.id.dong, R.id.img_back,R.id.img_complete})
+    @OnClick({R.id.cang, R.id.wen, R.id.dong, R.id.img_back, R.id.img_complete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -182,12 +182,15 @@ public class AddGoodsActivity extends BaseActivity {
         final FullScreenDialog dialog = new FullScreenDialog(this);
         LayoutInflater inflater = getLayoutInflater();
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.add_dialog, null);
-        layout.setOnClickListener(new View.OnClickListener() {
+
+        layout.postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 dialog.cancel();
+                AddGoodsActivity.this.finish();
             }
-        });
+        }, 1500);
+
         dialog.show();
         dialog.setCancelable(false);
         dialog.setContentView(layout);

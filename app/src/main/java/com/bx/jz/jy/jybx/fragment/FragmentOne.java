@@ -40,7 +40,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
 
-public class FragmentOne extends Fragment {
+public class FragmentOne extends Fragment{
 
     private static final String TAG = "FragmentOne";
     @BindView(R.id.img_weather)

@@ -1,5 +1,6 @@
 package com.bx.jz.jy.jybx.activity;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +20,12 @@ import com.bx.jz.jy.jybx.utils.L;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
+public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener,EasyPermissions.PermissionCallbacks {
 
     BottomNavigationBar mBottomNavigationBar;
 
@@ -30,6 +34,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private FragmentThree mFragmentThree;
     private FragmentFour mFragmentFour;
     private ArrayList<Fragment> fragments;
+
+    String[] perms = {Manifest.permission.CAMERA, Manifest.permission.CHANGE_WIFI_STATE};
+    private int RC_CAMERA_AND_WIFI = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         fragments = getFragments();
         mBottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
+
+        if (EasyPermissions.hasPermissions(this, perms)) {
+
+        } else {
+            EasyPermissions.requestPermissions(this, "拍照需要摄像头权限",
+                    RC_CAMERA_AND_WIFI, perms);
+        }
     }
 
     /**
@@ -128,6 +142,24 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     protected void setStatusBar() {
         StatusBarUtil.setTranslucentForImageViewInFragment(MainActivity.this,null);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
 }

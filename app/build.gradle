@@ -64,4 +64,5 @@ dependencies {
 
     compile 'pub.devrel:easypermissions:1.0.1'
 
+    compile project(path: ':zxinglite')
 }

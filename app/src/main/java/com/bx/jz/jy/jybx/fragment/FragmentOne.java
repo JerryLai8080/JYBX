@@ -340,6 +340,7 @@ public class FragmentOne extends Fragment{
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.open_camera:
+                startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
             case R.id.setting:
                 showSettingView();
@@ -348,7 +349,7 @@ public class FragmentOne extends Fragment{
                 break;
             case R.id.ll_add_bx:
 //                setZeroView();
-                startActivity(new Intent(getActivity(), AddBxActivity.class));
+//                startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
         }
     }

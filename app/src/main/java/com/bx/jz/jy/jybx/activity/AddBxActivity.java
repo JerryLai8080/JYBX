@@ -1,5 +1,6 @@
 package com.bx.jz.jy.jybx.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -88,7 +89,8 @@ public class AddBxActivity extends BaseCaptureActivity {
             case R.id.add_by_self:
 //                this.finish();
 //                T.showShort(this,"别急，后面的界面还没写好 :)");
-                getDialog();
+//                getDialog();
+                startActivity(new Intent(this, AddBySelfActivity.class));
                 break;
         }
     }

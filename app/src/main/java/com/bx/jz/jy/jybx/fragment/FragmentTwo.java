@@ -287,7 +287,6 @@ public class FragmentTwo extends Fragment {
                     SwipeRefreshLayout.setRefreshing(true);
                     getGoodList(temp, Order);
                     isDesc = true;
-
                 } else {
                     Order = "asc";
                     SwipeRefreshLayout.setRefreshing(true);
@@ -305,6 +304,7 @@ public class FragmentTwo extends Fragment {
                     @Override
                     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
+                        assert dialogInflater != null;
                         convertView = dialogInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
                         TextView tvSimple = (TextView) convertView.findViewById(android.R.id.text1);
                         String display = this.getItem(position);

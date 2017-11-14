@@ -56,6 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import me.grantland.widget.AutofitTextView;
 import okhttp3.Call;
 
 public class FragmentTwo extends Fragment {
@@ -78,6 +79,8 @@ public class FragmentTwo extends Fragment {
     SwipeRefreshLayout SwipeRefreshLayout;
     @BindView(R.id.tv_all_goods)
     TextView tvAllGoods;
+    @BindView(R.id.auto)
+    AutofitTextView auto;
     Unbinder unbinder;
 
     private static final int PAGE_SIZE = 10;
@@ -287,11 +290,13 @@ public class FragmentTwo extends Fragment {
                     SwipeRefreshLayout.setRefreshing(true);
                     getGoodList(temp, Order);
                     isDesc = true;
+                    auto.setTextColor(getResources().getColor(R.color.color_0e));
                 } else {
                     Order = "asc";
                     SwipeRefreshLayout.setRefreshing(true);
                     getGoodList(temp, Order);
                     isDesc = false;
+                    auto.setTextColor(getResources().getColor(R.color.color_333));
                 }
                 break;
             case R.id.all_goods:

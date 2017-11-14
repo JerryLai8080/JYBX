@@ -78,17 +78,17 @@ public class AddBySelfActivity extends BaseActivity {
         return new int[]{R.id.et_pwd};
     }
 
-    @OnClick({R.id.img_back, R.id.tv_open_wifi, R.id.img_cancel, R.id.img_eye})
+    @OnClick({R.id.img_back, R.id.tv_open_wifi, R.id.img_cancel, R.id.img_eye,R.id.btn_deploy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 this.finish();
                 break;
             case R.id.tv_open_wifi:
-                T.showShort(this,"别急，逻辑还没写好 :)");
+                T.showShort(this, "别急，逻辑还没写好 :)");
                 break;
             case R.id.img_cancel:
-                T.showShort(this,"别急，逻辑还没写好 :)");
+                T.showShort(this, "别急，逻辑还没写好 :)");
                 break;
             case R.id.img_eye:
                 if (!eyeStatus) {
@@ -99,6 +99,10 @@ public class AddBySelfActivity extends BaseActivity {
                     eyeStatus = false;
                 }
                 break;
+            case R.id.btn_deploy:
+                T.showShort(this, "别急，逻辑还没写好 :)");
+                break;
         }
     }
+
 }

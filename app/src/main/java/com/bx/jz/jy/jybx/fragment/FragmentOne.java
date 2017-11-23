@@ -25,6 +25,7 @@ import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.MyViewPager;
 import com.bx.jz.jy.jybx.view.SettingDialog;
+import com.bx.jz.jy.jybx.view.SpinnerView;
 import com.suke.widget.SwitchButton;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -60,7 +61,7 @@ public class FragmentOne extends Fragment{
     @BindView(R.id.tab_one_title)
     LinearLayout tabOneTitle;
     @BindView(R.id.ll_ai_mode)
-    LinearLayout llAiMode;
+    SpinnerView llAiMode;
     @BindView(R.id.leng_cang)
     TextView lengCang;
     @BindView(R.id.leng_cang_degree)
@@ -101,17 +102,20 @@ public class FragmentOne extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_one_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         getWeather();
         getGoodList();
         return view;
     }
 
     private void setZeroView() {
-        openCamera.setVisibility(View.VISIBLE);
-        setting.setVisibility(View.VISIBLE);
-        llAiMode.setVisibility(View.VISIBLE);
-        bxInfo.setVisibility(View.VISIBLE);
-        bxAdd.setVisibility(View.GONE);
+        ArrayList<String> persons = new ArrayList<String>();
+        persons.add("智能模式");
+        persons.add("假日模式");
+        persons.add("速冷模式");
+        persons.add("速冻模式");
+        persons.add("去味");
+        llAiMode.setMyData(persons);
     }
 
     private void initView(ImgBean imgBean) {
@@ -346,6 +350,7 @@ public class FragmentOne extends Fragment{
                 showSettingView();
                 break;
             case R.id.ll_ai_mode:
+                setZeroView();
                 break;
             case R.id.ll_add_bx:
 //                setZeroView();

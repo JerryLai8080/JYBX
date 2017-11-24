@@ -147,20 +147,6 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!--<ImageView-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:src="@mipmap/ai" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp"-->
-                <!--android:text="智能模式"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="14sp" />-->
-
         </com.bx.jz.jy.jybx.view.SpinnerView>
 
         <LinearLayout

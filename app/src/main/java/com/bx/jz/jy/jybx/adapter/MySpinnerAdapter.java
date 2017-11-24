@@ -21,11 +21,13 @@ public class MySpinnerAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
     ArrayList<String> list;
+    String msg;
 
-    public MySpinnerAdapter(Context context, ArrayList<String> list) {
+    public MySpinnerAdapter(Context context, ArrayList<String> list,String msg) {
         super();
         this.context = context;
         this.list = list;
+        this.msg = msg;
         inflater = LayoutInflater.from(context);
     }
 

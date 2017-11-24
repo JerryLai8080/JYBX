@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.adapter.MySpinnerAdapter;
+import com.bx.jz.jy.jybx.utils.L;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class SpinnerView extends LinearLayout {
     private MySpinnerAdapter adapter;
     private PopupWindow popupWindow;
     private TextView mSpinnerText;
-    private ImageView mSpinnerImag;
+    private LinearLayout mLinearLayout;
     private ArrayList<String> listData = new ArrayList<>();
 
     public SpinnerView(Context context) {
@@ -43,7 +44,7 @@ public class SpinnerView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.include_my_spinnerview, this);
         mSpinnerText = (TextView) findViewById(R.id.text_spinner);
-        mSpinnerImag = (ImageView) findViewById(R.id.image_spinner);
+        mLinearLayout = (LinearLayout) findViewById(R.id.ll_ai_mode);
     }
 
     public SpinnerView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -51,16 +52,18 @@ public class SpinnerView extends LinearLayout {
         this.context = context;
     }
 
-    public void setMyData(ArrayList<String> data){
-        this.listData = data;
-        adapter = new MySpinnerAdapter(context, listData);    // 默认设置下拉框的标题为数据的第一个
-        mSpinnerText.setText((CharSequence) adapter.getItem(0));    // 点击右侧按钮，弹出下拉框
-//        mSpinnerImag.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-                showWindow(mSpinnerImag);
-//            }
-//        });
+    public void setMyData() {
+        ArrayList<String> persons = new ArrayList<String>();
+        persons.add("智能模式");
+        persons.add("假日模式");
+        persons.add("速冷模式");
+        persons.add("速冻模式");
+        persons.add("去味");
+        this.listData = persons;
+        L.e("SPINNER   " , mSpinnerText.getText().toString());
+        adapter = new MySpinnerAdapter(context, listData,mSpinnerText.getText().toString());    // 默认设置下拉框的标题为数据的第一个
+//        mSpinnerText.setText((CharSequence) adapter.getItem(0));    // 点击右侧按钮，弹出下拉框
+        showWindow(mLinearLayout);
     }
 
     public void showWindow(View v) {
@@ -85,12 +88,20 @@ public class SpinnerView extends LinearLayout {
         // 设置所在布局
         popupWindow.setContentView(layout);
         // 设置弹框出现的位置，在v的正下方横轴偏移textview的宽度
-        popupWindow.showAsDropDown(v, v.getWidth() - 75, 0, 0);
+        popupWindow.showAsDropDown(v,  0,4, Gravity.BOTTOM);
         // listView的item点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                mSpinnerText.setText(listData.get(arg2));// 设置所选的item作为下拉框的标题
+                if(arg2 == 4){
+                    if(mSpinnerText.getText().toString().contains("去味")){
+                        mSpinnerText.setText(mSpinnerText.getText().toString().replace("/去味",""));
+                    }else {
+                        mSpinnerText.setText(mSpinnerText.getText().toString()+"/"+listData.get(arg2));// 设置所选的item作为下拉框的标题
+                    }
+                }else {
+                    mSpinnerText.setText(listData.get(arg2));// 设置所选的item作为下拉框的标题
+                }
                 // 弹框消失
                 popupWindow.dismiss();
                 popupWindow = null;

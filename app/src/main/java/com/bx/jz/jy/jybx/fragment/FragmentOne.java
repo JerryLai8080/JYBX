@@ -108,16 +108,6 @@ public class FragmentOne extends Fragment{
         return view;
     }
 
-    private void setZeroView() {
-        ArrayList<String> persons = new ArrayList<String>();
-        persons.add("智能模式");
-        persons.add("假日模式");
-        persons.add("速冷模式");
-        persons.add("速冻模式");
-        persons.add("去味");
-        llAiMode.setMyData(persons);
-    }
-
     private void initView(ImgBean imgBean) {
 
         View view1 = getLayoutInflater().inflate(R.layout.view_pager_layout, null);
@@ -350,7 +340,7 @@ public class FragmentOne extends Fragment{
                 showSettingView();
                 break;
             case R.id.ll_ai_mode:
-                setZeroView();
+                llAiMode.setMyData();
                 break;
             case R.id.ll_add_bx:
 //                setZeroView();

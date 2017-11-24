@@ -33,7 +33,6 @@ import okio.BufferedSink;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by lijin on 2016/7/26.
  * okhttp封装类
  */
 public class OkHttpUtils {

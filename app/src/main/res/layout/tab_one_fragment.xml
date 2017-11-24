@@ -180,7 +180,7 @@
             android:visibility="visible"
             android:id="@+id/ll_bx_info"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_below="@+id/ll_ai_mode"
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
@@ -190,7 +190,7 @@
             <RelativeLayout
                 android:id="@+id/ll_leng_cang"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:background="@mipmap/bg_1">
 
                 <TextView
@@ -240,7 +240,7 @@
             <RelativeLayout
                 android:id="@+id/ll_bian_wen"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:background="@mipmap/bg_2">
 
                 <TextView
@@ -289,7 +289,7 @@
             <RelativeLayout
                 android:id="@+id/ll_leng_dong"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:background="@mipmap/bg_3">
 
                 <TextView

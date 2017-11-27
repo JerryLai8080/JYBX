@@ -111,11 +111,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:visibility="visible"
                 android:id="@+id/open_camera"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@mipmap/take_photo" />
+                android:src="@mipmap/take_photo"
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="0dp"
@@ -127,16 +127,15 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:visibility="visible"
                 android:id="@+id/setting"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@mipmap/setting" />
+                android:src="@mipmap/setting"
+                android:visibility="visible" />
 
         </LinearLayout>
 
         <com.bx.jz.jy.jybx.view.SpinnerView
-            android:visibility="visible"
             android:id="@+id/ll_ai_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,39 +144,39 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
         </com.bx.jz.jy.jybx.view.SpinnerView>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_add_bx"
-            android:gravity="center"
             android:layout_width="150dp"
-            android:background="@mipmap/bg_bg"
+            android:layout_height="match_parent"
             android:layout_below="@+id/ll_ai_mode"
             android:layout_centerInParent="true"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical"
             android:layout_marginBottom="30dp"
-            android:layout_height="match_parent">
+            android:layout_marginTop="30dp"
+            android:background="@mipmap/bg_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
-                android:src="@mipmap/bx_add"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bx_add" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="添加设备"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="visible"
             android:id="@+id/ll_bx_info"
             android:layout_width="150dp"
             android:layout_height="200dp"
@@ -185,7 +184,8 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
             android:background="@mipmap/bg_4"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/ll_leng_cang"
@@ -337,12 +337,19 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:background="@mipmap/message"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -358,7 +365,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -375,30 +383,24 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <com.bx.jz.jy.jybx.view.MarqueeText
+                    android:id="@+id/tv_error_code"
+                    android:layout_width="130dp"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="错误代码:"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_error_code"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="34567890"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="marquee"
+                    android:text="错误代码:3456789564564560"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"

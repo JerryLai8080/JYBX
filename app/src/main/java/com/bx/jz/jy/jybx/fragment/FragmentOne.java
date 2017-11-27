@@ -23,6 +23,7 @@ import com.bx.jz.jy.jybx.bean.WeatherBean;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
+import com.bx.jz.jy.jybx.view.MarqueeText;
 import com.bx.jz.jy.jybx.view.MyViewPager;
 import com.bx.jz.jy.jybx.view.SettingDialog;
 import com.bx.jz.jy.jybx.view.SpinnerView;
@@ -79,7 +80,7 @@ public class FragmentOne extends Fragment{
     @BindView(R.id.tv_error_time)
     TextView tvErrorTime;
     @BindView(R.id.tv_error_code)
-    TextView tvErrorCode;
+    MarqueeText tvErrorCode;
     @BindView(R.id.tv_error_reason)
     TextView tvErrorReason;
     @BindView(R.id.point1)

@@ -1,16 +1,16 @@
 package com.bx.jz.jy.jybx.activity
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.*
+import com.bx.jz.jy.jybx.ConstantPool
 import com.bx.jz.jy.jybx.R
 import com.bx.jz.jy.jybx.base.BaseActivity
 import com.bx.jz.jy.jybx.utils.DecorViewUtils
+import com.bx.jz.jy.jybx.utils.OkHttpUtils
 import com.bx.jz.jy.jybx.utils.T
 import com.jaeger.library.StatusBarUtil
 
@@ -49,11 +49,22 @@ class LoginActivity : BaseActivity() {
         base_ll.visibility = GONE
         img_back.visibility = GONE
 
-        tv_get_code.setOnClickListener { T.showShort(this,"获取验证码") }
+        tv_get_code.setOnClickListener {
+            getNewCode()
+        }
         btn_login.setOnClickListener {
             startActivity(Intent(LoginActivity@this,MainActivity::class.java))
             LoginActivity@this.finish()
         }
+    }
+
+    private fun getNewCode() {
+//        OkHttpUtils?.getInstance()?.postForMapAsynchronization(ConstantPool.GETNEWCODE,newCode(),OkHttpUtils.RequestCallBack<>)
+
+    }
+
+    private fun newCode(): MutableMap<String, Any>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun setStatusBar() {

@@ -7,6 +7,8 @@ package com.bx.jz.jy.jybx;
 public class ConstantPool {
 
     private static final String BASE_URL = "http://192.168.199.182:8080/imgTest/";
+    private static final String TEST_URL = "http://apitest.joyoung.com:8389";
+
     public static final String USER_SHARE = "login_share";
     public static final String CITYCODE = "101210101";
     public static final String SUCCESS = "1";
@@ -15,5 +17,8 @@ public class ConstantPool {
     public static String GOODSRECOMMEND = BASE_URL + "in/img!getRecipeImgs";//菜品列表
     public static String WEATHER = BASE_URL+"in/ingredients!getWeatherBeanByCityCode";//天气
     public static String DELETEFOODS = BASE_URL+"in/ingredients!delete";//删除菜品列表item
+
+    public static String GETNEWCODE = TEST_URL+"/rms/v1/common/vcode?action=getNewCode";//获取登录验证码
+    public static String MOBILELOGIN = TEST_URL+"/rms/v1/app/login?action=mobileLogin";//获取登录验证码
 
 }

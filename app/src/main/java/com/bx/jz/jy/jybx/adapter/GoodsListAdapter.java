@@ -6,11 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.FoodEncyclopediaActivity;
 import com.bx.jz.jy.jybx.bean.Ingredients;
+import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.T;
 import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,7 +37,8 @@ public class GoodsListAdapter extends BaseQuickAdapter<Ingredients, BaseViewHold
     protected void convert(BaseViewHolder helper, final Ingredients item) {
 
         ImageView imageView = (ImageView) helper.getView(R.id.img_goods);
-
+        final View pitchOn = helper.getView(R.id.pitch_on_view);
+        LinearLayout llOnClick = helper.getView(R.id.ll_onClick);
         Glide.with(context)
                 .load(item.getImgUrl())
                 .placeholder(R.mipmap.red) //设置占位图
@@ -60,6 +63,25 @@ public class GoodsListAdapter extends BaseQuickAdapter<Ingredients, BaseViewHold
             helper.setText(R.id.tv_goods_date, String.valueOf(day));
         }
         helper.setText(R.id.tv_goods_weight, item.getFoodComponent() + item.getComponentUnit());
+
+        if(!item.isClick()){
+            pitchOn.setBackgroundResource(R.color.color_ee);
+        }else {
+            pitchOn.setBackgroundResource(R.color.color_0e);
+        }
+
+        llOnClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(item.isClick()){
+                    pitchOn.setBackgroundResource(R.color.color_ee);
+                    item.setClick(false);
+                }else {
+                    pitchOn.setBackgroundResource(R.color.color_0e);
+                    item.setClick(true);
+                }
+            }
+        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

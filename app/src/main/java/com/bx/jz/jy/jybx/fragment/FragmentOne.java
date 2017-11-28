@@ -355,7 +355,7 @@ public class FragmentOne extends Fragment{
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.setting_view, null);
         ImageView imageView = layout.findViewById(R.id.setting_back);
 
-        mContainerView = (ViewGroup) layout.findViewById(R.id.container);
+        mContainerView = layout.findViewById(R.id.container);
 
         final ViewGroup newView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(
                 R.layout.add_layout_1, mContainerView, false);

@@ -4,30 +4,30 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddGoodsActivity;
+import com.bx.jz.jy.jybx.activity.FoodEncyclopediaActivity;
 import com.bx.jz.jy.jybx.activity.SearchActivity;
-import com.bx.jz.jy.jybx.adapter.GoodsListAdapter;
 import com.bx.jz.jy.jybx.base.BaseEntity;
 import com.bx.jz.jy.jybx.base.BaseListEntity;
 import com.bx.jz.jy.jybx.bean.Ingredients;
@@ -38,8 +38,6 @@ import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.LinearLayoutManagerWrapper;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
@@ -58,6 +56,10 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.grantland.widget.AutofitTextView;
 import okhttp3.Call;
+
+/**
+ * 现在食材是没有id的  等有了要换上   getIngredientsId   ！！！！！！！！！！
+ */
 
 public class FragmentTwo extends Fragment {
 
@@ -81,11 +83,13 @@ public class FragmentTwo extends Fragment {
     TextView tvAllGoods;
     @BindView(R.id.auto)
     AutofitTextView auto;
+    @BindView(R.id.view_50)
+    View view50;
     Unbinder unbinder;
 
     private static final int PAGE_SIZE = 10;
     private List<Ingredients> ingredientsList = new ArrayList<>();
-    private GoodsListAdapter mAdapter;
+    private BaseQuickAdapter<Ingredients, BaseViewHolder> mAdapter;
 
     private String Order = "asc";
     private int temp = 1;
@@ -98,7 +102,8 @@ public class FragmentTwo extends Fragment {
 
     String[] arrayList = {"所有", "冷藏", "变温", "冷冻"};
 
-    private Map<Integer,String> positionList;
+    @SuppressLint("UseSparseArrays")
+    private Map<Integer, String> map = new HashMap<>();
 
     @Override
     public void onResume() {
@@ -129,7 +134,6 @@ public class FragmentTwo extends Fragment {
                 getGoodList(temp, Order);
             }
         });
-        positionList = new HashMap<>();
         initView();
         return view;
     }
@@ -204,7 +208,7 @@ public class FragmentTwo extends Fragment {
     }
 
     private Map<String, Object> deleteRequest(Long ingredientsId, Long userId) {
-        Map<String, Object> object = new HashMap<String, Object>();
+        Map<String, Object> object = new HashMap<>();
         object.put("ingredients.refrigeratorId", 1);
         object.put("ingredients.ingredientsId", ingredientsId);
         object.put("ingredients.userId", userId);
@@ -212,6 +216,7 @@ public class FragmentTwo extends Fragment {
     }
 
     private void initView() {
+
         RecyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getActivity()));
         RecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
         RecyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
@@ -237,7 +242,74 @@ public class FragmentTwo extends Fragment {
             }
         });
 
-        mAdapter = new GoodsListAdapter(ingredientsList, getActivity());
+        mAdapter = new BaseQuickAdapter<Ingredients, BaseViewHolder>(R.layout.item_goods_layout, ingredientsList) {
+
+            @Override
+            protected void convert(final BaseViewHolder helper, final Ingredients item) {
+                ImageView imageView = helper.getView(R.id.img_goods);
+                final View pitchOn = helper.getView(R.id.pitch_on_view);
+                LinearLayout llOnClick = helper.getView(R.id.ll_onClick);
+                Glide.with(getActivity())
+                        .load(item.getImgUrl())
+                        .placeholder(R.mipmap.red) //设置占位图
+                        .error(R.mipmap.red) //设置错误图片
+                        .into(imageView);
+                helper.setText(R.id.tv_goods_name, item.getIngredientsName());
+                if (item.getSubordinatePosition() != null) {
+                    switch (item.getSubordinatePosition()) {//所属位置(1=冷藏，2=变温，3=冷冻)
+                        case 1:
+                            helper.setText(R.id.tv_goods_type, "冷藏");
+                            break;
+                        case 2:
+                            helper.setText(R.id.tv_goods_type, "变温");
+                            break;
+                        case 3:
+                            helper.setText(R.id.tv_goods_type, "冷冻");
+                            break;
+                    }
+                }
+                if (item.getShelfLifeRemaining() != null && item.getShelfLifeRemaining() != 0) {
+                    int day = (int) (item.getShelfLifeRemaining() / 60 / 60 / 1000);
+                    helper.setText(R.id.tv_goods_date, String.valueOf(day));
+                }
+                helper.setText(R.id.tv_goods_weight, item.getFoodComponent() + item.getComponentUnit());
+
+                if (!item.isClick()) {
+                    pitchOn.setBackgroundResource(R.color.color_ee);
+                } else {
+                    pitchOn.setBackgroundResource(R.color.color_0e);
+                }
+
+                llOnClick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!item.isClick()) {
+                            pitchOn.setBackgroundResource(R.color.color_0e);
+                            item.setClick(true);
+                            map.put(helper.getPosition(), item.getIngredientsName());
+                        } else {
+                            pitchOn.setBackgroundResource(R.color.color_ee);
+                            item.setClick(false);
+                            map.remove(helper.getPosition());
+                        }
+                        L.e(TAG, map.toString());
+                        if (map.size() != 0) {
+                            view50.setVisibility(View.VISIBLE);
+                        } else {
+                            view50.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        T.showShort(getActivity(), "点击了头像   " + item.getIngredientsName());
+                        getActivity().startActivity(new Intent(getActivity(), FoodEncyclopediaActivity.class));
+                    }
+                });
+            }
+        };
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -250,14 +322,6 @@ public class FragmentTwo extends Fragment {
         mAdapter.isFirstOnly(false);
 
         RecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                positionList.put(position,mAdapter.getData().get(position).getIngredientsName());
-                T.showShort(getActivity(), "点击了" + position);
-                L.e(TAG, positionList + "");
-            }
-        });
     }
 
     @Override
@@ -270,13 +334,11 @@ public class FragmentTwo extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        positionList.clear();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        positionList.clear();
     }
 
     @OnClick({R.id.durability_period, R.id.all_goods, R.id.img_search, R.id.img_add})
@@ -311,7 +373,7 @@ public class FragmentTwo extends Fragment {
 
                         assert dialogInflater != null;
                         convertView = dialogInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-                        TextView tvSimple = (TextView) convertView.findViewById(android.R.id.text1);
+                        TextView tvSimple = convertView.findViewById(android.R.id.text1);
                         String display = this.getItem(position);
                         tvSimple.setText(display);
 
@@ -355,6 +417,10 @@ public class FragmentTwo extends Fragment {
     }
 
     private void getGoodList(int page, String order) {
+        if(view50 != null && map != null && isRefresh){
+            view50.setVisibility(View.GONE);
+            map.clear();
+        }
         OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.GOODSLIST, GoodsRequest(page, order), new OkHttpUtils.RequestCallBack<BaseListEntity<Ingredients>>() {
             @Override
             public void onError(Call call, Exception e) {
@@ -384,7 +450,7 @@ public class FragmentTwo extends Fragment {
     }
 
     private Map<String, Object> GoodsRequest(int page, String order) {
-        Map<String, Object> object = new HashMap<String, Object>();
+        Map<String, Object> object = new HashMap<>();
         object.put("ingredients.refrigeratorId", 1);
         if (isAll) {
             object.put("ingredients.subordinatePosition", subordinatePosition);
@@ -395,7 +461,7 @@ public class FragmentTwo extends Fragment {
         return object;
     }
 
-    private void setData(boolean isRefresh, List data) {
+    private void setData(boolean isRefresh, List<Ingredients> data) {
         final int size = data == null ? 0 : data.size();
         if (isRefresh) {
             mAdapter.setNewData(data);

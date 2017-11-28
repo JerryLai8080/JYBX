@@ -161,7 +161,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:text="冷藏5°C 变温0°C 冷冻-18°C"  />
+                    android:text="冷藏14°C"  />
 
                 <com.suke.widget.SwitchButton
                     android:id="@+id/switchbutton3"
@@ -205,7 +205,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:text="冷藏5°C 变温0°C 冷冻-18°C" />
+                    android:text="冷藏2°C" />
 
                 <com.suke.widget.SwitchButton
                     android:id="@+id/switchbutton4"
@@ -249,7 +249,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:text="冷藏5°C 变温0°C 冷冻-18°C" />
+                    android:text="冷冻-32°C" />
 
                 <com.suke.widget.SwitchButton
                     android:id="@+id/switchbutton5"

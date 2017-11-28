@@ -6,6 +6,16 @@ package com.bx.jz.jy.jybx.bean;
 */ 
 public class Ingredients{
 
+	private boolean isClick = false;
+
+	public boolean isClick() {
+		return isClick;
+	}
+
+	public void setClick(boolean click) {
+		isClick = click;
+	}
+
 	private Long userId;
 
 	/**

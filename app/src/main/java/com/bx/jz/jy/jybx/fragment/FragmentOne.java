@@ -26,7 +26,6 @@ import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.MarqueeText;
 import com.bx.jz.jy.jybx.view.MyViewPager;
 import com.bx.jz.jy.jybx.view.SettingDialog;
-import com.bx.jz.jy.jybx.view.SpinnerView;
 import com.suke.widget.SwitchButton;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -62,7 +61,7 @@ public class FragmentOne extends Fragment{
     @BindView(R.id.tab_one_title)
     LinearLayout tabOneTitle;
     @BindView(R.id.ll_ai_mode)
-    SpinnerView llAiMode;
+    TextView llAiMode;
     @BindView(R.id.leng_cang)
     TextView lengCang;
     @BindView(R.id.leng_cang_degree)
@@ -341,7 +340,6 @@ public class FragmentOne extends Fragment{
                 showSettingView();
                 break;
             case R.id.ll_ai_mode:
-                llAiMode.setMyData();
                 break;
             case R.id.ll_add_bx:
 //                setZeroView();
@@ -365,12 +363,20 @@ public class FragmentOne extends Fragment{
         DiscreteSeekBar seekBar1 = newView.findViewById(R.id.seekBar1);
         DiscreteSeekBar seekBar2 = newView.findViewById(R.id.seekBar2);
         DiscreteSeekBar seekBar3 = newView.findViewById(R.id.seekBar3);
+        final TextView tvC1 = newView.findViewById(R.id.c_1);
+        final TextView tvC2 = newView.findViewById(R.id.c_2);
+        final TextView tvC3 = newView.findViewById(R.id.c_3);
 
-        seekBar1.setProgress(1000);
+        seekBar1.setIndicatorPopupEnabled(false);
+        seekBar1.setMin(2);
+        seekBar1.setMax(8);
+        seekBar1.setProgress(5);
+        tvC1.setText(String.valueOf(5+"°C"));
         seekBar1.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 L.e(TAG, value + "  seekBar1 ");
+                tvC1.setText(String.valueOf(value+"°C"));
             }
 
             @Override
@@ -383,11 +389,16 @@ public class FragmentOne extends Fragment{
             }
         });
 
-        seekBar2.setProgress(500);
+        seekBar2.setIndicatorPopupEnabled(false);
+        seekBar2.setMin(-18);
+        seekBar2.setMax(8);
+        seekBar2.setProgress(0);
+        tvC2.setText(String.valueOf(0+"°C"));
         seekBar2.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 L.e(TAG, value + "  seekBar2 ");
+                tvC2.setText(String.valueOf(value+"°C"));
             }
 
             @Override
@@ -401,11 +412,16 @@ public class FragmentOne extends Fragment{
             }
         });
 
-        seekBar3.setProgress(250);
+        seekBar3.setIndicatorPopupEnabled(false);
+        seekBar3.setMin(-24);
+        seekBar3.setMax(-16);
+        seekBar3.setProgress(-18);
+        tvC3.setText(String.valueOf(-18+"°C"));
         seekBar3.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 L.e(TAG, value + "  seekBar3 ");
+                tvC3.setText(String.valueOf(value+"°C"));
             }
 
             @Override

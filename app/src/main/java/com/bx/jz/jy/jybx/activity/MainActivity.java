@@ -51,15 +51,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation);
 //.setActiveColorResource(R.color.color_0e)
-        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
-        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        mBottomNavigationBar.setBarBackgroundColor(R.color.white);
-        mBottomNavigationBar.setInActiveColor(R.color.color_7c);
-        mBottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.icon_one, R.string.tab_one)
-                .setBadgeItem(null))
-                .addItem(new BottomNavigationItem(R.mipmap.icon_two, R.string.tab_two).setBadgeItem(null).setActiveColorResource(R.color.color_0e))
-                .addItem(new BottomNavigationItem(R.mipmap.icon_three, R.string.tab_three).setBadgeItem(null).setActiveColorResource(R.color.color_0e))
-                .addItem(new BottomNavigationItem(R.mipmap.icon_four, R.string.tab_four).setBadgeItem(null).setActiveColorResource(R.color.color_0e))
+        mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
+        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
+        mBottomNavigationBar.setBarBackgroundColor(R.color.color_0e);
+        mBottomNavigationBar.setInActiveColor(R.color.color_70);
+        mBottomNavigationBar.setActiveColor(R.color.white);
+        mBottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.icon_one, R.string.tab_one).setBadgeItem(null).setActiveColorResource(R.color.white))
+                .addItem(new BottomNavigationItem(R.mipmap.icon_two, R.string.tab_two).setBadgeItem(null).setActiveColorResource(R.color.white))
+                .addItem(new BottomNavigationItem(R.mipmap.icon_three, R.string.tab_three).setBadgeItem(null).setActiveColorResource(R.color.white))
+                .addItem(new BottomNavigationItem(R.mipmap.icon_four, R.string.tab_four).setBadgeItem(null).setActiveColorResource(R.color.white))
                 .setFirstSelectedPosition(0)
                 .initialise();
         fragments = getFragments();

@@ -95,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_recommend"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:background="@mipmap/bg"
         android:orientation="vertical">
 
@@ -135,19 +135,21 @@
 
         </LinearLayout>
 
-        <com.bx.jz.jy.jybx.view.SpinnerView
+        <TextView
             android:id="@+id/ll_ai_mode"
+            android:background="@mipmap/bg_ai"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:text="智能模式"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_below="@+id/tab_one_title"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-        </com.bx.jz.jy.jybx.view.SpinnerView>
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:id="@+id/ll_add_bx"
@@ -179,7 +181,7 @@
         <LinearLayout
             android:id="@+id/ll_bx_info"
             android:layout_width="150dp"
-            android:layout_height="200dp"
+            android:layout_height="205dp"
             android:layout_below="@+id/ll_ai_mode"
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
@@ -212,13 +214,29 @@
                     android:layout_toEndOf="@+id/leng_cang"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/leng_cang_degree"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="-"
+                            android:visibility="invisible"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/leng_cang_degree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textColor="@color/white"
+                            android:textSize="30sp" />
+
+                    </LinearLayout>
+
 
                     <ImageView
                         android:layout_width="5dp"
@@ -240,7 +258,9 @@
             <RelativeLayout
                 android:id="@+id/ll_bian_wen"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="65dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
                 android:background="@mipmap/bg_2">
 
                 <TextView
@@ -261,13 +281,26 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/bian_wen">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-0"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="30sp" />
+
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="5dp"
@@ -310,12 +343,26 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/leng_dong">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-18"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="18"
+                            android:textColor="@color/white"
+                            android:textSize="30sp" />
+
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="5dp"
@@ -337,7 +384,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
@@ -346,9 +393,9 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:paddingTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:visibility="visible">
 
             <ImageView
@@ -385,7 +432,7 @@
 
                 <com.bx.jz.jy.jybx.view.MarqueeText
                     android:id="@+id/tv_error_code"
-                    android:layout_width="130dp"
+                    android:layout_width="200dp"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:focusable="true"
@@ -393,7 +440,7 @@
                     android:scrollHorizontally="true"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:ellipsize="marquee"
-                    android:text="错误代码:3456789564564560"
+                    android:text="错误代码:3456789564564564564564564560"
                     android:textColor="@color/white" />
 
                 <LinearLayout

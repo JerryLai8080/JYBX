@@ -21,7 +21,8 @@
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:id="@+id/seekBar1"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             app:dsb_indicatorColor = "@color/color_0e"
             android:layout_marginLeft="20dp"
@@ -29,9 +30,14 @@
             app:dsb_trackColor = "@color/color_ee"
             app:dsb_progressColor = "@color/color_0e"
             app:dsb_rippleColor = "@color/color_0e"
-            app:dsb_scrubberHeight = "2dp"
-            app:dsb_max="1000"
-            app:dsb_min="0"/>
+            app:dsb_scrubberHeight = "2dp"/>
+
+        <TextView
+            android:id="@+id/c_1"
+            android:layout_width="35dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -52,7 +58,8 @@
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:id="@+id/seekBar2"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             app:dsb_indicatorColor = "@color/color_0e"
             app:dsb_trackColor = "@color/color_ee"
@@ -60,9 +67,14 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             app:dsb_progressColor = "@color/color_0e"
-            app:dsb_rippleColor = "@color/color_0e"
-            app:dsb_max="1000"
-            app:dsb_min="0"/>
+            app:dsb_rippleColor = "@color/color_0e"/>
+
+        <TextView
+            android:id="@+id/c_2"
+            android:layout_width="35dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -81,7 +93,8 @@
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:id="@+id/seekBar3"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -89,9 +102,14 @@
             app:dsb_trackColor = "@color/color_ee"
             app:dsb_scrubberHeight = "2dp"
             app:dsb_progressColor = "@color/color_0e"
-            app:dsb_rippleColor = "@color/color_0e"
-            app:dsb_max="1000"
-            app:dsb_min="0"/>
+            app:dsb_rippleColor = "@color/color_0e"/>
+
+        <TextView
+            android:id="@+id/c_3"
+            android:layout_width="35dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

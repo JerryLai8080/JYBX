@@ -25,7 +25,7 @@
                     android:id="@+id/img_user_head"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginTop="42dp"
+                    android:layout_marginTop="40dp"
                     android:src="@mipmap/user_head" />
 
                 <LinearLayout
@@ -152,8 +152,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="11dp"
-                android:paddingRight="11dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -177,8 +177,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="11dp"
-                android:paddingRight="11dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -202,8 +202,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="11dp"
-                android:paddingRight="11dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -227,8 +227,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="11dp"
-                android:paddingRight="11dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -252,8 +252,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="11dp"
-                android:paddingRight="11dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="0dp"

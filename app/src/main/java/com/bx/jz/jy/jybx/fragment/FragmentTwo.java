@@ -299,7 +299,7 @@ public class FragmentTwo extends Fragment {
                         }
                         L.e(TAG, map.toString());
                         if (map.size() != 0) {
-                            if(!isShow){
+                            if (!isShow) {
                                 view50.setVisibility(View.VISIBLE);
                                 myAnimation_Translate = new TranslateAnimation(
                                         Animation.RELATIVE_TO_PARENT, 0,
@@ -352,6 +352,14 @@ public class FragmentTwo extends Fragment {
         mAdapter.isFirstOnly(false);
 
         RecyclerView.setAdapter(mAdapter);
+        RecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0){ //向下滑动
+                    L.e(TAG,"向下滑动");
+                }
+            }
+        });
     }
 
     @Override
@@ -447,7 +455,7 @@ public class FragmentTwo extends Fragment {
     }
 
     private void getGoodList(int page, String order) {
-        if(view50 != null && map != null && isRefresh){
+        if (view50 != null && map != null && isRefresh) {
             view50.setVisibility(View.GONE);
             map.clear();
             isShow = false;

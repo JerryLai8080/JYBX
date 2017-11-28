@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +38,7 @@ import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.LinearLayoutManagerWrapper;
+import com.bx.jz.jy.jybx.view.Utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -101,6 +104,8 @@ public class FragmentTwo extends Fragment {
     private int subordinatePosition = 0;
 
     String[] arrayList = {"所有", "冷藏", "变温", "冷冻"};
+    private Animation myAnimation_Translate;
+    private boolean isShow = false;
 
     @SuppressLint("UseSparseArrays")
     private Map<Integer, String> map = new HashMap<>();
@@ -294,9 +299,34 @@ public class FragmentTwo extends Fragment {
                         }
                         L.e(TAG, map.toString());
                         if (map.size() != 0) {
-                            view50.setVisibility(View.VISIBLE);
+                            if(!isShow){
+                                view50.setVisibility(View.VISIBLE);
+                                myAnimation_Translate = new TranslateAnimation(
+                                        Animation.RELATIVE_TO_PARENT, 0,
+                                        Animation.RELATIVE_TO_PARENT, 0,
+                                        Animation.RELATIVE_TO_PARENT, 1,
+                                        Animation.RELATIVE_TO_PARENT, 0);
+                                myAnimation_Translate.setDuration(500);
+                                myAnimation_Translate.setRepeatMode(Animation.REVERSE);
+                                myAnimation_Translate.setInterpolator(AnimationUtils
+                                        .loadInterpolator(getActivity(),
+                                                android.R.anim.accelerate_decelerate_interpolator));
+                                view50.startAnimation(myAnimation_Translate);
+                                isShow = true;
+                            }
                         } else {
+                            myAnimation_Translate = new TranslateAnimation(
+                                    Animation.RELATIVE_TO_PARENT, 0,
+                                    Animation.RELATIVE_TO_PARENT, 0,
+                                    Animation.RELATIVE_TO_PARENT, 0,
+                                    Animation.RELATIVE_TO_PARENT, 1);
+                            myAnimation_Translate.setDuration(500);
+                            myAnimation_Translate.setInterpolator(AnimationUtils
+                                    .loadInterpolator(getActivity(),
+                                            android.R.anim.accelerate_decelerate_interpolator));
+                            view50.startAnimation(myAnimation_Translate);
                             view50.setVisibility(View.GONE);
+                            isShow = false;
                         }
                     }
                 });
@@ -420,6 +450,7 @@ public class FragmentTwo extends Fragment {
         if(view50 != null && map != null && isRefresh){
             view50.setVisibility(View.GONE);
             map.clear();
+            isShow = false;
         }
         OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.GOODSLIST, GoodsRequest(page, order), new OkHttpUtils.RequestCallBack<BaseListEntity<Ingredients>>() {
             @Override

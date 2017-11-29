@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
@@ -38,7 +37,6 @@ import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.LinearLayoutManagerWrapper;
-import com.bx.jz.jy.jybx.view.Utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -226,7 +224,7 @@ public class FragmentTwo extends Fragment {
         RecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
         RecyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
 
-        notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) RecyclerView.getParent(), false);
+        notDataView = getLayoutInflater().inflate(R.layout.empty_list_view, (ViewGroup) RecyclerView.getParent(), false);
         notDataView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -475,7 +473,8 @@ public class FragmentTwo extends Fragment {
 
             @Override
             public void onResponse(BaseListEntity<Ingredients> response) {
-                if (response.getList() == null && response.getList().size() == 0) {
+                if (response.getList().size() == 0) {
+                    setData(true, null);
                     mAdapter.setEmptyView(notDataView);
                 } else {
                     temp++;

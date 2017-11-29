@@ -2,6 +2,7 @@ package com.bx.jz.jy.jybx.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,16 +15,13 @@ import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
-import com.bx.jz.jy.jybx.base.BaseListEntity;
 import com.bx.jz.jy.jybx.bean.FourPhotoBean;
-import com.bx.jz.jy.jybx.bean.Ingredients;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -68,6 +66,8 @@ public class ShowCameraActivity extends BaseActivity {
     ImageView imgToAlbum;
     @BindView(R.id.ll)
     LinearLayout ll;
+    @BindView(R.id.swipeRefresh)
+    SwipeRefreshLayout swipeRefresh;
 
 
     @Override
@@ -85,8 +85,23 @@ public class ShowCameraActivity extends BaseActivity {
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("摄像头");
+//        getNewPhotos();
 
-        getNewPhotos();
+        swipeRefresh.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.white));
+        swipeRefresh.setColorSchemeResources(R.color.color_0e, R.color.color_0e, R.color.color_0e, R.color.color_0e);
+        swipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(true);
+                getNewPhotos();
+            }
+        });
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNewPhotos();
+            }
+        });
     }
 
     private void getNewPhotos() {
@@ -95,6 +110,8 @@ public class ShowCameraActivity extends BaseActivity {
             @Override
             public void onError(Call call, Exception e) {
                 T.showLong(ShowCameraActivity.this, e.getMessage());
+                swipeRefresh.setRefreshing(false);
+
             }
 
             @Override
@@ -123,6 +140,7 @@ public class ShowCameraActivity extends BaseActivity {
                         T.showLong(ShowCameraActivity.this, response.getMsg());
                     }
                 }
+                swipeRefresh.setRefreshing(false);
             }
         });
     }

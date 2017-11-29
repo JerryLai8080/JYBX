@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2017/11/10 0010.
+ * 食材详情界面
  */
 
 public class FoodEncyclopediaActivity extends BaseActivity {

@@ -1,8 +1,6 @@
 package com.bx.jz.jy.jybx.base;
 
-/**
- * Created by Administrator on 2017/11/10 0010.
- */
+
 
 public class BaseEntity {
     private String code;

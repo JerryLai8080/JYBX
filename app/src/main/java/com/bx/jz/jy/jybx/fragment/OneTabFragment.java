@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bx.jz.jy.jybx.R;
-import com.bx.jz.jy.jybx.base.BaseFragment;
 
 /**
  * Created by Administrator on 2017/11/10 0010.

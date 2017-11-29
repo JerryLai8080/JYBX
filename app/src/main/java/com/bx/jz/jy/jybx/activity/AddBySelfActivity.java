@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2017/11/14 0014.
+ * 手动配网
  */
 
 public class AddBySelfActivity extends BaseActivity {

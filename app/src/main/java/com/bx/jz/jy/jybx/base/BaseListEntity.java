@@ -3,10 +3,6 @@ package com.bx.jz.jy.jybx.base;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/11/6 0006.
- */
-
 public class BaseListEntity<T> implements Serializable {
 
     private String code;

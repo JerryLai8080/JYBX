@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * 这个项目没有viewpager  这个类用不到
+ */
+
 public abstract class BaseFragment extends Fragment {
 
     protected View rootView;

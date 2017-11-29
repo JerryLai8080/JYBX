@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2017/11/8 0008.
+ * 搜索界面
  */
 
 public class SearchActivity extends BaseActivity {

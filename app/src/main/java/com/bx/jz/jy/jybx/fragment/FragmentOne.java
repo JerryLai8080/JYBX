@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddBxActivity;
+import com.bx.jz.jy.jybx.activity.ShowCameraActivity;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
 import com.bx.jz.jy.jybx.utils.L;
@@ -334,7 +335,8 @@ public class FragmentOne extends Fragment{
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.open_camera:
-                startActivity(new Intent(getActivity(), AddBxActivity.class));
+//                startActivity(new Intent(getActivity(), AddBxActivity.class));
+                startActivity(new Intent(getActivity(), ShowCameraActivity.class));
                 break;
             case R.id.setting:
                 showSettingView();

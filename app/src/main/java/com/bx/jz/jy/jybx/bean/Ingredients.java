@@ -295,5 +295,26 @@ public class Ingredients{
 	public Integer getIsDelete(){
 		return this.isDelete;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Ingredients{" +
+				"isClick=" + isClick +
+				", userId=" + userId +
+				", ingredientsId=" + ingredientsId +
+				", imgUrl='" + imgUrl + '\'' +
+				", ingredientsName='" + ingredientsName + '\'' +
+				", shelfLifeTime=" + shelfLifeTime +
+				", shelfLifeRemaining=" + shelfLifeRemaining +
+				", subordinatePosition=" + subordinatePosition +
+				", classificationId=" + classificationId +
+				", foodComponent='" + foodComponent + '\'' +
+				", componentUnit='" + componentUnit + '\'' +
+				", knowledgeGraphId=" + knowledgeGraphId +
+				", addWay=" + addWay +
+				", addTime='" + addTime + '\'' +
+				", ingredientsUpdateTime='" + ingredientsUpdateTime + '\'' +
+				", isDelete=" + isDelete +
+				'}';
+	}
 }

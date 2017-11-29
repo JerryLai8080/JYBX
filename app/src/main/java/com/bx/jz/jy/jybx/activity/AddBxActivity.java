@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2017/11/13 0013.
+ * 扫描二维码
  */
 
 public class AddBxActivity extends BaseCaptureActivity {

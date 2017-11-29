@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2017/11/3 0003.
+ * 添加食材界面
  */
 
 public class AddGoodsActivity extends BaseActivity {

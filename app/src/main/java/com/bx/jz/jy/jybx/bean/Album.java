@@ -6,11 +6,9 @@ package com.bx.jz.jy.jybx.bean;
 
 public class Album {
     private String img;
-    private String name;
 
-    public Album(String img, String name) {
+    public Album(String img) {
         this.img = img;
-        this.name = name;
     }
 
     public String getImg() {
@@ -19,13 +17,5 @@ public class Album {
 
     public void setImg(String img) {
         this.img = img;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

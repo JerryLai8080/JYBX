@@ -116,7 +116,7 @@ public class ShowCameraActivity extends BaseActivity {
 
             @Override
             public void onResponse(FourPhotoBean response) {
-                if (response.getCode() == 1) {
+                if (response.getCode().equals("1")) {
                     if (response.getNewmg() != null && response.getNewmg().size() != 0) {
                         for (int i = 0; i < response.getNewmg().size(); i++) {
                             switch (response.getNewmg().get(i).getPlace()) {
@@ -159,20 +159,31 @@ public class ShowCameraActivity extends BaseActivity {
                 this.finish();
                 break;
             case R.id.rl_A:
-                T.showShort(this, "点了A");
+                setZero();
+                rlA.setBackgroundResource(R.drawable.bg_rl);
                 break;
             case R.id.rl_B:
-                T.showShort(this, "点了B");
+                setZero();
+                rlB.setBackgroundResource(R.drawable.bg_rl);
                 break;
             case R.id.rl_C:
-                T.showShort(this, "点了C");
+                setZero();
+                rlC.setBackgroundResource(R.drawable.bg_rl);
                 break;
             case R.id.rl_D:
-                T.showShort(this, "点了D");
+                setZero();
+                rlD.setBackgroundResource(R.drawable.bg_rl);
                 break;
             case R.id.img_to_album:
                 startActivity(new Intent(ShowCameraActivity.this, AlbumActivity.class));
                 break;
         }
+    }
+
+    private void setZero(){
+        rlA.setBackgroundResource(R.drawable.bg_zero);
+        rlB.setBackgroundResource(R.drawable.bg_zero);
+        rlC.setBackgroundResource(R.drawable.bg_zero);
+        rlD.setBackgroundResource(R.drawable.bg_zero);
     }
 }

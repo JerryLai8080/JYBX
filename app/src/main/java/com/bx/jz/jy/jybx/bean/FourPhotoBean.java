@@ -8,7 +8,7 @@ import java.util.List;
 public class FourPhotoBean {
 
     private String msg;
-    private int code;
+    private String code;
     private List<NewmgBean> newmg;
 
     public String getMsg() {
@@ -19,11 +19,11 @@ public class FourPhotoBean {
         this.msg = msg;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

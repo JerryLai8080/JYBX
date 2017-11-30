@@ -1,5 +1,9 @@
 package com.bx.jz.jy.jybx.adapter;
 
+import android.content.Context;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.bean.Album;
 import com.bx.jz.jy.jybx.bean.MySection;
@@ -13,6 +17,9 @@ import java.util.List;
  */
 
 public class SectionAdapter extends BaseSectionQuickAdapter<MySection,BaseViewHolder> {
+
+    private Context context;
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -21,8 +28,9 @@ public class SectionAdapter extends BaseSectionQuickAdapter<MySection,BaseViewHo
      * @param sectionHeadResId The section head layout id for each item
      * @param data             A new list is created out of this one to avoid mutable list
      */
-    public SectionAdapter(int layoutResId, int sectionHeadResId, List<MySection> data) {
+    public SectionAdapter(int layoutResId, int sectionHeadResId, List<MySection> data , Context context) {
         super(layoutResId, sectionHeadResId, data);
+        this.context = context;
     }
 
     @Override
@@ -33,15 +41,21 @@ public class SectionAdapter extends BaseSectionQuickAdapter<MySection,BaseViewHo
     @Override
     protected void convert(BaseViewHolder helper, MySection item) {
         Album album = item.t;
-        switch (helper.getLayoutPosition() %
-                2) {
-            case 0:
-                helper.setImageResource(R.id.iv, R.mipmap.m_img1);
-                break;
-            case 1:
-                helper.setImageResource(R.id.iv, R.mipmap.m_img2);
-                break;
+        Glide.with(context).load(album.getImg())
+                .placeholder(R.mipmap.m_img1) //设置占位图
+                .error(R.mipmap.m_img1) //设置错误图片
+         .into((ImageView) helper.getView(R.id.iv));
 
-        }
+
+//        switch (helper.getLayoutPosition() %
+//                2) {
+//            case 0:
+//                helper.setImageResource(R.id.iv, R.mipmap.m_img1);
+//                break;
+//            case 1:
+//                helper.setImageResource(R.id.iv, R.mipmap.m_img2);
+//                break;
+//
+//        }
     }
 }

@@ -1,5 +1,6 @@
 package com.bx.jz.jy.jybx.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
@@ -58,6 +59,7 @@ public class AddMaterialActivity extends BaseActivity {
 
     @OnClick({R.id.img_back, R.id.lengCang, R.id.bianWen, R.id.lengDong})
     public void onViewClicked(View view) {
+        Intent intent = new Intent(AddMaterialActivity.this,EditorsMaterialActivity.class);
         switch (view.getId()) {
             case R.id.img_back:
                 this.finish();
@@ -65,14 +67,20 @@ public class AddMaterialActivity extends BaseActivity {
             case R.id.lengCang:
                 toZero();
                 lengCang.setTextColor(getResources().getColor(R.color.theme_other));
+                intent.putExtra("whichBX",1);
+                startActivity(intent);
                 break;
             case R.id.bianWen:
                 toZero();
                 bianWen.setTextColor(getResources().getColor(R.color.theme_other));
+                intent.putExtra("whichBX",2);
+                startActivity(intent);
                 break;
             case R.id.lengDong:
                 toZero();
                 lengDong.setTextColor(getResources().getColor(R.color.theme_other));
+                intent.putExtra("whichBX",3);
+                startActivity(intent);
                 break;
         }
     }

@@ -16,6 +16,16 @@ public class Ingredients{
 		isClick = click;
 	}
 
+	private int freshness;
+
+	public int getFreshness() {
+		return freshness;
+	}
+
+	public void setFreshness(int freshness) {
+		this.freshness = freshness;
+	}
+
 	private Long userId;
 
 	/**
@@ -300,6 +310,7 @@ public class Ingredients{
 	public String toString() {
 		return "Ingredients{" +
 				"isClick=" + isClick +
+				", freshness=" + freshness +
 				", userId=" + userId +
 				", ingredientsId=" + ingredientsId +
 				", imgUrl='" + imgUrl + '\'' +

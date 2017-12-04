@@ -84,6 +84,8 @@ public class FragmentTwo extends Fragment {
     TextView tvAllGoods;
     @BindView(R.id.auto)
     AutofitTextView auto;
+    @BindView(R.id.trophic_analysis)
+    TextView trophicAnalysis;
     @BindView(R.id.view_50)
     View view50;
     Unbinder unbinder;
@@ -250,6 +252,7 @@ public class FragmentTwo extends Fragment {
             @Override
             protected void convert(final BaseViewHolder helper, final Ingredients item) {
                 ImageView imageView = helper.getView(R.id.img_goods);
+                ImageView freshness = helper.getView(R.id.freshness);
                 final View pitchOn = helper.getView(R.id.pitch_on_view);
                 LinearLayout llOnClick = helper.getView(R.id.ll_onClick);
                 Glide.with(getActivity())
@@ -271,9 +274,23 @@ public class FragmentTwo extends Fragment {
                             break;
                     }
                 }
+                switch (item.getFreshness()){
+                    case 1:
+                        freshness.setVisibility(View.VISIBLE);
+                        freshness.setImageResource(R.mipmap.freshness_1);
+                        break;
+                    case 2:
+                        freshness.setVisibility(View.VISIBLE);
+                        freshness.setImageResource(R.mipmap.freshness_2);
+                        break;
+                    case 3:
+                        freshness.setVisibility(View.VISIBLE);
+                        freshness.setImageResource(R.mipmap.freshness_3);
+                        break;
+                }
                 if (item.getShelfLifeRemaining() != null && item.getShelfLifeRemaining() != 0) {
                     int day = (int) (item.getShelfLifeRemaining() / 60 / 60 / 1000);
-                    helper.setText(R.id.tv_goods_date, String.valueOf(day));
+                    helper.setText(R.id.tv_goods_date, String.valueOf(day+"天"));
                 }
                 helper.setText(R.id.tv_goods_weight, item.getFoodComponent() + item.getComponentUnit());
 
@@ -282,7 +299,6 @@ public class FragmentTwo extends Fragment {
                 } else {
                     pitchOn.setBackgroundResource(R.color.color_0e);
                 }
-
                 llOnClick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -353,8 +369,8 @@ public class FragmentTwo extends Fragment {
         RecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if(dy > 0){ //向下滑动
-                    L.e(TAG,"向下滑动");
+                if (dy > 0) { //向下滑动
+                    L.e(TAG, "向下滑动");
                 }
             }
         });
@@ -377,7 +393,7 @@ public class FragmentTwo extends Fragment {
         super.onStop();
     }
 
-    @OnClick({R.id.durability_period, R.id.all_goods, R.id.img_search, R.id.img_add})
+    @OnClick({R.id.durability_period, R.id.all_goods, R.id.img_search, R.id.img_add,R.id.trophic_analysis})
     public void onViewClicked(final View view) {
         switch (view.getId()) {
             case R.id.durability_period://保质期剩余
@@ -449,6 +465,8 @@ public class FragmentTwo extends Fragment {
             case R.id.img_add:
                 startActivity(new Intent(getActivity(), AddMaterialActivity.class));
                 break;
+            case R.id.trophic_analysis://营养分析
+                break;
         }
     }
 
@@ -515,5 +533,4 @@ public class FragmentTwo extends Fragment {
             mAdapter.loadMoreComplete();
         }
     }
-
 }

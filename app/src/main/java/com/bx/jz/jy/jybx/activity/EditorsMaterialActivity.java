@@ -32,6 +32,8 @@ import butterknife.OnClick;
 
 public class EditorsMaterialActivity extends BaseActivity {
 
+    private static final String TAG = EditorsMaterialActivity.class.getSimpleName();
+
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.tv_title)
@@ -60,10 +62,12 @@ public class EditorsMaterialActivity extends BaseActivity {
     TextView tvNum;
     @BindView(R.id.tv_date)
     TextView tvDate;
+    @BindView(R.id.img_complete)
+    TextView imgComplete;
 
     private int durabilityPeriod = 0;
     private int howMuch = 0;
-    private int whichBX = 0;
+    private int whichBX = 0;//冷藏室 1 ， 变温室  2 ， 冷冻室 3
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,11 +79,16 @@ public class EditorsMaterialActivity extends BaseActivity {
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("食材编辑");
 
+        if (getIntent() != null) {
+            whichBX = getIntent().getIntExtra("whichBX", 0);
+            L.e(TAG, String.valueOf(whichBX));
+        }
+
         discreteSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 durabilityPeriod = value;
-                L.e("TAG", durabilityPeriod + "");
+                L.e(TAG, durabilityPeriod + "");
                 tvDate.setText(String.valueOf(value + "天"));
             }
 
@@ -97,7 +106,7 @@ public class EditorsMaterialActivity extends BaseActivity {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 howMuch = value;
-                L.e("TAG", howMuch + "");
+                L.e(TAG, howMuch + "");
                 tvNum.setText(String.valueOf(value + "克"));
             }
 

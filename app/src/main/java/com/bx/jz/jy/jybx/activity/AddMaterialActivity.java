@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
+import com.bx.jz.jy.jybx.utils.DecorViewUtils;
+import com.jaeger.library.StatusBarUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +41,14 @@ public class AddMaterialActivity extends BaseActivity {
     TextView lengDong;
 
     @Override
+    protected void setStatusBar() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(AddMaterialActivity.this, null);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DecorViewUtils.getDarkDecorView(this);
         setContentView(R.layout.activity_add_material);
         ButterKnife.bind(this);
         baseLl.setVisibility(View.GONE);

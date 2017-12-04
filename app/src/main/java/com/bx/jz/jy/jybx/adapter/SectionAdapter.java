@@ -45,17 +45,5 @@ public class SectionAdapter extends BaseSectionQuickAdapter<MySection,BaseViewHo
                 .placeholder(R.mipmap.m_img1) //设置占位图
                 .error(R.mipmap.m_img1) //设置错误图片
          .into((ImageView) helper.getView(R.id.iv));
-
-
-//        switch (helper.getLayoutPosition() %
-//                2) {
-//            case 0:
-//                helper.setImageResource(R.id.iv, R.mipmap.m_img1);
-//                break;
-//            case 1:
-//                helper.setImageResource(R.id.iv, R.mipmap.m_img2);
-//                break;
-//
-//        }
     }
 }

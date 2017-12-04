@@ -164,7 +164,7 @@ public class AlbumActivity extends BaseActivity {
         sectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                MySection mySection = mySections.get(position);
+                MySection mySection = sectionAdapter.getData().get(position);
                 if (mySection.isHeader) {
                     T.showShort(AlbumActivity.this, mySection.header + "  " + position);
                 } else

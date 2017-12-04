@@ -99,6 +99,49 @@
         android:background="@mipmap/bg"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignEnd="@+id/tab_one_title"
+            android:layout_alignTop="@+id/ll_bx_info"
+            android:background="@mipmap/ps"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/8"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/theme_other"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="土豆"
+                    android:textColor="@color/white"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1天过期"
+                    android:textColor="@color/white"
+                    android:textSize="8sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/tab_one_title"
             android:layout_width="match_parent"
@@ -137,17 +180,17 @@
 
         <TextView
             android:id="@+id/ll_ai_mode"
-            android:background="@mipmap/bg_ai"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:gravity="center"
-            android:text="智能模式"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:layout_below="@+id/tab_one_title"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
+            android:background="@mipmap/bg_ai"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="智能模式"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -216,16 +259,16 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="-"
-                            android:visibility="invisible"
                             android:textColor="@color/white"
                             android:textSize="30sp"
-                            android:layout_height="wrap_content" />
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/leng_cang_degree"
@@ -283,15 +326,15 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="-"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
-                            android:layout_height="wrap_content" />
+                            android:textSize="30sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -345,15 +388,15 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="-"
                             android:textColor="@color/white"
-                            android:textSize="30sp"
-                            android:layout_height="wrap_content" />
+                            android:textSize="30sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -389,13 +432,13 @@
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:background="@mipmap/message"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:visibility="visible">
 
             <ImageView
@@ -433,13 +476,13 @@
                 <com.bx.jz.jy.jybx.view.MarqueeText
                     android:id="@+id/tv_error_code"
                     android:layout_width="200dp"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true"
                     android:marqueeRepeatLimit="marquee_forever"
-                    android:ellipsize="marquee"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
                     android:text="错误代码:3456789564564564564564564560"
                     android:textColor="@color/white" />
 

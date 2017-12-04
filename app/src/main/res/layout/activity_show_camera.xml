@@ -31,7 +31,6 @@
                 <RelativeLayout
                     android:id="@+id/rl_A"
                     android:layout_width="0dp"
-                    android:background="@drawable/bg_rl"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 

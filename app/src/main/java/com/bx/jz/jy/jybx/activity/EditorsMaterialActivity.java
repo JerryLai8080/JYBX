@@ -30,7 +30,7 @@ import butterknife.OnClick;
  * 添加食材界面
  */
 
-public class AddGoodsActivity extends BaseActivity {
+public class EditorsMaterialActivity extends BaseActivity {
 
     @BindView(R.id.img_back)
     ImageView imgBack;
@@ -69,7 +69,7 @@ public class AddGoodsActivity extends BaseActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DecorViewUtils.getDarkDecorView(this);
-        setContentView(R.layout.activity_add_goods);
+        setContentView(R.layout.activity_editors_material);
         ButterKnife.bind(this);
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
@@ -125,7 +125,7 @@ public class AddGoodsActivity extends BaseActivity {
 
     @Override
     protected void setStatusBar() {
-        StatusBarUtil.setTranslucentForImageViewInFragment(AddGoodsActivity.this, null);
+        StatusBarUtil.setTranslucentForImageViewInFragment(EditorsMaterialActivity.this, null);
     }
 
     @OnClick({R.id.cang, R.id.wen, R.id.dong, R.id.img_back, R.id.img_complete})
@@ -182,7 +182,7 @@ public class AddGoodsActivity extends BaseActivity {
             @Override
             public void run() {
                 dialog.cancel();
-                AddGoodsActivity.this.finish();
+                EditorsMaterialActivity.this.finish();
             }
         }, 1500);
 

@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
-import com.bx.jz.jy.jybx.activity.AddGoodsActivity;
+import com.bx.jz.jy.jybx.activity.AddMaterialActivity;
 import com.bx.jz.jy.jybx.activity.FoodEncyclopediaActivity;
 import com.bx.jz.jy.jybx.activity.SearchActivity;
 import com.bx.jz.jy.jybx.base.BaseEntity;
@@ -182,7 +182,7 @@ public class FragmentTwo extends Fragment {
                 switch (menuPosition) {
                     case 0:
                         T.showShort(getActivity(), "点击了 " + adapterPosition + "的编辑");
-                        startActivity(new Intent(getActivity(), AddGoodsActivity.class));
+                        startActivity(new Intent(getActivity(), AddMaterialActivity.class));
                         break;
                     case 1:
                         Ingredients Ingredients = mAdapter.getData().get(adapterPosition);
@@ -447,7 +447,7 @@ public class FragmentTwo extends Fragment {
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.img_add:
-                startActivity(new Intent(getActivity(), AddGoodsActivity.class));
+                startActivity(new Intent(getActivity(), AddMaterialActivity.class));
                 break;
         }
     }

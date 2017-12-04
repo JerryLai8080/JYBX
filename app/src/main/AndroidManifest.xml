@@ -31,7 +31,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.AddGoodsActivity"
+        <activity android:name=".activity.EditorsMaterialActivity"
+            android:screenOrientation="portrait"/>
+
+
+        <activity android:name=".activity.AddMaterialActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.SearchActivity"

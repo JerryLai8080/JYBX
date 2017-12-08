@@ -77,7 +77,7 @@ public class EditorsMaterialActivity extends BaseActivity {
         rulerViewDay.setScaleCount(2);
         rulerViewDay.setScaleGap(200);
 
-        rulerView.setUnit("g");
+        rulerView.setUnit("克");
         rulerView.setMaxScale(100);
         rulerView.setMinScale(0);
         rulerView.setFirstScale(50);
@@ -147,7 +147,7 @@ public class EditorsMaterialActivity extends BaseActivity {
             case R.id.tv_ke:
                 setO();
                 tvKe.setTextColor(getResources().getColor(R.color.theme_other));
-                rulerView.setUnit("g");
+                rulerView.setUnit("克");
                 break;
             case R.id.tv_ge:
                 setO();

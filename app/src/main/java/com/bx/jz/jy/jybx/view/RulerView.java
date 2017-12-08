@@ -85,7 +85,7 @@ public class RulerView extends View {
     /**
      * kg颜色
      */
-    private String unit = "g";
+    private String unit = "克";
     /**
      * kg颜色
      */

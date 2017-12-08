@@ -9,7 +9,7 @@
     <color name="blue">#03A9F4</color>
     <color name="white">#FFFFFF</color>
     <color name="lime">#CDDC39</color>
-    <color name="theme_other">#51B3FF</color>
+    <color name="theme_other">#19a1ff</color>
     <color name="other">#1969DF</color>
 
     <color name="color_7c">#7c7c7c</color>
@@ -25,6 +25,7 @@
     <color name="color_4c">#4c4c4c</color>
     <color name="color_00">#60000000</color>
     <color name="color_50">#50000000</color>
+    <color name="color_df">#dfdfdf</color>
 
 
 </resources>

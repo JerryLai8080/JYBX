@@ -18,9 +18,8 @@ import com.bx.jz.jy.jybx.base.BaseActivity;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.view.FullScreenDialog;
+import com.bx.jz.jy.jybx.view.RulerView;
 import com.jaeger.library.StatusBarUtil;
-
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,35 +37,27 @@ public class EditorsMaterialActivity extends BaseActivity {
     ImageView imgBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.base_toolbar)
-    Toolbar baseToolbar;
-    @BindView(R.id.ll_take_photo)
-    LinearLayout llTakePhoto;
-    @BindView(R.id.et_name)
-    EditText etName;
-    @BindView(R.id.discreteSeekBar)
-    DiscreteSeekBar discreteSeekBar;
-    @BindView(R.id.cang)
-    TextView cang;
-    @BindView(R.id.wen)
-    TextView wen;
-    @BindView(R.id.dong)
-    TextView dong;
     @BindView(R.id.et_search)
     AppCompatAutoCompleteTextView etSearch;
     @BindView(R.id.base_ll)
     LinearLayout baseLl;
-    @BindView(R.id.SeekBar)
-    DiscreteSeekBar SeekBar;
-    @BindView(R.id.tv_num)
-    TextView tvNum;
-    @BindView(R.id.tv_date)
-    TextView tvDate;
-    @BindView(R.id.img_complete)
-    TextView imgComplete;
+    @BindView(R.id.base_toolbar)
+    Toolbar baseToolbar;
+    @BindView(R.id.rulerView)
+    RulerView rulerView;
+    @BindView(R.id.rulerView_day)
+    RulerView rulerViewDay;
+    @BindView(R.id.tv_ke)
+    TextView tvKe;
+    @BindView(R.id.tv_ge)
+    TextView tvGe;
+    @BindView(R.id.tv_he)
+    TextView tvHe;
+    @BindView(R.id.tv_jin)
+    TextView tvJin;
+    @BindView(R.id.et_name)
+    EditText etName;
 
-    private int durabilityPeriod = 0;
-    private int howMuch = 0;
     private int whichBX = 0;//冷藏室 1 ， 变温室  2 ， 冷冻室 3
 
     @Override
@@ -79,47 +70,37 @@ public class EditorsMaterialActivity extends BaseActivity {
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("食材编辑");
 
+        rulerViewDay.setUnit("天");
+        rulerViewDay.setMaxScale(30);
+        rulerViewDay.setMinScale(0);
+        rulerViewDay.setFirstScale(15);
+        rulerViewDay.setScaleCount(2);
+        rulerViewDay.setScaleGap(200);
+
+        rulerView.setUnit("g");
+        rulerView.setMaxScale(100);
+        rulerView.setMinScale(0);
+        rulerView.setFirstScale(50);
+
+        rulerView.setOnChooseResulterListener(new RulerView.OnChooseResulterListener() {
+            @Override
+            public void onEndResult(String result) {
+
+            }
+
+            @Override
+            public void onScrollResult(String result) {
+
+            }
+        });
+
+//        rulerView.computeScrollTo(Float.parseFloat(((EditText) findViewById(R.id.edt)).getText().toString()));
+
         if (getIntent() != null) {
             whichBX = getIntent().getIntExtra("whichBX", 0);
             L.e(TAG, String.valueOf(whichBX));
         }
 
-        discreteSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
-            @Override
-            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
-                durabilityPeriod = value;
-                L.e(TAG, durabilityPeriod + "");
-                tvDate.setText(String.valueOf(value + "天"));
-            }
-
-            @Override
-            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-            }
-        });
-
-        SeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
-            @Override
-            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
-                howMuch = value;
-                L.e(TAG, howMuch + "");
-                tvNum.setText(String.valueOf(value + "克"));
-            }
-
-            @Override
-            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
-        });
     }
 
     @Override
@@ -135,49 +116,6 @@ public class EditorsMaterialActivity extends BaseActivity {
     @Override
     protected void setStatusBar() {
         StatusBarUtil.setTranslucentForImageViewInFragment(EditorsMaterialActivity.this, null);
-    }
-
-    @OnClick({R.id.cang, R.id.wen, R.id.dong, R.id.img_back, R.id.img_complete})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.img_back:
-                this.finish();
-                break;
-            case R.id.cang:
-                setO();
-                cang.setTextColor(getResources().getColor(R.color.color_0e));
-                whichBX = 1;
-                break;
-            case R.id.wen:
-                setO();
-                wen.setTextColor(getResources().getColor(R.color.color_0e));
-                whichBX = 2;
-                break;
-            case R.id.dong:
-                setO();
-                dong.setTextColor(getResources().getColor(R.color.color_0e));
-                whichBX = 3;
-                break;
-            case R.id.img_complete:
-                getDialog();
-                break;
-        }
-    }
-
-    private void setO() {
-        cang.setTextColor(getResources().getColor(R.color.color_9d));
-        wen.setTextColor(getResources().getColor(R.color.color_9d));
-        dong.setTextColor(getResources().getColor(R.color.color_9d));
-    }
-
-    @Override
-    public View[] filterViewByIds() {
-        return new View[]{etName};
-    }
-
-    @Override
-    public int[] hideSoftByEditViewIds() {
-        return new int[]{R.id.et_name};
     }
 
     public void getDialog() {
@@ -198,5 +136,51 @@ public class EditorsMaterialActivity extends BaseActivity {
         dialog.show();
         dialog.setCancelable(false);
         dialog.setContentView(layout);
+    }
+
+    @OnClick({R.id.img_back, R.id.tv_ke, R.id.tv_ge, R.id.tv_he, R.id.tv_jin})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                this.finish();
+                break;
+            case R.id.tv_ke:
+                setO();
+                tvKe.setTextColor(getResources().getColor(R.color.theme_other));
+                rulerView.setUnit("g");
+                break;
+            case R.id.tv_ge:
+                setO();
+                tvGe.setTextColor(getResources().getColor(R.color.theme_other));
+                rulerView.setUnit("个");
+                break;
+            case R.id.tv_he:
+                setO();
+                tvHe.setTextColor(getResources().getColor(R.color.theme_other));
+                rulerView.setUnit("盒");
+                break;
+            case R.id.tv_jin:
+                setO();
+                tvJin.setTextColor(getResources().getColor(R.color.theme_other));
+                rulerView.setUnit("斤");
+                break;
+        }
+    }
+
+    private void setO() {
+        tvGe.setTextColor(getResources().getColor(R.color.color_df));
+        tvKe.setTextColor(getResources().getColor(R.color.color_df));
+        tvHe.setTextColor(getResources().getColor(R.color.color_df));
+        tvJin.setTextColor(getResources().getColor(R.color.color_df));
+    }
+
+    @Override
+    public View[] filterViewByIds() {
+        return new View[]{etName};
+    }
+
+    @Override
+    public int[] hideSoftByEditViewIds() {
+        return new int[]{R.id.et_name};
     }
 }

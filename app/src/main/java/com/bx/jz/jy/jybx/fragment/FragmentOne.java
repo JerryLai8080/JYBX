@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
-import com.bx.jz.jy.jybx.activity.AddBxActivity;
 import com.bx.jz.jy.jybx.activity.ShowCameraActivity;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
@@ -42,7 +41,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
 
-public class FragmentOne extends Fragment{
+public class FragmentOne extends Fragment {
 
     private static final String TAG = "FragmentOne";
     @BindView(R.id.img_weather)
@@ -94,7 +93,40 @@ public class FragmentOne extends Fragment{
     @BindView(R.id.ll_add_bx)
     LinearLayout bxAdd;
 
+    @BindView(R.id.img_page_1)
+    ImageView imgPage1;
+    @BindView(R.id.tv_food_name_1)
+    TextView tvFoodName1;
+    @BindView(R.id.tv_data_1)
+    TextView tvData1;
+    @BindView(R.id.tv_num1)
+    TextView tvNum1;
+    @BindView(R.id.relativeLayout1)
+    RelativeLayout relativeLayout1;
+    @BindView(R.id.img_page_2)
+    ImageView imgPage2;
+    @BindView(R.id.tv_food_name_2)
+    TextView tvFoodName2;
+    @BindView(R.id.tv_data_2)
+    TextView tvData2;
+    @BindView(R.id.tv_num2)
+    TextView tvNum2;
+    @BindView(R.id.relativeLayout2)
+    RelativeLayout relativeLayout2;
+    @BindView(R.id.img_page_3)
+    ImageView imgPage3;
+    @BindView(R.id.tv_food_name_3)
+    TextView tvFoodName3;
+    @BindView(R.id.tv_data_3)
+    TextView tvData3;
+    @BindView(R.id.tv_num3)
+    TextView tvNum3;
+    @BindView(R.id.relativeLayout3)
+    RelativeLayout relativeLayout3;
+
     Unbinder unbinder;
+
+    private List<String> pageList = new ArrayList<>();
 
     private List<View> viewList = new ArrayList<>();
 
@@ -331,7 +363,7 @@ public class FragmentOne extends Fragment{
         unbinder.unbind();
     }
 
-    @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode, R.id.ll_add_bx})
+    @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode, R.id.ll_add_bx,R.id.relativeLayout1, R.id.relativeLayout2, R.id.relativeLayout3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.open_camera:
@@ -346,6 +378,12 @@ public class FragmentOne extends Fragment{
             case R.id.ll_add_bx:
 //                setZeroView();
 //                startActivity(new Intent(getActivity(), AddBxActivity.class));
+                break;
+            case R.id.relativeLayout1:
+                break;
+            case R.id.relativeLayout2:
+                break;
+            case R.id.relativeLayout3:
                 break;
         }
     }
@@ -373,12 +411,12 @@ public class FragmentOne extends Fragment{
         seekBar1.setMin(2);
         seekBar1.setMax(8);
         seekBar1.setProgress(5);
-        tvC1.setText(String.valueOf(5+"°C"));
+        tvC1.setText(String.valueOf(5 + "°C"));
         seekBar1.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 L.e(TAG, value + "  seekBar1 ");
-                tvC1.setText(String.valueOf(value+"°C"));
+                tvC1.setText(String.valueOf(value + "°C"));
             }
 
             @Override
@@ -395,12 +433,12 @@ public class FragmentOne extends Fragment{
         seekBar2.setMin(-18);
         seekBar2.setMax(8);
         seekBar2.setProgress(0);
-        tvC2.setText(String.valueOf(0+"°C"));
+        tvC2.setText(String.valueOf(0 + "°C"));
         seekBar2.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 L.e(TAG, value + "  seekBar2 ");
-                tvC2.setText(String.valueOf(value+"°C"));
+                tvC2.setText(String.valueOf(value + "°C"));
             }
 
             @Override
@@ -418,12 +456,12 @@ public class FragmentOne extends Fragment{
         seekBar3.setMin(-24);
         seekBar3.setMax(-16);
         seekBar3.setProgress(-18);
-        tvC3.setText(String.valueOf(-18+"°C"));
+        tvC3.setText(String.valueOf(-18 + "°C"));
         seekBar3.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 L.e(TAG, value + "  seekBar3 ");
-                tvC3.setText(String.valueOf(value+"°C"));
+                tvC3.setText(String.valueOf(value + "°C"));
             }
 
             @Override

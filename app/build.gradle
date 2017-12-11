@@ -60,4 +60,5 @@ dependencies {
     compile 'pub.devrel:easypermissions:1.0.1'
     compile project(path: ':zxinglite')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
 }

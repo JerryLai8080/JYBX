@@ -20,6 +20,7 @@ import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.ShowCameraActivity;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
+import com.bx.jz.jy.jybx.utils.GlideRoundTransform;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
@@ -303,6 +304,19 @@ public class FragmentOne extends Fragment {
 
             }
         });
+
+        Glide.with(getActivity())
+                .load(R.mipmap.shipu_3)
+                .transform(new GlideRoundTransform(getActivity(),8))
+                .into(imgPage2);
+        Glide.with(getActivity())
+                .load(R.mipmap.shipu_1)
+                .transform(new GlideRoundTransform(getActivity(),8))
+                .into(imgPage1);
+        Glide.with(getActivity())
+                .load(R.mipmap.shipu_2)
+                .transform(new GlideRoundTransform(getActivity(),8))
+                .into(imgPage3);
     }
 
     private void getWeather() {

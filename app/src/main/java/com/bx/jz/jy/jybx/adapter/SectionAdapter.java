@@ -4,6 +4,8 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.bean.Album;
 import com.bx.jz.jy.jybx.bean.MySection;
@@ -16,7 +18,7 @@ import java.util.List;
  * Created by Administrator on 2017/11/29 0029.
  */
 
-public class SectionAdapter extends BaseSectionQuickAdapter<MySection,BaseViewHolder> {
+public class SectionAdapter extends BaseSectionQuickAdapter<MySection, BaseViewHolder> {
 
     private Context context;
 
@@ -28,7 +30,7 @@ public class SectionAdapter extends BaseSectionQuickAdapter<MySection,BaseViewHo
      * @param sectionHeadResId The section head layout id for each item
      * @param data             A new list is created out of this one to avoid mutable list
      */
-    public SectionAdapter(int layoutResId, int sectionHeadResId, List<MySection> data , Context context) {
+    public SectionAdapter(int layoutResId, int sectionHeadResId, List<MySection> data, Context context) {
         super(layoutResId, sectionHeadResId, data);
         this.context = context;
     }
@@ -40,10 +42,12 @@ public class SectionAdapter extends BaseSectionQuickAdapter<MySection,BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, MySection item) {
+        RequestOptions options = new RequestOptions()
+                .centerCrop().placeholder(R.mipmap.red).error(R.mipmap.red).priority(Priority.HIGH);
+
         Album album = item.t;
         Glide.with(context).load(album.getImg())
-                .placeholder(R.mipmap.m_img1) //设置占位图
-                .error(R.mipmap.m_img1) //设置错误图片
-         .into((ImageView) helper.getView(R.id.iv));
+                .apply(options)
+                .into((ImageView) helper.getView(R.id.iv));
     }
 }

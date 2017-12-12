@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddMaterialActivity;
@@ -251,14 +253,17 @@ public class FragmentTwo extends Fragment {
 
             @Override
             protected void convert(final BaseViewHolder helper, final Ingredients item) {
+
+                RequestOptions options = new RequestOptions()
+                        .centerCrop().placeholder(R.mipmap.red).error(R.mipmap.red).priority(Priority.HIGH);
+
                 ImageView imageView = helper.getView(R.id.img_goods);
                 ImageView freshness = helper.getView(R.id.freshness);
                 final View pitchOn = helper.getView(R.id.pitch_on_view);
                 LinearLayout llOnClick = helper.getView(R.id.ll_onClick);
                 Glide.with(getActivity())
                         .load(item.getImgUrl())
-                        .placeholder(R.mipmap.red) //设置占位图
-                        .error(R.mipmap.red) //设置错误图片
+                        .apply(options)
                         .into(imageView);
                 helper.setText(R.id.tv_goods_name, item.getIngredientsName());
                 if (item.getSubordinatePosition() != null) {

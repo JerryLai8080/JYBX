@@ -1,28 +1,22 @@
 package com.bx.jz.jy.jybx.base;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
 import com.bx.jz.jy.jybx.R;
-import com.bx.jz.jy.jybx.activity.FoodEncyclopediaActivity;
 import com.bx.jz.jy.jybx.utils.AppManager;
-import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.KeyBoardUtils;
-import com.bx.jz.jy.jybx.utils.StatusBarSetting;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.message.PushAgent;
 
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
 
     @SuppressLint("InlinedApi")
     @Override

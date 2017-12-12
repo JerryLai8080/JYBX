@@ -100,25 +100,24 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/relativeLayout1"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignEnd="@+id/tab_one_title"
             android:layout_alignTop="@+id/ll_bx_info"
-            android:orientation="vertical"
-            android:id="@+id/relativeLayout1">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/img_page_1"
-                android:background="@drawable/bg_viewpager"
                 android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="50dp"  />
+                android:layout_height="50dp"
+                android:scaleType="fitXY" />
 
             <LinearLayout
-                android:background="@drawable/bg_viewpager_bottom"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_viewpager_bottom"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -142,12 +141,12 @@
 
             <TextView
                 android:id="@+id/tv_num1"
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1/8"
+                android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
+                android:text="1/8"
                 android:textColor="@color/theme_other"
                 android:textSize="10sp" />
 
@@ -438,6 +437,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -450,8 +450,7 @@
             android:orientation="horizontal"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:visibility="visible"
-            android:id="@+id/linearLayout">
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -529,20 +528,20 @@
             android:layout_height="70dp"
             android:layout_alignStart="@+id/ll_ai_mode"
             android:layout_below="@+id/relativeLayout1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/img_page_2"
-                android:background="@drawable/bg_viewpager"
                 android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:scaleType="fitXY" />
 
             <LinearLayout
-                android:background="@drawable/bg_viewpager_bottom"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_viewpager_bottom"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -566,12 +565,12 @@
 
             <TextView
                 android:id="@+id/tv_num2"
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1/8"
+                android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
+                android:text="1/8"
                 android:textColor="@color/theme_other"
                 android:textSize="10sp" />
 
@@ -583,20 +582,20 @@
             android:layout_height="70dp"
             android:layout_alignBottom="@+id/ll_bx_info"
             android:layout_alignEnd="@+id/linearLayout"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/img_page_3"
-                android:background="@drawable/bg_viewpager"
                 android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:scaleType="fitXY" />
 
             <LinearLayout
-                android:background="@drawable/bg_viewpager_bottom"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_viewpager_bottom"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -620,12 +619,12 @@
 
             <TextView
                 android:id="@+id/tv_num3"
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1/8"
+                android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
+                android:text="1/8"
                 android:textColor="@color/theme_other"
                 android:textSize="10sp" />
 

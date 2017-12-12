@@ -47,11 +47,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.zt.maven.widget:refreshview:1.0.0'
     compile 'org.adw.library:discrete-seekbar:1.0.1'
     compile 'me.grantland:autofittextview:0.2.+'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.33'
     compile 'com.youth.banner:banner:1.4.10'  //最新版本
@@ -61,5 +61,4 @@ dependencies {
     compile project(path: ':zxinglite')
     compile project(':PushSDK')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
 }

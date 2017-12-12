@@ -2,6 +2,7 @@ package com.bx.jz.jy.jybx.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -15,14 +16,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.ShowCameraActivity;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
-import com.bx.jz.jy.jybx.utils.GlideRoundTransform;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
+import com.bx.jz.jy.jybx.utils.GlideRoundTransform;
 import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.MarqueeText;
 import com.bx.jz.jy.jybx.view.MyViewPager;
@@ -131,6 +134,9 @@ public class FragmentOne extends Fragment {
 
     private List<View> viewList = new ArrayList<>();
 
+    private int i = 0;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -150,27 +156,30 @@ public class FragmentOne extends Fragment {
         ImageView img3 = view1.findViewById(R.id.img_3);
 
 
-        Glide.with(getActivity()).load(imgBean.getBreakfast().get(0)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img1);
-        Glide.with(getActivity()).load(imgBean.getBreakfast().get(1)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img2);
-        Glide.with(getActivity()).load(imgBean.getBreakfast().get(2)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img3);
+        RequestOptions options = new RequestOptions()
+                .centerCrop().placeholder(R.mipmap.red).error(R.mipmap.red).priority(Priority.HIGH);
+
+        Glide.with(getActivity()).load(imgBean.getBreakfast().get(0)).apply(options).into(img1);
+        Glide.with(getActivity()).load(imgBean.getBreakfast().get(1)).apply(options).into(img2);
+        Glide.with(getActivity()).load(imgBean.getBreakfast().get(2)).apply(options).into(img3);
 
         View view2 = getLayoutInflater().inflate(R.layout.view_pager_layout, null);
         ImageView img4 = view2.findViewById(R.id.img_1);
         ImageView img5 = view2.findViewById(R.id.img_2);
         ImageView img6 = view2.findViewById(R.id.img_3);
 
-        Glide.with(getActivity()).load(imgBean.getLunch().get(0)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img4);
-        Glide.with(getActivity()).load(imgBean.getLunch().get(1)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img5);
-        Glide.with(getActivity()).load(imgBean.getLunch().get(2)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img6);
+        Glide.with(getActivity()).load(imgBean.getLunch().get(0)).apply(options).into(img4);
+        Glide.with(getActivity()).load(imgBean.getLunch().get(1)).apply(options).into(img5);
+        Glide.with(getActivity()).load(imgBean.getLunch().get(2)).apply(options).into(img6);
 
         View view3 = getLayoutInflater().inflate(R.layout.view_pager_layout, null);
         ImageView img7 = view3.findViewById(R.id.img_1);
         ImageView img8 = view3.findViewById(R.id.img_2);
         ImageView img9 = view3.findViewById(R.id.img_3);
 
-        Glide.with(getActivity()).load(imgBean.getDinner().get(0)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img7);
-        Glide.with(getActivity()).load(imgBean.getDinner().get(1)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img8);
-        Glide.with(getActivity()).load(imgBean.getDinner().get(2)).placeholder(R.mipmap.red).error(R.mipmap.red).into(img9);
+        Glide.with(getActivity()).load(imgBean.getDinner().get(0)).apply(options).into(img7);
+        Glide.with(getActivity()).load(imgBean.getDinner().get(1)).apply(options).into(img8);
+        Glide.with(getActivity()).load(imgBean.getDinner().get(2)).apply(options).into(img9);
 
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,18 +314,26 @@ public class FragmentOne extends Fragment {
             }
         });
 
-        Glide.with(getActivity())
-                .load(R.mipmap.shipu_3)
-                .transform(new GlideRoundTransform(getActivity(),8))
-                .into(imgPage2);
-        Glide.with(getActivity())
-                .load(R.mipmap.shipu_1)
-                .transform(new GlideRoundTransform(getActivity(),8))
-                .into(imgPage1);
-        Glide.with(getActivity())
-                .load(R.mipmap.shipu_2)
-                .transform(new GlideRoundTransform(getActivity(),8))
-                .into(imgPage3);
+        final List<Integer> list = new ArrayList<>();
+
+
+        list.add(R.mipmap.shipu_1);
+        list.add(R.mipmap.shipu_2);
+        list.add(R.mipmap.shipu_3);
+
+        final RequestOptions requestOptions = new RequestOptions()
+                .centerCrop().placeholder(R.color.white).error(R.color.white).priority(Priority.HIGH).transform(new GlideRoundTransform(20, 0, GlideRoundTransform.CornerType.TOP));
+
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Glide.with(getActivity()).load(list.get(i)).apply(requestOptions).into(imgPage1);
+                i++;
+            }
+        };
+        handler.postDelayed(runnable, 1000);
+        if (i == list.size()) i = 0;
     }
 
     private void getWeather() {
@@ -377,7 +394,7 @@ public class FragmentOne extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode, R.id.ll_add_bx,R.id.relativeLayout1, R.id.relativeLayout2, R.id.relativeLayout3})
+    @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode, R.id.ll_add_bx, R.id.relativeLayout1, R.id.relativeLayout2, R.id.relativeLayout3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.open_camera:

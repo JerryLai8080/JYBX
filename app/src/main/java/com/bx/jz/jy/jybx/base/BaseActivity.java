@@ -20,6 +20,7 @@ import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.KeyBoardUtils;
 import com.bx.jz.jy.jybx.utils.StatusBarSetting;
 import com.jaeger.library.StatusBarUtil;
+import com.umeng.message.PushAgent;
 
 public abstract class BaseActivity extends AppCompatActivity{
 
@@ -29,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         doBeforeSetcontentView();
         setStatusBar();
+        PushAgent.getInstance(BaseActivity.this).onAppStart();
     }
 
     protected void setStatusBar() {

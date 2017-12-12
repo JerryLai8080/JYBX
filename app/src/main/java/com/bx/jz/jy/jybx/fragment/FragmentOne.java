@@ -1,19 +1,25 @@
 package com.bx.jz.jy.jybx.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -38,6 +44,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +53,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
 
-public class FragmentOne extends Fragment {
+public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
 
     private static final String TAG = "FragmentOne";
     @BindView(R.id.img_weather)
@@ -98,7 +106,7 @@ public class FragmentOne extends Fragment {
     LinearLayout bxAdd;
 
     @BindView(R.id.img_page_1)
-    ImageView imgPage1;
+    ImageSwitcher imgPage1;
     @BindView(R.id.tv_food_name_1)
     TextView tvFoodName1;
     @BindView(R.id.tv_data_1)
@@ -108,7 +116,7 @@ public class FragmentOne extends Fragment {
     @BindView(R.id.relativeLayout1)
     RelativeLayout relativeLayout1;
     @BindView(R.id.img_page_2)
-    ImageView imgPage2;
+    ImageSwitcher imgPage2;
     @BindView(R.id.tv_food_name_2)
     TextView tvFoodName2;
     @BindView(R.id.tv_data_2)
@@ -118,7 +126,7 @@ public class FragmentOne extends Fragment {
     @BindView(R.id.relativeLayout2)
     RelativeLayout relativeLayout2;
     @BindView(R.id.img_page_3)
-    ImageView imgPage3;
+    ImageSwitcher imgPage3;
     @BindView(R.id.tv_food_name_3)
     TextView tvFoodName3;
     @BindView(R.id.tv_data_3)
@@ -130,22 +138,120 @@ public class FragmentOne extends Fragment {
 
     Unbinder unbinder;
 
-    private List<String> pageList = new ArrayList<>();
-
     private List<View> viewList = new ArrayList<>();
+    private Timer timer = new Timer();
 
-    private int i = 0;
+    private boolean overDue1 = true;//冷藏室过期开关
+    private boolean overDue2 = false;//变温室过期开关
+    private boolean overDue3 = false;//冷冻室过期开关
 
+    // 图片数组
+    private int[] arrayPictures = {R.mipmap.shipu_1, R.mipmap.shipu_2, R.mipmap.shipu_3};
+    private String[] arrayFoods = {"米糊","蛋糕","法拉卷"};
+    private String[] arrayOverDue = {"2天过期","4天过期","8天过期"};
+    // 要显示的图片在图片数组中的Index
+    private int pictureIndex1 = 0;
+    private int pictureIndex2 = 0;
+    private int pictureIndex3 = 0;
+
+    @Override
+    public View makeView() {
+        return new ImageView(getActivity());
+    }
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    if(pictureIndex1 == arrayPictures.length){
+                        pictureIndex1=0;
+                    }
+                    relativeLayout1.setVisibility(View.VISIBLE);
+                    // 设置图片切换的动画
+                    imgPage1.setInAnimation(AnimationUtils.loadAnimation(getActivity(),
+                            R.anim.slide_in_right));
+                    imgPage1.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),
+                            R.anim.slide_out_left));
+                    // 设置当前要看的图片
+                    imgPage1.setImageResource(arrayPictures[pictureIndex1]);
+
+                    tvFoodName1.setText(arrayFoods[pictureIndex1]);
+                    tvData1.setText(arrayOverDue[pictureIndex1]);
+                    tvNum1.setText(1+pictureIndex1+"/"+arrayFoods.length);
+                    pictureIndex1++;
+                    break;
+                case 1:
+                    if(pictureIndex2 == arrayPictures.length){
+                        pictureIndex2=0;
+                    }
+                    relativeLayout2.setVisibility(View.VISIBLE);
+                    // 设置图片切换的动画
+                    imgPage2.setInAnimation(AnimationUtils.loadAnimation(getActivity(),
+                            R.anim.slide_in_right));
+                    imgPage2.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),
+                            R.anim.slide_out_left));
+                    // 设置当前要看的图片
+                    imgPage2.setImageResource(arrayPictures[pictureIndex2]);
+
+                    tvFoodName2.setText(arrayFoods[pictureIndex2]);
+                    tvData2.setText(arrayOverDue[pictureIndex2]);
+                    tvNum2.setText(1+pictureIndex2+"/"+arrayFoods.length);
+                    pictureIndex2++;
+                    break;
+                case 2:
+                    if(pictureIndex3 == arrayPictures.length){
+                        pictureIndex3=0;
+                    }
+                    relativeLayout3.setVisibility(View.VISIBLE);
+                    // 设置图片切换的动画
+                    imgPage3.setInAnimation(AnimationUtils.loadAnimation(getActivity(),
+                            R.anim.slide_in_right));
+                    imgPage3.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),
+                            R.anim.slide_out_left));
+                    // 设置当前要看的图片
+                    imgPage3.setImageResource(arrayPictures[pictureIndex3]);
+
+                    tvFoodName3.setText(arrayFoods[pictureIndex3]);
+                    tvData3.setText(arrayOverDue[pictureIndex3]);
+                    tvNum3.setText(1+pictureIndex3+"/"+arrayFoods.length);
+                    pictureIndex3++;
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_one_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        startImageView();
         getWeather();
         getGoodList();
         return view;
+    }
+
+    private void startImageView() {
+
+        imgPage1.setFactory(this);
+        imgPage2.setFactory(this);
+        imgPage3.setFactory(this);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(overDue1){
+                    handler.sendEmptyMessage(0);
+                }
+                if(overDue2){
+                    handler.sendEmptyMessage(1);
+                }
+                if(overDue3){
+                    handler.sendEmptyMessage(2);
+                }
+            }
+        },0,5000);
     }
 
     private void initView(ImgBean imgBean) {
@@ -314,26 +420,6 @@ public class FragmentOne extends Fragment {
             }
         });
 
-        final List<Integer> list = new ArrayList<>();
-
-
-        list.add(R.mipmap.shipu_1);
-        list.add(R.mipmap.shipu_2);
-        list.add(R.mipmap.shipu_3);
-
-        final RequestOptions requestOptions = new RequestOptions()
-                .centerCrop().placeholder(R.color.white).error(R.color.white).priority(Priority.HIGH).transform(new GlideRoundTransform(20, 0, GlideRoundTransform.CornerType.TOP));
-
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                Glide.with(getActivity()).load(list.get(i)).apply(requestOptions).into(imgPage1);
-                i++;
-            }
-        };
-        handler.postDelayed(runnable, 1000);
-        if (i == list.size()) i = 0;
     }
 
     private void getWeather() {
@@ -392,6 +478,8 @@ public class FragmentOne extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        timer.cancel();
+        timer = null;
     }
 
     @OnClick({R.id.open_camera, R.id.setting, R.id.ll_ai_mode, R.id.ll_add_bx, R.id.relativeLayout1, R.id.relativeLayout2, R.id.relativeLayout3})

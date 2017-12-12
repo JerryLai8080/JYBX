@@ -100,6 +100,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:visibility="visible"
             android:id="@+id/relativeLayout1"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -107,11 +108,11 @@
             android:layout_alignTop="@+id/ll_bx_info"
             android:orientation="vertical">
 
-            <ImageView
+            <ImageSwitcher
                 android:id="@+id/img_page_1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:scaleType="fitXY" />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -119,13 +120,13 @@
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/bg_viewpager_bottom"
                 android:gravity="center"
+                android:paddingBottom="2dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_food_name_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="土豆"
                     android:textColor="@color/white"
                     android:textSize="8sp" />
 
@@ -133,7 +134,6 @@
                     android:id="@+id/tv_data_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1天过期"
                     android:textColor="@color/white"
                     android:textSize="8sp" />
 
@@ -526,18 +526,19 @@
             android:id="@+id/relativeLayout2"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_above="@+id/relativeLayout3"
             android:layout_alignStart="@+id/ll_ai_mode"
-            android:layout_below="@+id/relativeLayout1"
             android:orientation="vertical"
             android:visibility="gone">
 
-            <ImageView
+            <ImageSwitcher
                 android:id="@+id/img_page_2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:scaleType="fitXY" />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
+                android:paddingBottom="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -549,7 +550,6 @@
                     android:id="@+id/tv_food_name_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="土豆"
                     android:textColor="@color/white"
                     android:textSize="8sp" />
 
@@ -557,7 +557,6 @@
                     android:id="@+id/tv_data_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1天过期"
                     android:textColor="@color/white"
                     android:textSize="8sp" />
 
@@ -585,13 +584,14 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <ImageView
+            <ImageSwitcher
                 android:id="@+id/img_page_3"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:scaleType="fitXY" />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
+                android:paddingBottom="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -603,7 +603,6 @@
                     android:id="@+id/tv_food_name_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="土豆"
                     android:textColor="@color/white"
                     android:textSize="8sp" />
 
@@ -611,7 +610,6 @@
                     android:id="@+id/tv_data_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1天过期"
                     android:textColor="@color/white"
                     android:textSize="8sp" />
 

@@ -31,7 +31,6 @@ import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
-import com.bx.jz.jy.jybx.utils.GlideRoundTransform;
 import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.MarqueeText;
 import com.bx.jz.jy.jybx.view.MyViewPager;

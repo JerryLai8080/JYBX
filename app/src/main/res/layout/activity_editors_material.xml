@@ -22,7 +22,7 @@
             android:textColor="@color/color_333"
             android:textSize="16sp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/et_name"
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -30,13 +30,18 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/bg_et"
-            android:hint="香蕉"
+            android:completionThreshold="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:dropDownVerticalOffset="2dp"
             android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/material_img"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/no_photo" />
+            android:scaleType="centerCrop" />
 
     </LinearLayout>
 
@@ -110,10 +115,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="保质期"
-        android:layout_marginTop="10dp"
         android:textColor="@color/color_333"
         android:textSize="16sp" />
 

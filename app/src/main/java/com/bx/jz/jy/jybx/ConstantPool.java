@@ -19,6 +19,7 @@ public class ConstantPool {
     public static String DELETEFOODS = BASE_URL+"in/ingredients!delete";//删除菜品列表item
     public static String NEWPHOTO = BASE_URL+"in/img!newlist";//
     public static String ALBUM = BASE_URL+"in/img!list";//
+    public static String SIMILAR = BASE_URL+"in/ingredients!similar";//
 
     public static String GETNEWCODE = TEST_URL+"/rms/v1/common/vcode?action=getNewCode";//获取登录验证码
     public static String MOBILELOGIN = TEST_URL+"/rms/v1/app/login?action=mobileLogin";//获取登录验证码

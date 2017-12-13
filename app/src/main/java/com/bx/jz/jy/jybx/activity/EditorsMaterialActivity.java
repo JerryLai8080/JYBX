@@ -4,32 +4,50 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
+import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
+import com.bx.jz.jy.jybx.bean.MaterialBean;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
+import com.bx.jz.jy.jybx.utils.OkHttpUtils;
+import com.bx.jz.jy.jybx.utils.T;
 import com.bx.jz.jy.jybx.view.FullScreenDialog;
 import com.bx.jz.jy.jybx.view.RulerView;
 import com.jaeger.library.StatusBarUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.microedition.khronos.opengles.GL;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 /**
  * 添加食材界面
  */
 
-public class EditorsMaterialActivity extends BaseActivity {
+public class EditorsMaterialActivity extends BaseActivity implements TextWatcher {
 
     private static final String TAG = EditorsMaterialActivity.class.getSimpleName();
 
@@ -56,9 +74,14 @@ public class EditorsMaterialActivity extends BaseActivity {
     @BindView(R.id.tv_jin)
     TextView tvJin;
     @BindView(R.id.et_name)
-    EditText etName;
+    AutoCompleteTextView etName;
+    @BindView(R.id.material_img)
+    ImageView materialImg;
 
     private int whichBX = 0;//冷藏室 1 ， 变温室  2 ， 冷冻室 3
+
+    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +92,8 @@ public class EditorsMaterialActivity extends BaseActivity {
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("食材编辑");
+
+        etName.addTextChangedListener(this);
 
         rulerViewDay.setUnit("天");
         rulerViewDay.setMaxScale(30);
@@ -85,7 +110,7 @@ public class EditorsMaterialActivity extends BaseActivity {
         rulerView.setOnChooseResulterListener(new RulerView.OnChooseResulterListener() {
             @Override
             public void onEndResult(String result) {
-
+                L.e(TAG, "rulerView   onEndResult  " + result);
             }
 
             @Override
@@ -94,13 +119,71 @@ public class EditorsMaterialActivity extends BaseActivity {
             }
         });
 
-//        rulerView.computeScrollTo(Float.parseFloat(((EditText) findViewById(R.id.edt)).getText().toString()));
+        rulerViewDay.setOnChooseResulterListener(new RulerView.OnChooseResulterListener() {
+            @Override
+            public void onEndResult(String result) {
+                L.e(TAG, "rulerViewDay  onEndResult  " + result);
+            }
+
+            @Override
+            public void onScrollResult(String result) {
+
+            }
+        });
 
         if (getIntent() != null) {
             whichBX = getIntent().getIntExtra("whichBX", 0);
             L.e(TAG, String.valueOf(whichBX));
         }
 
+    }
+
+    private void getMaterialList(String s) {
+        OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.SIMILAR, materialRequest(s), new OkHttpUtils.RequestCallBack<MaterialBean>() {
+            @Override
+            public void onError(Call call, Exception e) {
+                T.showLong(EditorsMaterialActivity.this, e.getMessage());
+                L.e(TAG, "getMaterialList  " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(final MaterialBean response) {
+                if (response != null && response.getCode() == 1) {
+                    arrayList.clear();
+                    if (response.getResult() != null && response.getResult().size() != 0) {
+                        for (int i = 0; i < response.getResult().size(); i++) {
+                            arrayList.add(response.getResult().get(i).getName());
+                        }
+                    }
+                    if (arrayList != null && arrayList.size() != 0) {
+                        arrayAdapter = new ArrayAdapter<String>(EditorsMaterialActivity.this, android.R.layout.simple_list_item_1, arrayList);
+                        etName.setAdapter(arrayAdapter);
+                        arrayAdapter.notifyDataSetChanged();
+                        etName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String img = response.getResult().get(position).getImg();
+                                String name = response.getResult().get(position).getName();
+                                L.e(TAG, "setOnItemClickListener  img " + img + "  name  " + name);
+
+                                if (!"".equals(img)) {
+                                    Glide.with(EditorsMaterialActivity.this)
+                                            .load(img).apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                            .into(materialImg);
+                                }
+                                arrayAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private Map<String, Object> materialRequest(String s) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", s);
+        return map;
     }
 
     @Override
@@ -182,5 +265,23 @@ public class EditorsMaterialActivity extends BaseActivity {
     @Override
     public int[] hideSoftByEditViewIds() {
         return new int[]{R.id.et_name};
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (!s.toString().equals("")) {
+            L.e(TAG, "afterTextChanged  name " + s);
+            getMaterialList(s.toString());
+        }
     }
 }

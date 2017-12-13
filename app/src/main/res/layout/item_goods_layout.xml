@@ -11,18 +11,19 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="15dp"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="15dp">
+        android:paddingRight="5dp">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/img_goods"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:gravity="center" />
 
         <LinearLayout
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
             android:id="@+id/ll_onClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +41,6 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:maxLines="2"
-                android:text="香蕉"
                 android:textColor="@color/color_333"
                 android:textSize="14sp"
                 app:minTextSize="10sp" />
@@ -50,7 +50,6 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="100g"
                 android:textColor="@color/color_333"
                 android:textSize="14sp" />
 
@@ -68,7 +67,6 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:gravity="center"
-                    android:text="1天"
                     android:textColor="@color/color_333"
                     android:textSize="14sp" />
 
@@ -88,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:gravity="center"
-                android:text="冷藏"
                 android:textColor="@color/color_333"
                 android:textSize="14sp" />
 

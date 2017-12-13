@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
@@ -255,17 +256,23 @@ public class FragmentTwo extends Fragment {
             protected void convert(final BaseViewHolder helper, final Ingredients item) {
 
                 RequestOptions options = new RequestOptions()
-                        .centerCrop().placeholder(R.mipmap.red).error(R.mipmap.red).priority(Priority.HIGH);
+                        .centerCrop()
+                        .placeholder(R.mipmap.red)
+                        .error(R.mipmap.red)
+                        .priority(Priority.HIGH)
+                        .transform(new CircleCrop());
 
                 ImageView imageView = helper.getView(R.id.img_goods);
                 ImageView freshness = helper.getView(R.id.freshness);
                 final View pitchOn = helper.getView(R.id.pitch_on_view);
                 LinearLayout llOnClick = helper.getView(R.id.ll_onClick);
+                helper.setText(R.id.tv_goods_name, item.getIngredientsName());
+
                 Glide.with(getActivity())
                         .load(item.getImgUrl())
                         .apply(options)
                         .into(imageView);
-                helper.setText(R.id.tv_goods_name, item.getIngredientsName());
+
                 if (item.getSubordinatePosition() != null) {
                     switch (item.getSubordinatePosition()) {//所属位置(1=冷藏，2=变温，3=冷冻)
                         case 1:
@@ -279,7 +286,7 @@ public class FragmentTwo extends Fragment {
                             break;
                     }
                 }
-                switch (item.getFreshness()){
+                switch (item.getFreshness()) {
                     case 1:
                         freshness.setVisibility(View.VISIBLE);
                         freshness.setImageResource(R.mipmap.freshness_1);
@@ -295,7 +302,7 @@ public class FragmentTwo extends Fragment {
                 }
                 if (item.getShelfLifeRemaining() != null && item.getShelfLifeRemaining() != 0) {
                     int day = (int) (item.getShelfLifeRemaining() / 60 / 60 / 1000);
-                    helper.setText(R.id.tv_goods_date, String.valueOf(day+"天"));
+                    helper.setText(R.id.tv_goods_date, String.valueOf(day + "天"));
                 }
                 helper.setText(R.id.tv_goods_weight, item.getFoodComponent() + item.getComponentUnit());
 
@@ -398,7 +405,7 @@ public class FragmentTwo extends Fragment {
         super.onStop();
     }
 
-    @OnClick({R.id.durability_period, R.id.all_goods, R.id.img_search, R.id.img_add,R.id.trophic_analysis})
+    @OnClick({R.id.durability_period, R.id.all_goods, R.id.img_search, R.id.img_add, R.id.trophic_analysis})
     public void onViewClicked(final View view) {
         switch (view.getId()) {
             case R.id.durability_period://保质期剩余

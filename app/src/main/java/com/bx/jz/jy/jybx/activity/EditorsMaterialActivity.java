@@ -1,5 +1,6 @@
 package com.bx.jz.jy.jybx.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
+import com.bx.jz.jy.jybx.base.BaseEntity;
 import com.bx.jz.jy.jybx.bean.MaterialBean;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
@@ -35,8 +37,6 @@ import com.jaeger.library.StatusBarUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.microedition.khronos.opengles.GL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,11 +77,18 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
     AutoCompleteTextView etName;
     @BindView(R.id.material_img)
     ImageView materialImg;
+    @BindView(R.id.complete_img)
+    ImageView completeImg;
 
     private int whichBX = 0;//冷藏室 1 ， 变温室  2 ， 冷冻室 3
 
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
+    private Double materialWeight = 50d;//食材重量
+    private Double overDueData = 15d;//过期时间
+    private String unit = "克";//单位
+    private String materialName = "";
+    private String img = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +98,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
         ButterKnife.bind(this);
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
+        completeImg.setVisibility(View.GONE);
         tvTitle.setText("食材编辑");
 
         etName.addTextChangedListener(this);
@@ -110,7 +118,8 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
         rulerView.setOnChooseResulterListener(new RulerView.OnChooseResulterListener() {
             @Override
             public void onEndResult(String result) {
-                L.e(TAG, "rulerView   onEndResult  " + result);
+                materialWeight = Double.parseDouble(result);
+                L.e(TAG, "rulerView   onEndResult  " + materialWeight);
             }
 
             @Override
@@ -122,7 +131,8 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
         rulerViewDay.setOnChooseResulterListener(new RulerView.OnChooseResulterListener() {
             @Override
             public void onEndResult(String result) {
-                L.e(TAG, "rulerViewDay  onEndResult  " + result);
+                overDueData = Double.parseDouble(result);
+                L.e(TAG, "rulerViewDay  onEndResult  " + overDueData);
             }
 
             @Override
@@ -162,7 +172,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
                         etName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                String img = response.getResult().get(position).getImg();
+                                img = response.getResult().get(position).getImg();
                                 String name = response.getResult().get(position).getName();
                                 L.e(TAG, "setOnItemClickListener  img " + img + "  name  " + name);
 
@@ -203,7 +213,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
 
     public void getDialog() {
         final FullScreenDialog dialog = new FullScreenDialog(this);
-        LayoutInflater inflater = getLayoutInflater();
+        final LayoutInflater inflater = getLayoutInflater();
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.dialog_add_edit, null);
         TextView content = layout.findViewById(R.id.content);
         content.setText("添加成功");
@@ -212,6 +222,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
             @Override
             public void run() {
                 dialog.cancel();
+                EditorsMaterialActivity.this.setResult(RESULT_OK);
                 EditorsMaterialActivity.this.finish();
             }
         }, 1500);
@@ -221,7 +232,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
         dialog.setContentView(layout);
     }
 
-    @OnClick({R.id.img_back, R.id.tv_ke, R.id.tv_ge, R.id.tv_he, R.id.tv_jin})
+    @OnClick({R.id.img_back, R.id.tv_ke, R.id.tv_ge, R.id.tv_he, R.id.tv_jin, R.id.complete_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -231,23 +242,73 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
                 setO();
                 tvKe.setTextColor(getResources().getColor(R.color.theme_other));
                 rulerView.setUnit("克");
+                unit = "克";
                 break;
             case R.id.tv_ge:
                 setO();
                 tvGe.setTextColor(getResources().getColor(R.color.theme_other));
                 rulerView.setUnit("个");
+                unit = "个";
                 break;
             case R.id.tv_he:
                 setO();
                 tvHe.setTextColor(getResources().getColor(R.color.theme_other));
                 rulerView.setUnit("盒");
+                unit = "盒";
                 break;
             case R.id.tv_jin:
                 setO();
                 tvJin.setTextColor(getResources().getColor(R.color.theme_other));
                 rulerView.setUnit("斤");
+                unit = "斤";
+                break;
+            case R.id.complete_img:
+                if ("".equals(materialName)) {
+                    T.showShort(EditorsMaterialActivity.this, "请填写食材名称");
+                    return;
+                }
+                if (materialWeight == null || materialWeight == 0) {
+                    T.showShort(EditorsMaterialActivity.this, "请选择食材重量");
+                    return;
+                }
+                if (overDueData == null || overDueData == 0) {
+                    T.showShort(EditorsMaterialActivity.this, "请选择食材保质期");
+                    return;
+                }
+                completeEditorsMaterial();
                 break;
         }
+    }
+
+    private void completeEditorsMaterial() {
+        OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.saveOrUpdate, completeRequest(), new OkHttpUtils.RequestCallBack<BaseEntity>() {
+            @Override
+            public void onError(Call call, Exception e) {
+                T.showLong(EditorsMaterialActivity.this, e.getMessage());
+                L.e(TAG, "completeEditorsMaterial  " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(BaseEntity response) {
+                if (response != null && response.getCode().equals("1")) {
+                    getDialog();
+                }
+            }
+        });
+    }
+
+    private Map<String, Object> completeRequest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("ingredients.refrigeratorId", 1);
+        map.put("ingredients.ingredientsName", materialName);
+        map.put("ingredients.userId", 12345);
+        map.put("ingredients.imgUrl", img);
+        map.put("ingredients.shelfLifeTime", overDueData);
+        map.put("ingredients.addWay", 2);
+        map.put("ingredients.subordinatePosition", whichBX);
+        map.put("ingredients.foodComponent", materialWeight);
+        map.put("ingredients.componentUnit", unit);
+        return map;
     }
 
     private void setO() {
@@ -280,8 +341,13 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
     @Override
     public void afterTextChanged(Editable s) {
         if (!s.toString().equals("")) {
+            completeImg.setVisibility(View.VISIBLE);
+            materialName = s.toString();
             L.e(TAG, "afterTextChanged  name " + s);
             getMaterialList(s.toString());
+        } else {
+            completeImg.setVisibility(View.GONE);
         }
     }
+
 }

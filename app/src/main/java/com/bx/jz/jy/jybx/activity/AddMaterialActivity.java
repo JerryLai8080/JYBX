@@ -68,20 +68,29 @@ public class AddMaterialActivity extends BaseActivity {
                 toZero();
                 lengCang.setTextColor(getResources().getColor(R.color.theme_other));
                 intent.putExtra("whichBX",1);
-                startActivity(intent);
+                startActivityForResult(intent,1015);
                 break;
             case R.id.bianWen:
                 toZero();
                 bianWen.setTextColor(getResources().getColor(R.color.theme_other));
                 intent.putExtra("whichBX",2);
-                startActivity(intent);
+                startActivityForResult(intent,1015);
                 break;
             case R.id.lengDong:
                 toZero();
                 lengDong.setTextColor(getResources().getColor(R.color.theme_other));
                 intent.putExtra("whichBX",3);
-                startActivity(intent);
+                startActivityForResult(intent,1015);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode ==RESULT_OK){
+            if(requestCode == 1015){
+                AddMaterialActivity.this.finish();
+            }
         }
     }
 

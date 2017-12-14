@@ -31,7 +31,9 @@ import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddMaterialActivity;
 import com.bx.jz.jy.jybx.activity.FoodEncyclopediaActivity;
+import com.bx.jz.jy.jybx.activity.PolygonsActivity;
 import com.bx.jz.jy.jybx.activity.SearchActivity;
+import com.bx.jz.jy.jybx.view.PolygonsView;
 import com.bx.jz.jy.jybx.base.BaseEntity;
 import com.bx.jz.jy.jybx.base.BaseListEntity;
 import com.bx.jz.jy.jybx.bean.Ingredients;
@@ -478,6 +480,7 @@ public class FragmentTwo extends Fragment {
                 startActivity(new Intent(getActivity(), AddMaterialActivity.class));
                 break;
             case R.id.trophic_analysis://营养分析
+                startActivity(new Intent(getActivity(), PolygonsActivity.class));
                 break;
         }
     }

@@ -60,6 +60,9 @@
         <activity android:name=".activity.AlbumActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.PolygonsActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5a2f2e63f43e4816bc00018c">

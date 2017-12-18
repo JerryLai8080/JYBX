@@ -63,6 +63,10 @@
         <activity android:name=".activity.PolygonsActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".utils.Settings"
+            android:label="@string/settings">
+        </activity>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5a2f2e63f43e4816bc00018c">

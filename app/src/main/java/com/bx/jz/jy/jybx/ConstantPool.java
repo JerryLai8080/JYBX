@@ -6,6 +6,9 @@ package com.bx.jz.jy.jybx;
 
 public class ConstantPool {
 
+    public static final int FridgeId = 1;
+    public static final int UserID = 12345;
+
     private static final String BASE_URL = "http://192.168.199.182:8080/imgTest/";
     private static final String TEST_URL = "http://apitest.joyoung.com:8389";
 

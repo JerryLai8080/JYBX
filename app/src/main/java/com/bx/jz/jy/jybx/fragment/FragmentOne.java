@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -26,6 +25,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
+import com.bx.jz.jy.jybx.activity.AddBxActivity;
 import com.bx.jz.jy.jybx.activity.ShowCameraActivity;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
@@ -52,7 +52,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
 
-public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
+public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
     private static final String TAG = "FragmentOne";
     @BindView(R.id.img_weather)
@@ -140,14 +140,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
     private List<View> viewList = new ArrayList<>();
     private Timer timer = new Timer();
 
-    private boolean overDue1 = true;//冷藏室过期开关
+    private boolean overDue1 = false;//冷藏室过期开关
     private boolean overDue2 = false;//变温室过期开关
     private boolean overDue3 = false;//冷冻室过期开关
 
     // 图片数组
     private int[] arrayPictures = {R.mipmap.shipu_1, R.mipmap.shipu_2, R.mipmap.shipu_3};
-    private String[] arrayFoods = {"米糊","蛋糕","法拉卷"};
-    private String[] arrayOverDue = {"2天过期","4天过期","8天过期"};
+    private String[] arrayFoods = {"米糊", "蛋糕", "法拉卷"};
+    private String[] arrayOverDue = {"2天过期", "4天过期", "8天过期"};
     // 要显示的图片在图片数组中的Index
     private int pictureIndex1 = 0;
     private int pictureIndex2 = 0;
@@ -158,13 +158,13 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
         return new ImageView(getActivity());
     }
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
-                    if(pictureIndex1 == arrayPictures.length){
-                        pictureIndex1=0;
+                    if (pictureIndex1 == arrayPictures.length) {
+                        pictureIndex1 = 0;
                     }
                     relativeLayout1.setVisibility(View.VISIBLE);
                     // 设置图片切换的动画
@@ -177,12 +177,12 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
 
                     tvFoodName1.setText(arrayFoods[pictureIndex1]);
                     tvData1.setText(arrayOverDue[pictureIndex1]);
-                    tvNum1.setText(1+pictureIndex1+"/"+arrayFoods.length);
+                    tvNum1.setText(1 + pictureIndex1 + "/" + arrayFoods.length);
                     pictureIndex1++;
                     break;
                 case 1:
-                    if(pictureIndex2 == arrayPictures.length){
-                        pictureIndex2=0;
+                    if (pictureIndex2 == arrayPictures.length) {
+                        pictureIndex2 = 0;
                     }
                     relativeLayout2.setVisibility(View.VISIBLE);
                     // 设置图片切换的动画
@@ -195,12 +195,12 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
 
                     tvFoodName2.setText(arrayFoods[pictureIndex2]);
                     tvData2.setText(arrayOverDue[pictureIndex2]);
-                    tvNum2.setText(1+pictureIndex2+"/"+arrayFoods.length);
+                    tvNum2.setText(1 + pictureIndex2 + "/" + arrayFoods.length);
                     pictureIndex2++;
                     break;
                 case 2:
-                    if(pictureIndex3 == arrayPictures.length){
-                        pictureIndex3=0;
+                    if (pictureIndex3 == arrayPictures.length) {
+                        pictureIndex3 = 0;
                     }
                     relativeLayout3.setVisibility(View.VISIBLE);
                     // 设置图片切换的动画
@@ -213,7 +213,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
 
                     tvFoodName3.setText(arrayFoods[pictureIndex3]);
                     tvData3.setText(arrayOverDue[pictureIndex3]);
-                    tvNum3.setText(1+pictureIndex3+"/"+arrayFoods.length);
+                    tvNum3.setText(1 + pictureIndex3 + "/" + arrayFoods.length);
                     pictureIndex3++;
                     break;
             }
@@ -240,26 +240,25 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(overDue1){
+                if (overDue1) {
                     handler.sendEmptyMessage(0);
                 }
-                if(overDue2){
+                if (overDue2) {
                     handler.sendEmptyMessage(1);
                 }
-                if(overDue3){
+                if (overDue3) {
                     handler.sendEmptyMessage(2);
                 }
             }
-        },0,5000);
+        }, 0, 5000);
     }
 
     private void initView(ImgBean imgBean) {
 
-        View view1 = getLayoutInflater().inflate(R.layout.view_pager_layout, null);
+        @SuppressLint("InflateParams") View view1 = getLayoutInflater().inflate(R.layout.view_pager_layout, null, false);
         ImageView img1 = view1.findViewById(R.id.img_1);
         ImageView img2 = view1.findViewById(R.id.img_2);
         ImageView img3 = view1.findViewById(R.id.img_3);
-
 
         RequestOptions options = new RequestOptions()
                 .centerCrop().placeholder(R.mipmap.red).error(R.mipmap.red).priority(Priority.HIGH);
@@ -268,7 +267,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(1)).apply(options).into(img2);
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(2)).apply(options).into(img3);
 
-        View view2 = getLayoutInflater().inflate(R.layout.view_pager_layout, null);
+        @SuppressLint("InflateParams") View view2 = getLayoutInflater().inflate(R.layout.view_pager_layout, null,false);
         ImageView img4 = view2.findViewById(R.id.img_1);
         ImageView img5 = view2.findViewById(R.id.img_2);
         ImageView img6 = view2.findViewById(R.id.img_3);
@@ -277,7 +276,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
         Glide.with(getActivity()).load(imgBean.getLunch().get(1)).apply(options).into(img5);
         Glide.with(getActivity()).load(imgBean.getLunch().get(2)).apply(options).into(img6);
 
-        View view3 = getLayoutInflater().inflate(R.layout.view_pager_layout, null);
+        @SuppressLint("InflateParams") View view3 = getLayoutInflater().inflate(R.layout.view_pager_layout, null,false);
         ImageView img7 = view3.findViewById(R.id.img_1);
         ImageView img8 = view3.findViewById(R.id.img_2);
         ImageView img9 = view3.findViewById(R.id.img_3);
@@ -494,8 +493,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory{
             case R.id.ll_ai_mode:
                 break;
             case R.id.ll_add_bx:
-//                setZeroView();
-//                startActivity(new Intent(getActivity(), AddBxActivity.class));
+                startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
             case R.id.relativeLayout1:
                 break;

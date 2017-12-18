@@ -87,9 +87,6 @@ public class AddBxActivity extends BaseCaptureActivity {
                 this.finish();
                 break;
             case R.id.add_by_self:
-//                this.finish();
-//                T.showShort(this,"别急，后面的界面还没写好 :)");
-//                getDialog();
                 startActivity(new Intent(this, AddBySelfActivity.class));
                 break;
         }

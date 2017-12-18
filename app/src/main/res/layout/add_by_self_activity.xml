@@ -37,12 +37,14 @@
             android:layout_width="0.5dp"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/tv_open_wifi"
-            android:text="请打开wifi"
+            android:hint="请输入wifi名称"
+            android:textColorHint="@color/color_0e"
             android:textColor="@color/color_0e"
             android:gravity="center_vertical"
             android:textSize="16sp"
+            android:background="@null"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
@@ -95,7 +97,8 @@
             android:gravity="center_vertical"
             android:textSize="16sp"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:inputType="textPassword"
             android:layout_height="match_parent" />
 
         <ImageView

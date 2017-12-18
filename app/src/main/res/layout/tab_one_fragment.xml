@@ -106,7 +106,7 @@
             android:layout_alignEnd="@+id/tab_one_title"
             android:layout_alignTop="@+id/ll_bx_info"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageSwitcher
                 android:id="@+id/img_page_1"
@@ -208,7 +208,7 @@
         <LinearLayout
             android:id="@+id/ll_add_bx"
             android:layout_width="150dp"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
             android:layout_below="@+id/ll_ai_mode"
             android:layout_centerInParent="true"
             android:layout_marginBottom="30dp"
@@ -216,7 +216,7 @@
             android:background="@mipmap/bg_bg"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
             android:layout_marginTop="10dp"
             android:background="@mipmap/bg_4"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/ll_leng_cang"

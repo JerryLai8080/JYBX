@@ -172,18 +172,18 @@ public class AddBySelfActivity extends BaseActivity {
             final String ssid = tvOpenWifi.getText().toString();
             final String password = etPwd.getText().toString();
 
-                        /* Set packet interval. Default 8ms in lib. Probably you don't need to set it */
-                SharedPreferences sp = Settings.getPrefs(AddBySelfActivity.this);
-                String packetInterval = sp.getString("packet_interval", getString(R.string.default_packet_interval));
-                int interval = Integer.parseInt(packetInterval);
-                Cooee.SetPacketInterval(interval); /* default 8ms */
+            /* Set packet interval. Default 8ms in lib. Probably you don't need to set it */
+            SharedPreferences sp = Settings.getPrefs(AddBySelfActivity.this);
+            String packetInterval = sp.getString("packet_interval", getString(R.string.default_packet_interval));
+            int interval = Integer.parseInt(packetInterval);
+            Cooee.SetPacketInterval(interval); /* default 8ms */
 
             if (mThread == null) {
                 mThread = new Thread() {
                     public void run() {
                         while (mDone) {
                             Cooee.send(ssid, password, mLocalIp);
-                            L.e(TAG,"ssid  : " + ssid + "  password  : " + password);
+                            L.e(TAG, "ssid  : " + ssid + "  password  : " + password);
                         }
                     }
                 };

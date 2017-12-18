@@ -1,10 +1,12 @@
 package com.bx.jz.jy.jybx.bean;
 
+import java.io.Serializable;
+
 /**
 * ClassName: Ingredients <br/>
 * Description:  <br/>
-*/ 
-public class Ingredients{
+*/
+public class Ingredients implements Serializable{
 
 	private boolean isClick = false;
 
@@ -43,7 +45,7 @@ public class Ingredients{
 	/**
 	 * 保质期时间（保质期时间的时间戳）
 	 */
-    private Long shelfLifeTime;
+    private Double shelfLifeTime;
 	/**
 	 * 保质期剩余时间（时间戳）
 	 */
@@ -84,7 +86,7 @@ public class Ingredients{
 	 * 是否删除(1=正常，2=删除)
 	 */
     private Integer isDelete;
-	
+
 	public Ingredients() {
     }
 
@@ -103,14 +105,14 @@ public class Ingredients{
 		this.ingredientsId = ingredientsId;
 		return this;
 	}
-	
+
 	/**
 	 * 食材id
 	 */
 	public Long getIngredientsId(){
 		return this.ingredientsId;
 	}
-	
+
 	/**
 	 * 图片URL
 	 */
@@ -118,14 +120,14 @@ public class Ingredients{
 		this.imgUrl = imgUrl;
 		return this;
 	}
-	
+
 	/**
 	 * 图片URL
 	 */
 	public String getImgUrl(){
 		return this.imgUrl;
 	}
-	
+
 	/**
 	 * 食材名称
 	 */
@@ -133,29 +135,29 @@ public class Ingredients{
 		this.ingredientsName = ingredientsName;
 		return this;
 	}
-	
+
 	/**
 	 * 食材名称
 	 */
 	public String getIngredientsName(){
 		return this.ingredientsName;
 	}
-	
+
 	/**
 	 * 保质期时间（保质期时间的时间戳）
 	 */
-	public Ingredients setShelfLifeTime(Long shelfLifeTime){
+	public Ingredients setShelfLifeTime(Double shelfLifeTime){
 		this.shelfLifeTime = shelfLifeTime;
 		return this;
 	}
-	
+
 	/**
 	 * 保质期时间（保质期时间的时间戳）
 	 */
-	public Long getShelfLifeTime(){
+	public Double getShelfLifeTime(){
 		return this.shelfLifeTime;
 	}
-	
+
 	/**
 	 * 保质期剩余时间（时间戳）
 	 */
@@ -163,14 +165,14 @@ public class Ingredients{
 		this.shelfLifeRemaining = shelfLifeRemaining;
 		return this;
 	}
-	
+
 	/**
 	 * 保质期剩余时间（时间戳）
 	 */
 	public Long getShelfLifeRemaining(){
 		return this.shelfLifeRemaining;
 	}
-	
+
 	/**
 	 * 所属位置(1=冷藏，2=变温，3=冷冻)
 	 */
@@ -178,14 +180,14 @@ public class Ingredients{
 		this.subordinatePosition = subordinatePosition;
 		return this;
 	}
-	
+
 	/**
 	 * 所属位置(1=冷藏，2=变温，3=冷冻)
 	 */
 	public Integer getSubordinatePosition(){
 		return this.subordinatePosition;
 	}
-	
+
 	/**
 	 * 所属分类
 	 */
@@ -193,14 +195,14 @@ public class Ingredients{
 		this.classificationId = classificationId;
 		return this;
 	}
-	
+
 	/**
 	 * 所属分类
 	 */
 	public Long getClassificationId(){
 		return this.classificationId;
 	}
-	
+
 	/**
 	 * 食材分量
 	 */
@@ -208,14 +210,14 @@ public class Ingredients{
 		this.foodComponent = foodComponent;
 		return this;
 	}
-	
+
 	/**
 	 * 食材分量
 	 */
 	public String getFoodComponent(){
 		return this.foodComponent;
 	}
-	
+
 	/**
 	 * 分量单位
 	 */
@@ -223,14 +225,14 @@ public class Ingredients{
 		this.componentUnit = componentUnit;
 		return this;
 	}
-	
+
 	/**
 	 * 分量单位
 	 */
 	public String getComponentUnit(){
 		return this.componentUnit;
 	}
-	
+
 	/**
 	 * 对应知识图谱id
 	 */
@@ -238,14 +240,14 @@ public class Ingredients{
 		this.knowledgeGraphId = knowledgeGraphId;
 		return this;
 	}
-	
+
 	/**
 	 * 对应知识图谱id
 	 */
 	public Long getKnowledgeGraphId(){
 		return this.knowledgeGraphId;
 	}
-	
+
 	/**
 	 * 添加方式（1=图片识别添加，2=手动添加）
 	 */
@@ -253,14 +255,14 @@ public class Ingredients{
 		this.addWay = addWay;
 		return this;
 	}
-	
+
 	/**
 	 * 添加方式（1=图片识别添加，2=手动添加）
 	 */
 	public Integer getAddWay(){
 		return this.addWay;
 	}
-	
+
 	/**
 	 * 添加时间
 	 */
@@ -268,14 +270,14 @@ public class Ingredients{
 		this.addTime = addTime;
 		return this;
 	}
-	
+
 	/**
 	 * 添加时间
 	 */
 	public String getAddTime(){
 		return this.addTime;
 	}
-	
+
 	/**
 	 * 修改时间
 	 */
@@ -283,14 +285,14 @@ public class Ingredients{
 		this.ingredientsUpdateTime = ingredientsUpdateTime;
 		return this;
 	}
-	
+
 	/**
 	 * 修改时间
 	 */
 	public String getIngredientsUpdateTime(){
 		return this.ingredientsUpdateTime;
 	}
-	
+
 	/**
 	 * 是否删除(1=正常，2=删除)
 	 */
@@ -298,7 +300,7 @@ public class Ingredients{
 		this.isDelete = isDelete;
 		return this;
 	}
-	
+
 	/**
 	 * 是否删除(1=正常，2=删除)
 	 */

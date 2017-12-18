@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
+import com.bx.jz.jy.jybx.bean.Ingredients;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.jaeger.library.StatusBarUtil;
 
@@ -41,6 +42,9 @@ public class AddMaterialActivity extends BaseActivity {
     @BindView(R.id.lengDong)
     TextView lengDong;
 
+    private int whichBX;
+    private Ingredients ingredients;
+
     @Override
     protected void setStatusBar() {
         StatusBarUtil.setTranslucentForImageViewInFragment(AddMaterialActivity.this, null);
@@ -55,11 +59,27 @@ public class AddMaterialActivity extends BaseActivity {
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("食材添加");
+
+        if (getIntent() != null) {
+            ingredients = (Ingredients) getIntent().getSerializableExtra("Ingredients");
+            whichBX = ingredients.getSubordinatePosition();
+            switch (whichBX) {
+                case 1:
+                    lengCang.setTextColor(getResources().getColor(R.color.theme_other));
+                    break;
+                case 2:
+                    bianWen.setTextColor(getResources().getColor(R.color.theme_other));
+                    break;
+                case 3:
+                    lengDong.setTextColor(getResources().getColor(R.color.theme_other));
+                    break;
+            }
+        }
     }
 
     @OnClick({R.id.img_back, R.id.lengCang, R.id.bianWen, R.id.lengDong})
     public void onViewClicked(View view) {
-        Intent intent = new Intent(AddMaterialActivity.this,EditorsMaterialActivity.class);
+        Intent intent = new Intent(AddMaterialActivity.this, EditorsMaterialActivity.class);
         switch (view.getId()) {
             case R.id.img_back:
                 this.finish();
@@ -67,34 +87,52 @@ public class AddMaterialActivity extends BaseActivity {
             case R.id.lengCang:
                 toZero();
                 lengCang.setTextColor(getResources().getColor(R.color.theme_other));
-                intent.putExtra("whichBX",1);
-                startActivityForResult(intent,1015);
+                if(ingredients != null){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Ingredients",ingredients);
+                    intent.putExtras(bundle);
+                }else {
+                    intent.putExtra("whichBX", 1);
+                }
+                startActivityForResult(intent, 1015);
                 break;
             case R.id.bianWen:
                 toZero();
                 bianWen.setTextColor(getResources().getColor(R.color.theme_other));
-                intent.putExtra("whichBX",2);
-                startActivityForResult(intent,1015);
+                if(ingredients != null){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Ingredients",ingredients);
+                    intent.putExtras(bundle);
+                }else {
+                    intent.putExtra("whichBX", 2);
+                }
+                startActivityForResult(intent, 1015);
                 break;
             case R.id.lengDong:
                 toZero();
                 lengDong.setTextColor(getResources().getColor(R.color.theme_other));
-                intent.putExtra("whichBX",3);
-                startActivityForResult(intent,1015);
+                if(ingredients != null){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Ingredients",ingredients);
+                    intent.putExtras(bundle);
+                }else {
+                    intent.putExtra("whichBX", 3);
+                }
+                startActivityForResult(intent, 1015);
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode ==RESULT_OK){
-            if(requestCode == 1015){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1015) {
                 AddMaterialActivity.this.finish();
             }
         }
     }
 
-    private void toZero(){
+    private void toZero() {
         lengCang.setTextColor(getResources().getColor(R.color.color_666));
         bianWen.setTextColor(getResources().getColor(R.color.color_666));
         lengDong.setTextColor(getResources().getColor(R.color.color_666));

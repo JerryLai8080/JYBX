@@ -33,7 +33,6 @@ import com.bx.jz.jy.jybx.activity.AddMaterialActivity;
 import com.bx.jz.jy.jybx.activity.FoodEncyclopediaActivity;
 import com.bx.jz.jy.jybx.activity.PolygonsActivity;
 import com.bx.jz.jy.jybx.activity.SearchActivity;
-import com.bx.jz.jy.jybx.view.PolygonsView;
 import com.bx.jz.jy.jybx.base.BaseEntity;
 import com.bx.jz.jy.jybx.base.BaseListEntity;
 import com.bx.jz.jy.jybx.bean.Ingredients;
@@ -63,9 +62,6 @@ import butterknife.Unbinder;
 import me.grantland.widget.AutofitTextView;
 import okhttp3.Call;
 
-/**
- * 现在食材是没有id的  等有了要换上   getIngredientsId   ！！！！！！！！！！
- */
 
 public class FragmentTwo extends Fragment {
 
@@ -99,7 +95,7 @@ public class FragmentTwo extends Fragment {
     private List<Ingredients> ingredientsList = new ArrayList<>();
     private BaseQuickAdapter<Ingredients, BaseViewHolder> mAdapter;
 
-    private String Order = "asc";
+    private String Order = "desc";
     private int temp = 1;
     private boolean isRefresh = true;
     private boolean isDesc = false;
@@ -107,6 +103,7 @@ public class FragmentTwo extends Fragment {
     private View errorView;
     private boolean isAll = false;
     private int subordinatePosition = 0;
+    private boolean isStart = false;
 
     String[] arrayList = {"所有", "冷藏", "变温", "冷冻"};
     private Animation myAnimation_Translate;
@@ -118,10 +115,14 @@ public class FragmentTwo extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        temp = 1;
-        ingredientsList.clear();
-        SwipeRefreshLayout.setRefreshing(true);
-        getGoodList(temp, Order);
+        if (!isStart) {
+            temp = 1;
+            isRefresh = true;
+            ingredientsList.clear();
+            mAdapter.notifyDataSetChanged();
+            SwipeRefreshLayout.setRefreshing(true);
+            getGoodList(temp, Order);
+        }
     }
 
     @Nullable
@@ -141,6 +142,7 @@ public class FragmentTwo extends Fragment {
                 // 开始刷新，设置当前为刷新状态
                 temp = 1;
                 isRefresh = true;
+                isStart = false;
                 getGoodList(temp, Order);
             }
         });
@@ -189,7 +191,11 @@ public class FragmentTwo extends Fragment {
                 switch (menuPosition) {
                     case 0:
                         T.showShort(getActivity(), "点击了 " + adapterPosition + "的编辑");
-                        startActivity(new Intent(getActivity(), AddMaterialActivity.class));
+                        Intent intent = new Intent(getActivity(), AddMaterialActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("Ingredients", mAdapter.getData().get(adapterPosition));
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                         break;
                     case 1:
                         Ingredients Ingredients = mAdapter.getData().get(adapterPosition);
@@ -364,6 +370,7 @@ public class FragmentTwo extends Fragment {
                     public void onClick(View v) {
                         T.showShort(getActivity(), "点击了头像   " + item.getIngredientsName());
                         getActivity().startActivity(new Intent(getActivity(), FoodEncyclopediaActivity.class));
+                        isStart = true;
                     }
                 });
             }
@@ -414,13 +421,13 @@ public class FragmentTwo extends Fragment {
                 temp = 1;
                 isRefresh = true;
                 if (!isDesc) {
-                    Order = "desc";
+                    Order = "asc";
                     SwipeRefreshLayout.setRefreshing(true);
                     getGoodList(temp, Order);
                     isDesc = true;
                     auto.setTextColor(getResources().getColor(R.color.color_0e));
                 } else {
-                    Order = "asc";
+                    Order = "desc";
                     SwipeRefreshLayout.setRefreshing(true);
                     getGoodList(temp, Order);
                     isDesc = false;
@@ -475,12 +482,15 @@ public class FragmentTwo extends Fragment {
                 break;
             case R.id.img_search:
                 startActivity(new Intent(getActivity(), SearchActivity.class));
+                isStart = true;
                 break;
             case R.id.img_add:
                 startActivity(new Intent(getActivity(), AddMaterialActivity.class));
+                isStart = false;
                 break;
             case R.id.trophic_analysis://营养分析
                 startActivity(new Intent(getActivity(), PolygonsActivity.class));
+                isStart = true;
                 break;
         }
     }

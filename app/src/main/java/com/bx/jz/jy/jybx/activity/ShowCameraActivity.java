@@ -111,7 +111,6 @@ public class ShowCameraActivity extends BaseActivity {
             public void onError(Call call, Exception e) {
                 T.showLong(ShowCameraActivity.this, e.getMessage());
                 swipeRefresh.setRefreshing(false);
-
             }
 
             @Override
@@ -147,8 +146,8 @@ public class ShowCameraActivity extends BaseActivity {
 
     private Map<String, Object> PhotoRequest() {
         Map<String, Object> object = new HashMap<>();
-        object.put("img.pid", 1);
-        object.put("img.menuId", 1);
+        object.put("img.pid", ConstantPool.UserID);
+        object.put("img.menuId", ConstantPool.FridgeId);
         return object;
     }
 

@@ -9,7 +9,7 @@ public class ConstantPool {
     public static final int FridgeId = 1;
     public static final int UserID = 12345;
 
-    private static final String BASE_URL = "http://192.168.199.182:8080/imgTest/";
+    private static final String BASE_URL = "http://112.124.102.114:8090/imgTest/";
     private static final String TEST_URL = "http://apitest.joyoung.com:8389";
 
     public static final String USER_SHARE = "login_share";

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -26,7 +25,6 @@ import com.bx.jz.jy.jybx.base.BaseActivity;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.Settings;
-import com.bx.jz.jy.jybx.utils.T;
 import com.jaeger.library.StatusBarUtil;
 
 import butterknife.BindView;

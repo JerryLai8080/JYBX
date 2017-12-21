@@ -5,6 +5,8 @@ import android.app.Application;
 import com.bx.jz.jy.jybx.utils.L;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 /**
  * 友盟推送集成
@@ -17,6 +19,7 @@ public class MyApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        UMShareAPI.get(this);
         PushAgent pushAgent = PushAgent.getInstance(this);
         pushAgent.register(new IUmengRegisterCallback() {
             @Override
@@ -29,5 +32,8 @@ public class MyApplication extends Application{
                 L.e(TAG,"获取device token  onFailure " + s + "    " + s1);
             }
         });
+
+
+        PlatformConfig.setWeixin("","");
     }
 }

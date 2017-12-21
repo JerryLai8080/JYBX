@@ -29,6 +29,7 @@
                 android:paddingRight="1dp">
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/rl_A"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -40,8 +41,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/red" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -55,8 +55,8 @@
 
                 </RelativeLayout>
 
-
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/rl_B"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -68,8 +68,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/red" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -95,6 +94,7 @@
                 android:paddingRight="1dp">
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/rl_C"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -106,8 +106,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/red" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -123,6 +122,7 @@
 
                 <RelativeLayout
                     android:id="@+id/rl_D"
+                    android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -133,8 +133,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/red" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"

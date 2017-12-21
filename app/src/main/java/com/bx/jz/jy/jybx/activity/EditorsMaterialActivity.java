@@ -79,7 +79,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
     @BindView(R.id.material_img)
     ImageView materialImg;
     @BindView(R.id.complete_img)
-    ImageView completeImg;
+    TextView completeImg;
 
     private int whichBX = 0;//冷藏室 1 ， 变温室  2 ， 冷冻室 3
 
@@ -400,6 +400,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
     public void afterTextChanged(Editable s) {
         if (!s.toString().equals("")) {
             completeImg.setVisibility(View.VISIBLE);
+            completeImg.setText("确认");
             materialName = s.toString();
             L.e(TAG, "afterTextChanged  name " + s);
             getMaterialList(s.toString());
@@ -407,5 +408,4 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
             completeImg.setVisibility(View.GONE);
         }
     }
-
 }

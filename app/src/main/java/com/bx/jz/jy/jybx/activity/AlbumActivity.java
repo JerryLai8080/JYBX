@@ -1,17 +1,27 @@
 package com.bx.jz.jy.jybx.activity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.adapter.SectionAdapter;
@@ -23,8 +33,16 @@ import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
+import com.bx.jz.jy.jybx.view.FullScreenDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jaeger.library.StatusBarUtil;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +74,15 @@ public class AlbumActivity extends BaseActivity {
     RecyclerView albumRecycle;
     @BindView(R.id.album_swipe)
     SwipeRefreshLayout albumSwipe;
+    @BindView(R.id.complete_img)
+    TextView complete;
+    @BindView(R.id.delete)
+    ImageView delete;
+    @BindView(R.id.share)
+    ImageView share;
+    @BindView(R.id.share_pop)
+    LinearLayout sharePop;
+
 
     private List<MySection> mySections = new ArrayList<>();
     private SectionAdapter sectionAdapter;
@@ -65,13 +92,19 @@ public class AlbumActivity extends BaseActivity {
     private View notDataView;
     private View errorView;
     private int anInt = 0;
+    private boolean isBlowUp = true;
+    private boolean isCanClick = false;
+
+    private List<String> imgList = new ArrayList<>();
+    private List<String> shareList = new ArrayList<>();
+    SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA,SHARE_MEDIA.QQ};
 
     @Override
     protected void setStatusBar() {
         StatusBarUtil.setTranslucentForImageViewInFragment(AlbumActivity.this, null);
     }
 
-    private void getAlbumList(int page) {
+    private void getAlbumList(final int page) {
         OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.ALBUM, albumRequest(page), new OkHttpUtils.RequestCallBack<AlbumBean>() {
             @Override
             public void onError(Call call, Exception e) {
@@ -88,14 +121,12 @@ public class AlbumActivity extends BaseActivity {
 
             @Override
             public void onResponse(AlbumBean response) {
-                if(response.getLists().size() == 0){
-                    setData(true, null);
-                    sectionAdapter.setEmptyView(notDataView);
-                }
                 mySections = new ArrayList<>();
                 for (int i = 0; i < response.getLists().size(); i++) {
+                    imgList.add(response.getLists().get(i).getGroupTime());
                     mySections.add(new MySection(true, response.getLists().get(i).getGroupTime(), false));
                     for (int j = 0; j < response.getLists().get(i).getUrl().size(); j++) {
+                        imgList.add(response.getLists().get(i).getUrl().get(j));
                         mySections.add(new MySection(new Album(response.getLists().get(i).getUrl().get(j))));
                     }
                 }
@@ -136,6 +167,13 @@ public class AlbumActivity extends BaseActivity {
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("相册");
+        complete.setVisibility(View.VISIBLE);
+        complete.setText("选择");
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+            ActivityCompat.requestPermissions(this, mPermissionList, 123);
+        }
 
         albumSwipe.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.white));
         albumSwipe.setColorSchemeResources(R.color.color_0e, R.color.color_0e, R.color.color_0e, R.color.color_0e);
@@ -145,6 +183,8 @@ public class AlbumActivity extends BaseActivity {
                 temp = 1;
                 isRefresh = true;
                 mySections = new ArrayList<>();
+                imgList = new ArrayList<>();
+                shareList = new ArrayList<>();
                 getAlbumList(temp);
             }
         });
@@ -159,7 +199,7 @@ public class AlbumActivity extends BaseActivity {
                 isRefresh = false;
                 getAlbumList(temp);
             }
-        },albumRecycle);
+        }, albumRecycle);
 
         sectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -167,8 +207,32 @@ public class AlbumActivity extends BaseActivity {
                 MySection mySection = sectionAdapter.getData().get(position);
                 if (mySection.isHeader) {
                     T.showShort(AlbumActivity.this, mySection.header + "  " + position);
-                } else
+                } else {
                     T.showShort(AlbumActivity.this, " " + position);
+                    if (isBlowUp) {
+                        ShowImg(AlbumActivity.this, imgList.get(position));
+                    } else {
+                        if (mySection.isChoose()) {
+                            shareList.remove(imgList.get(position));
+                            mySection.setChoose(false);
+                            sectionAdapter.notifyDataSetChanged();
+                        } else {
+                            shareList.add(imgList.get(position));
+                            mySection.setChoose(true);
+                            sectionAdapter.notifyDataSetChanged();
+                        }
+                        L.e(TAG, " shareList  " + shareList.toString());
+                        if (shareList.size() == 0) {
+                            delete.setImageResource(R.mipmap.delete);
+                            share.setImageResource(R.mipmap.share);
+                            isCanClick = false;
+                        } else {
+                            delete.setImageResource(R.mipmap.delete_blue);
+                            share.setImageResource(R.mipmap.share_blue);
+                            isCanClick = true;
+                        }
+                    }
+                }
             }
         });
 
@@ -219,13 +283,91 @@ public class AlbumActivity extends BaseActivity {
         }
     }
 
-
-    @OnClick({R.id.img_back})
+    @OnClick({R.id.img_back, R.id.complete_img, R.id.delete, R.id.share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 this.finish();
                 break;
+            case R.id.complete_img:
+                shareList.clear();
+                for (int i = 0; i < sectionAdapter.getData().size(); i++) {
+                    sectionAdapter.getData().get(i).setChoose(false);
+                }
+                sectionAdapter.notifyDataSetChanged();
+
+                Animation myAnimation_Translate;
+                if (isBlowUp) {
+                    complete.setText("取消");
+                    sharePop.setVisibility(View.VISIBLE);
+                    myAnimation_Translate = new TranslateAnimation(
+                            Animation.RELATIVE_TO_PARENT, 0,
+                            Animation.RELATIVE_TO_PARENT, 0,
+                            Animation.RELATIVE_TO_PARENT, 1,
+                            Animation.RELATIVE_TO_PARENT, 0);
+                    myAnimation_Translate.setDuration(500);
+                    myAnimation_Translate.setRepeatMode(Animation.REVERSE);
+                    myAnimation_Translate.setInterpolator(AnimationUtils
+                            .loadInterpolator(AlbumActivity.this,
+                                    android.R.anim.accelerate_decelerate_interpolator));
+                    sharePop.startAnimation(myAnimation_Translate);
+                    isBlowUp = false;
+                } else {
+                    myAnimation_Translate = new TranslateAnimation(
+                            Animation.RELATIVE_TO_PARENT, 0,
+                            Animation.RELATIVE_TO_PARENT, 0,
+                            Animation.RELATIVE_TO_PARENT, 0,
+                            Animation.RELATIVE_TO_PARENT, 1);
+                    myAnimation_Translate.setDuration(1000);
+                    myAnimation_Translate.setRepeatMode(Animation.REVERSE);
+                    myAnimation_Translate.setInterpolator(AnimationUtils
+                            .loadInterpolator(AlbumActivity.this,
+                                    android.R.anim.accelerate_decelerate_interpolator));
+                    sharePop.startAnimation(myAnimation_Translate);
+                    sharePop.setVisibility(View.GONE);
+                    isBlowUp = true;
+                    complete.setText("选择");
+                    delete.setImageResource(R.mipmap.delete);
+                    share.setImageResource(R.mipmap.share);
+                }
+                break;
+            case R.id.delete:
+                if (isCanClick) {
+                    T.showShort(AlbumActivity.this, "点击了删除");
+                }
+                break;
+            case R.id.share:
+                if (isCanClick) {
+                    T.showShort(AlbumActivity.this, "点击了分享");
+                    UMImage image = new UMImage(AlbumActivity.this,shareList.get(0));
+                    new ShareAction(AlbumActivity.this).withText("hello").withMedia(image).share();
+                }
+                break;
         }
+    }
+
+    private void ShowImg(Context context, String imgUrl) {
+        final FullScreenDialog dialog = new FullScreenDialog(context);
+        LayoutInflater inflater = getLayoutInflater();
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.full_image_layout, null);
+        ImageView img = layout.findViewById(R.id.full_img);
+        Glide.with(context)
+                .load(imgUrl)
+                .into(img);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.setContentView(layout);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(AlbumActivity.this).onActivityResult(requestCode, resultCode, data);
     }
 }

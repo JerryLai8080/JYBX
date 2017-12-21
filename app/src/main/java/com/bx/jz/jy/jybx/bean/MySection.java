@@ -9,6 +9,16 @@ import com.chad.library.adapter.base.entity.SectionEntity;
 public class MySection extends SectionEntity<Album> {
 
     private boolean isMore;
+    private boolean isChoose = false;
+
+    public boolean isChoose() {
+        return isChoose;
+    }
+
+    public void setChoose(boolean choose) {
+        isChoose = choose;
+    }
+
     public MySection(boolean isHeader, String header, boolean isMroe) {
         super(isHeader, header);
         this.isMore = isMroe;

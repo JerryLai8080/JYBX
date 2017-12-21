@@ -1,10 +1,12 @@
 package com.bx.jz.jy.jybx.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +21,7 @@ import com.bx.jz.jy.jybx.bean.FourPhotoBean;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
+import com.bx.jz.jy.jybx.view.FullScreenDialog;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.HashMap;
@@ -69,6 +72,7 @@ public class ShowCameraActivity extends BaseActivity {
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
 
+    private FourPhotoBean photoBean;
 
     @Override
     protected void setStatusBar() {
@@ -117,18 +121,23 @@ public class ShowCameraActivity extends BaseActivity {
             public void onResponse(FourPhotoBean response) {
                 if (response.getCode().equals("1")) {
                     if (response.getNewmg() != null && response.getNewmg().size() != 0) {
+                        photoBean = response;
                         for (int i = 0; i < response.getNewmg().size(); i++) {
                             switch (response.getNewmg().get(i).getPlace()) {
                                 case 1:
+                                    rlA.setVisibility(View.VISIBLE);
                                     Glide.with(ShowCameraActivity.this).load(response.getNewmg().get(i).getUrl()).into(imgA);
                                     break;
                                 case 2:
+                                    rlB.setVisibility(View.VISIBLE);
                                     Glide.with(ShowCameraActivity.this).load(response.getNewmg().get(i).getUrl()).into(imgB);
                                     break;
                                 case 3:
+                                    rlC.setVisibility(View.VISIBLE);
                                     Glide.with(ShowCameraActivity.this).load(response.getNewmg().get(i).getUrl()).into(imgC);
                                     break;
                                 case 4:
+                                    rlD.setVisibility(View.VISIBLE);
                                     Glide.with(ShowCameraActivity.this).load(response.getNewmg().get(i).getUrl()).into(imgD);
                                     break;
                                 default:
@@ -160,18 +169,22 @@ public class ShowCameraActivity extends BaseActivity {
             case R.id.rl_A:
                 setZero();
                 rlA.setBackgroundResource(R.drawable.bg_rl);
+                ShowImg(ShowCameraActivity.this, photoBean.getNewmg().get(0).getUrl());
                 break;
             case R.id.rl_B:
                 setZero();
                 rlB.setBackgroundResource(R.drawable.bg_rl);
+                ShowImg(ShowCameraActivity.this, photoBean.getNewmg().get(1).getUrl());
                 break;
             case R.id.rl_C:
                 setZero();
                 rlC.setBackgroundResource(R.drawable.bg_rl);
+                ShowImg(ShowCameraActivity.this, photoBean.getNewmg().get(2).getUrl());
                 break;
             case R.id.rl_D:
                 setZero();
                 rlD.setBackgroundResource(R.drawable.bg_rl);
+                ShowImg(ShowCameraActivity.this, photoBean.getNewmg().get(3).getUrl());
                 break;
             case R.id.img_to_album:
                 startActivity(new Intent(ShowCameraActivity.this, AlbumActivity.class));
@@ -179,7 +192,26 @@ public class ShowCameraActivity extends BaseActivity {
         }
     }
 
-    private void setZero(){
+    private void ShowImg(Context context, String imgUrl) {
+        final FullScreenDialog dialog = new FullScreenDialog(context);
+        LayoutInflater inflater = getLayoutInflater();
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.full_image_layout, null);
+        ImageView img = layout.findViewById(R.id.full_img);
+        Glide.with(context)
+                .load(imgUrl)
+                .into(img);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.setContentView(layout);
+    }
+
+    private void setZero() {
         rlA.setBackgroundResource(R.drawable.bg_zero);
         rlB.setBackgroundResource(R.drawable.bg_zero);
         rlC.setBackgroundResource(R.drawable.bg_zero);

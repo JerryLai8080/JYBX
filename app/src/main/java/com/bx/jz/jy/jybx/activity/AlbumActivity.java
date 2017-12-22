@@ -97,7 +97,7 @@ public class AlbumActivity extends BaseActivity {
 
     private List<String> imgList = new ArrayList<>();
     private List<String> shareList = new ArrayList<>();
-    SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA,SHARE_MEDIA.QQ};
+    SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA, SHARE_MEDIA.QQ};
 
     @Override
     protected void setStatusBar() {
@@ -339,7 +339,7 @@ public class AlbumActivity extends BaseActivity {
             case R.id.share:
                 if (isCanClick) {
                     T.showShort(AlbumActivity.this, "点击了分享");
-                    UMImage image = new UMImage(AlbumActivity.this,shareList.get(0));
+                    UMImage image = new UMImage(AlbumActivity.this, shareList.get(0));
                     new ShareAction(AlbumActivity.this).withText("hello").withMedia(image).share();
                 }
                 break;
@@ -365,9 +365,10 @@ public class AlbumActivity extends BaseActivity {
         dialog.setContentView(layout);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(AlbumActivity.this).onActivityResult(requestCode, resultCode, data);
-    }
+    //新浪和QQ的授权
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        UMShareAPI.get(AlbumActivity.this).onActivityResult(requestCode, resultCode, data);
+//    }
 }

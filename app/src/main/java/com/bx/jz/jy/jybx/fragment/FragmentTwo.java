@@ -516,15 +516,17 @@ public class FragmentTwo extends Fragment {
 
             @Override
             public void onResponse(BaseListEntity<Ingredients> response) {
-                if (response.getList().size() == 0) {
-                    setData(true, null);
-                    mAdapter.setEmptyView(notDataView);
-                } else {
-                    temp++;
-                    setData(isRefresh, response.getList());
-                }
-                if (SwipeRefreshLayout != null) {
-                    SwipeRefreshLayout.setRefreshing(false);
+                if (response != null && response.getList() != null) {
+                    if (response.getList().size() == 0) {
+                        setData(true, null);
+                        mAdapter.setEmptyView(notDataView);
+                    } else {
+                        temp++;
+                        setData(isRefresh, response.getList());
+                    }
+                    if (SwipeRefreshLayout != null) {
+                        SwipeRefreshLayout.setRefreshing(false);
+                    }
                 }
             }
         });

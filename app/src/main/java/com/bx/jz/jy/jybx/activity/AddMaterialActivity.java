@@ -90,6 +90,7 @@ public class AddMaterialActivity extends BaseActivity {
                 if(ingredients != null){
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Ingredients",ingredients);
+                    bundle.putInt("whichBX",1);
                     intent.putExtras(bundle);
                 }else {
                     intent.putExtra("whichBX", 1);
@@ -102,6 +103,7 @@ public class AddMaterialActivity extends BaseActivity {
                 if(ingredients != null){
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Ingredients",ingredients);
+                    bundle.putInt("whichBX",2);
                     intent.putExtras(bundle);
                 }else {
                     intent.putExtra("whichBX", 2);
@@ -114,6 +116,7 @@ public class AddMaterialActivity extends BaseActivity {
                 if(ingredients != null){
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Ingredients",ingredients);
+                    bundle.putInt("whichBX",3);
                     intent.putExtras(bundle);
                 }else {
                     intent.putExtra("whichBX", 3);

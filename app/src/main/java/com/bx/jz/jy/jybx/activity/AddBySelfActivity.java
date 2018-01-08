@@ -25,6 +25,7 @@ import com.bx.jz.jy.jybx.base.BaseActivity;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.Settings;
+import com.bx.jz.jy.jybx.utils.T;
 import com.jaeger.library.StatusBarUtil;
 
 import butterknife.BindView;
@@ -165,6 +166,7 @@ public class AddBySelfActivity extends BaseActivity {
     }
 
     private void send() {
+        T.showShort(AddBySelfActivity.this, "mDone == " + mDone);
         if (!mDone) {
             mDone = true;
             final String ssid = tvOpenWifi.getText().toString();

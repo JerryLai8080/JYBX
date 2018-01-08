@@ -92,6 +92,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
     private String img = "";
 
     private Ingredients ingredients;
+    private long ingredientsId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -146,7 +147,8 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
 
         if (getIntent() != null) {
             ingredients = (Ingredients) getIntent().getSerializableExtra("Ingredients");
-            whichBX = ingredients.getSubordinatePosition();
+            ingredientsId = ingredients.getIngredientsId();
+            whichBX = getIntent().getIntExtra("whichBX",0);
             L.e(TAG, String.valueOf(whichBX));
 
 //                        intent.putExtra("whichBX",mAdapter.getData().get(adapterPosition).getSubordinatePosition());
@@ -366,6 +368,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
         map.put("ingredients.subordinatePosition", whichBX);
         map.put("ingredients.foodComponent", materialWeight);
         map.put("ingredients.componentUnit", unit);
+        map.put("ingredients.ingredientsId", ingredientsId);
         return map;
     }
 

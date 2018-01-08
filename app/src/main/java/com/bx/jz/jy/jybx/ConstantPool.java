@@ -18,7 +18,7 @@ public class ConstantPool {
     public static final String CITYCODE = "101210101";
     public static final String SUCCESS = "1";
 
-    public static String GOODSLIST = BASE_URL + "in/ingredients!list";//菜品列表
+    public static String GOODSLIST = "http://112.124.102.114:8090/imgTest/in/ingredients!list";//菜品列表
     public static String GOODSRECOMMEND = BASE_URL + "in/img!getRecipeImgs";//菜品列表
     public static String WEATHER = BASE_URL+"in/ingredients!getWeatherBeanByCityCode";//天气
     public static String DELETEFOODS = BASE_URL+"in/ingredients!delete";//删除菜品列表item

@@ -199,22 +199,24 @@ public class FragmentTwo extends Fragment {
                         break;
                     case 1:
                         Ingredients Ingredients = mAdapter.getData().get(adapterPosition);
-                        deleteFoods(Ingredients.getIngredientsId(), Ingredients.getUserId(), adapterPosition);
+                        deleteFoods(Ingredients.getIngredientsId(), adapterPosition);
                         break;
                 }
             }
         }
     };
 
-    private void deleteFoods(Long ingredientsId, Long userId, final int adapterPosition) {
-        OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.DELETEFOODS, deleteRequest(ingredientsId, userId), new OkHttpUtils.RequestCallBack<BaseEntity>() {
+    private void deleteFoods(Long ingredientsId, final int adapterPosition) {
+        OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.DELETEFOODS, deleteRequest(ingredientsId), new OkHttpUtils.RequestCallBack<BaseEntity>() {
             @Override
             public void onError(Call call, Exception e) {
                 T.showShort(getActivity(), e.getMessage());
+                L.e(TAG, "  deleteFoods  onError  " + e.getMessage());
             }
 
             @Override
             public void onResponse(BaseEntity response) {
+                L.e(TAG, "  deleteFoods  onResponse  " + response.getCode() + "  ...  "+response.getMessage());
                 if (response.getCode().equals("1")) {
                     mAdapter.notifyItemRemoved(adapterPosition);
                     T.showShort(getActivity(), "删除成功");
@@ -223,11 +225,10 @@ public class FragmentTwo extends Fragment {
         });
     }
 
-    private Map<String, Object> deleteRequest(Long ingredientsId, Long userId) {
+    private Map<String, Object> deleteRequest(Long ingredientsId) {
         Map<String, Object> object = new HashMap<>();
         object.put("ingredients.refrigeratorId", 1);
         object.put("ingredients.ingredientsId", ingredientsId);
-        object.put("ingredients.userId", userId);
         return object;
     }
 

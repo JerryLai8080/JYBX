@@ -104,6 +104,7 @@ public class FragmentTwo extends Fragment {
     private boolean isAll = false;
     private int subordinatePosition = 0;
     private boolean isStart = false;
+    private int day;
 
     String[] arrayList = {"所有", "冷藏", "变温", "冷冻"};
     private Animation myAnimation_Translate;
@@ -216,7 +217,7 @@ public class FragmentTwo extends Fragment {
 
             @Override
             public void onResponse(BaseEntity response) {
-                L.e(TAG, "  deleteFoods  onResponse  " + response.getCode() + "  ...  "+response.getMessage());
+                L.e(TAG, "  deleteFoods  onResponse  " + response.getCode() + "  ...  " + response.getMessage());
                 if (response.getCode().equals("1")) {
                     mAdapter.notifyItemRemoved(adapterPosition);
                     T.showShort(getActivity(), "删除成功");
@@ -310,7 +311,7 @@ public class FragmentTwo extends Fragment {
                         break;
                 }
                 if (item.getShelfLifeRemaining() != null && item.getShelfLifeRemaining() != 0) {
-                    int day = (int) (item.getShelfLifeRemaining() / 60 / 60 / 1000);
+                    day = (int) (item.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
                     helper.setText(R.id.tv_goods_date, String.valueOf(day + "天"));
                 }
                 helper.setText(R.id.tv_goods_weight, item.getFoodComponent() + item.getComponentUnit());

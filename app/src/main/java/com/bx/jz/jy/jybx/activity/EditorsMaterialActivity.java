@@ -82,6 +82,7 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
     TextView completeImg;
 
     private int whichBX = 0;//冷藏室 1 ， 变温室  2 ， 冷冻室 3
+    private int day;
 
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
@@ -148,7 +149,8 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
         if (getIntent() != null) {
             ingredients = (Ingredients) getIntent().getSerializableExtra("Ingredients");
             ingredientsId = ingredients.getIngredientsId();
-            whichBX = getIntent().getIntExtra("whichBX",0);
+            day = getIntent().getIntExtra("day", 0);
+            whichBX = getIntent().getIntExtra("whichBX", 0);
             L.e(TAG, String.valueOf(whichBX));
 
 //                        intent.putExtra("whichBX",mAdapter.getData().get(adapterPosition).getSubordinatePosition());
@@ -202,8 +204,8 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
                 }
             }
             if (ingredients.getShelfLifeRemaining() != null && ingredients.getShelfLifeRemaining() != 0) {
-                rulerViewDay.setFirstScale(ingredients.getShelfLifeRemaining() / 60 / 60 / 1000);
-                overDueData = (double) (ingredients.getShelfLifeRemaining() / 60 / 60 / 1000);
+                rulerViewDay.setFirstScale(ingredients.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
+                overDueData = (double) (ingredients.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
             }
         }
     }

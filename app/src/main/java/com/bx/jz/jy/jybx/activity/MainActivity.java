@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -18,6 +19,9 @@ import com.bx.jz.jy.jybx.fragment.FragmentTwo;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.jaeger.library.StatusBarUtil;
+import com.joyoungdevlibrary.interface_sdk.CallBack;
+import com.joyoungdevlibrary.interface_sdk.CommandCallBack;
+import com.joyoungdevlibrary.utils.JoyoungDevLinkSDK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,34 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         super.onCreate(savedInstanceState);
         DecorViewUtils.getDarkDecorView(this);
         setContentView(R.layout.activity_main);
+
+        JoyoungDevLinkSDK.init(MainActivity.this, "12289", "01", new CommandCallBack() {
+            @Override
+            public void connectionLost(String msg) {
+                L.e("connectionLost", "----------------" + msg);
+            }
+
+            @Override
+            public void messageArrived(String msg) {
+                L.e("messageArrived init ", "----------------" + msg);
+            }
+
+            @Override
+            public void deliveryComplete(String token) {
+
+            }
+        }, new CallBack() {
+            @Override
+            public void onSuccess() {
+
+                JoyoungDevLinkSDK.sendCMD("FAFB01000000CCC00006400101020200A6CB");
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
         mFragmentOne = new FragmentOne();
         mFragmentTwo = new FragmentTwo();
@@ -162,4 +194,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JoyoungDevLinkSDK.onDestroy();
+    }
 }

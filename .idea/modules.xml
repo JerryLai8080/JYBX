@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/JYBX.iml" filepath="$PROJECT_DIR$/JYBX.iml" />
       <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/joyoungdevlibrary/joyoungdevlibrary.iml" filepath="$PROJECT_DIR$/joyoungdevlibrary/joyoungdevlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/zxinglite/zxinglite.iml" filepath="$PROJECT_DIR$/zxinglite/zxinglite.iml" />
     </modules>
   </component>

@@ -85,6 +85,8 @@
             android:value="05f9cbf50ede664ed506ef2dc7e39a99">
         </meta-data>
 
+        <service android:name="com.joyoungdevlibrary.service.JoyounglinkDevServers"/>
+
     </application>
 
 </manifest>

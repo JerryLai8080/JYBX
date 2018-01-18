@@ -9,13 +9,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.R;
-import com.bx.jz.jy.jybx.activity.AlbumActivity;
 import com.bx.jz.jy.jybx.bean.Album;
 import com.bx.jz.jy.jybx.bean.MySection;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +45,7 @@ public class SectionAdapter extends BaseSectionQuickAdapter<MySection, BaseViewH
     @Override
     protected void convert(BaseViewHolder helper, MySection item) {
         RequestOptions options = new RequestOptions()
-                .centerCrop().placeholder(R.mipmap.red).error(R.mipmap.red).priority(Priority.HIGH);
+                .centerCrop().placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).priority(Priority.HIGH);
 
         Album album = item.t;
         RelativeLayout rl = helper.getView(R.id.choose_rl);

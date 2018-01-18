@@ -148,64 +148,59 @@ public class EditorsMaterialActivity extends BaseActivity implements TextWatcher
 
         if (getIntent() != null) {
             ingredients = (Ingredients) getIntent().getSerializableExtra("Ingredients");
-            ingredientsId = ingredients.getIngredientsId();
-            day = getIntent().getIntExtra("day", 0);
-            whichBX = getIntent().getIntExtra("whichBX", 0);
-            L.e(TAG, String.valueOf(whichBX));
-
-//                        intent.putExtra("whichBX",mAdapter.getData().get(adapterPosition).getSubordinatePosition());
-//                        intent.putExtra("name",mAdapter.getData().get(adapterPosition).getIngredientsName());
-//                        intent.putExtra("img",mAdapter.getData().get(adapterPosition).getImgUrl());
-//                        intent.putExtra("foodComponent",mAdapter.getData().get(adapterPosition).getFoodComponent());
-//                        intent.putExtra("componentUnit",mAdapter.getData().get(adapterPosition).getComponentUnit());
-//                        intent.putExtra("shelfLifeRemaining",mAdapter.getData().get(adapterPosition).getShelfLifeRemaining());
-            if (ingredients.getIngredientsName() != null && !"".equals(ingredients.getIngredientsName())) {
-                etName.setText(ingredients.getIngredientsName());
-                materialName = ingredients.getIngredientsName();
-            }
-            if (ingredients.getImgUrl() != null && !"".equals(ingredients.getImgUrl())) {
-                Glide.with(EditorsMaterialActivity.this)
-                        .load(ingredients.getImgUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                        .into(materialImg);
-                img = ingredients.getImgUrl();
-            }
-            if (ingredients.getFoodComponent() != null && !"".equals(ingredients.getFoodComponent())) {
-                rulerView.setFirstScale(Float.parseFloat(ingredients.getFoodComponent()));
-                materialWeight = Double.valueOf(ingredients.getFoodComponent());
-            }
-            if (ingredients.getComponentUnit() != null && !"".equals(ingredients.getComponentUnit())) {
-                rulerView.setUnit(ingredients.getComponentUnit());
-
-                switch (ingredients.getComponentUnit()) {
-                    case "克":
-                        setO();
-                        tvKe.setTextColor(getResources().getColor(R.color.theme_other));
-                        rulerView.setUnit("克");
-                        unit = "克";
-                        break;
-                    case "个":
-                        setO();
-                        tvGe.setTextColor(getResources().getColor(R.color.theme_other));
-                        rulerView.setUnit("个");
-                        unit = "个";
-                        break;
-                    case "盒":
-                        setO();
-                        tvHe.setTextColor(getResources().getColor(R.color.theme_other));
-                        rulerView.setUnit("盒");
-                        unit = "盒";
-                        break;
-                    case "斤":
-                        setO();
-                        tvJin.setTextColor(getResources().getColor(R.color.theme_other));
-                        rulerView.setUnit("斤");
-                        unit = "斤";
-                        break;
+            if(null != ingredients){
+                ingredientsId = ingredients.getIngredientsId();
+                day = getIntent().getIntExtra("day", 0);
+                whichBX = getIntent().getIntExtra("whichBX", 0);
+                L.e(TAG, String.valueOf(whichBX));
+                if (ingredients.getIngredientsName() != null && !"".equals(ingredients.getIngredientsName())) {
+                    etName.setText(ingredients.getIngredientsName());
+                    materialName = ingredients.getIngredientsName();
                 }
-            }
-            if (ingredients.getShelfLifeRemaining() != null && ingredients.getShelfLifeRemaining() != 0) {
-                rulerViewDay.setFirstScale(ingredients.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
-                overDueData = (double) (ingredients.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
+                if (ingredients.getImgUrl() != null && !"".equals(ingredients.getImgUrl())) {
+                    Glide.with(EditorsMaterialActivity.this)
+                            .load(ingredients.getImgUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                            .into(materialImg);
+                    img = ingredients.getImgUrl();
+                }
+                if (ingredients.getFoodComponent() != null && !"".equals(ingredients.getFoodComponent())) {
+                    rulerView.setFirstScale(Float.parseFloat(ingredients.getFoodComponent()));
+                    materialWeight = Double.valueOf(ingredients.getFoodComponent());
+                }
+                if (ingredients.getComponentUnit() != null && !"".equals(ingredients.getComponentUnit())) {
+                    rulerView.setUnit(ingredients.getComponentUnit());
+
+                    switch (ingredients.getComponentUnit()) {
+                        case "克":
+                            setO();
+                            tvKe.setTextColor(getResources().getColor(R.color.theme_other));
+                            rulerView.setUnit("克");
+                            unit = "克";
+                            break;
+                        case "个":
+                            setO();
+                            tvGe.setTextColor(getResources().getColor(R.color.theme_other));
+                            rulerView.setUnit("个");
+                            unit = "个";
+                            break;
+                        case "盒":
+                            setO();
+                            tvHe.setTextColor(getResources().getColor(R.color.theme_other));
+                            rulerView.setUnit("盒");
+                            unit = "盒";
+                            break;
+                        case "斤":
+                            setO();
+                            tvJin.setTextColor(getResources().getColor(R.color.theme_other));
+                            rulerView.setUnit("斤");
+                            unit = "斤";
+                            break;
+                    }
+                }
+                if (ingredients.getShelfLifeRemaining() != null && ingredients.getShelfLifeRemaining() != 0) {
+                    rulerViewDay.setFirstScale(ingredients.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
+                    overDueData = (double) (ingredients.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
+                }
             }
         }
     }

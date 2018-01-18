@@ -42,7 +42,6 @@ public class AddMaterialActivity extends BaseActivity {
     @BindView(R.id.lengDong)
     TextView lengDong;
 
-    private int whichBX;
     private Ingredients ingredients;
 
     @Override
@@ -62,17 +61,19 @@ public class AddMaterialActivity extends BaseActivity {
 
         if (getIntent() != null) {
             ingredients = (Ingredients) getIntent().getSerializableExtra("Ingredients");
-            whichBX = ingredients.getSubordinatePosition();
-            switch (whichBX) {
-                case 1:
-                    lengCang.setTextColor(getResources().getColor(R.color.theme_other));
-                    break;
-                case 2:
-                    bianWen.setTextColor(getResources().getColor(R.color.theme_other));
-                    break;
-                case 3:
-                    lengDong.setTextColor(getResources().getColor(R.color.theme_other));
-                    break;
+            if(null != ingredients){
+                int whichBX = ingredients.getSubordinatePosition();
+                switch (whichBX) {
+                    case 1:
+                        lengCang.setTextColor(getResources().getColor(R.color.theme_other));
+                        break;
+                    case 2:
+                        bianWen.setTextColor(getResources().getColor(R.color.theme_other));
+                        break;
+                    case 3:
+                        lengDong.setTextColor(getResources().getColor(R.color.theme_other));
+                        break;
+                }
             }
         }
     }

@@ -168,7 +168,7 @@ public class FragmentTwo extends Fragment {
 
             SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity())
                     .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
-                    .setBackground(R.mipmap.red)
+                    .setBackgroundColor(Color.RED)
                     .setWidth(width)
                     .setHeight(height)
                     .setText("删除")
@@ -207,7 +207,7 @@ public class FragmentTwo extends Fragment {
         }
     };
 
-    private void deleteFoods(Long ingredientsId, final int adapterPosition) {
+    private void deleteFoods(final Long ingredientsId, final int adapterPosition) {
         OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.DELETEFOODS, deleteRequest(ingredientsId), new OkHttpUtils.RequestCallBack<BaseEntity>() {
             @Override
             public void onError(Call call, Exception e) {
@@ -217,8 +217,9 @@ public class FragmentTwo extends Fragment {
 
             @Override
             public void onResponse(BaseEntity response) {
-                L.e(TAG, "  deleteFoods  onResponse  " + response.getCode() + "  ...  " + response.getMessage());
+                L.e(TAG, "  deleteFoods  onResponse  " + "  ...  " + adapterPosition + "   000000  " + mAdapter.getData().size());
                 if (response.getCode().equals("1")) {
+                    mAdapter.getData().remove(adapterPosition);
                     mAdapter.notifyItemRemoved(adapterPosition);
                     T.showShort(getActivity(), "删除成功");
                 }
@@ -267,8 +268,8 @@ public class FragmentTwo extends Fragment {
 
                 RequestOptions options = new RequestOptions()
                         .centerCrop()
-                        .placeholder(R.mipmap.red)
-                        .error(R.mipmap.red)
+                        .placeholder(R.mipmap.placeholder)
+                        .error(R.mipmap.placeholder)
                         .priority(Priority.HIGH)
                         .transform(new CircleCrop());
 
@@ -314,7 +315,7 @@ public class FragmentTwo extends Fragment {
                     day = (int) (item.getShelfLifeRemaining() / 60 / 60 / 1000 / 24);
                     helper.setText(R.id.tv_goods_date, String.valueOf(day + "天"));
                 }
-                helper.setText(R.id.tv_goods_weight, item.getFoodComponent() + item.getComponentUnit());
+                helper.setText(R.id.tv_goods_weight, (item.getFoodComponent() == null ? 1 : item.getFoodComponent()) + (item.getComponentUnit() == null ? "个" : item.getComponentUnit()));
 
                 if (!item.isClick()) {
                     pitchOn.setBackgroundResource(R.color.color_ee);
@@ -389,14 +390,6 @@ public class FragmentTwo extends Fragment {
         mAdapter.isFirstOnly(false);
 
         RecyclerView.setAdapter(mAdapter);
-        RecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) { //向下滑动
-                    L.e(TAG, "向下滑动");
-                }
-            }
-        });
     }
 
     @Override
@@ -464,7 +457,6 @@ public class FragmentTwo extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         temp = 1;
                         isRefresh = true;
-
                         if (which == 0) {
                             isAll = false;
                             SwipeRefreshLayout.setRefreshing(true);

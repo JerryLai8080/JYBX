@@ -261,7 +261,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         ImageView img3 = view1.findViewById(R.id.img_3);
 
         RequestOptions options = new RequestOptions()
-                .centerCrop().placeholder(R.mipmap.red).error(R.mipmap.red).priority(Priority.HIGH);
+                .centerCrop().placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).priority(Priority.HIGH);
 
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(0)).apply(options).into(img1);
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(1)).apply(options).into(img2);
@@ -484,8 +484,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.open_camera:
-//                startActivity(new Intent(getActivity(), AddBxActivity.class));
-                startActivity(new Intent(getActivity(), ShowCameraActivity.class));
+//                startActivity(new Intent(getActivity(), ShowCameraActivity.class));
+                startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
             case R.id.setting:
                 showSettingView();

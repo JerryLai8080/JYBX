@@ -216,7 +216,7 @@
             android:background="@mipmap/bg_bg"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
             android:layout_marginTop="10dp"
             android:background="@mipmap/bg_4"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/ll_leng_cang"

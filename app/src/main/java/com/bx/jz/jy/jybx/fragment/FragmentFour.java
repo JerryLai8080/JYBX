@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bx.jz.jy.jybx.R;
-import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 
 public class FragmentFour extends Fragment {
 

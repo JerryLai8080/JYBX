@@ -26,8 +26,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddBxActivity;
-import com.bx.jz.jy.jybx.activity.ShowCameraActivity;
-import com.bx.jz.jy.jybx.base.BaseEntity;
 import com.bx.jz.jy.jybx.bean.FridgeInfoBean;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;

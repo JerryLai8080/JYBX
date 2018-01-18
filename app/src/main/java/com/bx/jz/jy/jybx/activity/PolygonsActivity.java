@@ -1,14 +1,11 @@
 package com.bx.jz.jy.jybx.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.SeekBar;
 
 import com.bx.jz.jy.jybx.R;
-import com.bx.jz.jy.jybx.base.BaseActivity;
-import com.bx.jz.jy.jybx.view.PolygonsView;
 
 /**
  * Created by Administrator on 2017/12/14 0014.

@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -19,8 +17,6 @@ import com.bx.jz.jy.jybx.fragment.FragmentTwo;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.jaeger.library.StatusBarUtil;
-import com.joyoungdevlibrary.interface_sdk.CallBack;
-import com.joyoungdevlibrary.interface_sdk.CommandCallBack;
 import com.joyoungdevlibrary.utils.JoyoungDevLinkSDK;
 
 import java.util.ArrayList;

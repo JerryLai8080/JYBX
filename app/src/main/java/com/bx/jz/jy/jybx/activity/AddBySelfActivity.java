@@ -262,6 +262,7 @@ public class AddBySelfActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         cancelLoadingDialog();
+        unregisterReceiver(msgReceiver);
         builder = null;
     }
 }

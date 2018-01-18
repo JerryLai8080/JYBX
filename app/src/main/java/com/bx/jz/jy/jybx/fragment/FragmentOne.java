@@ -807,7 +807,22 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     @Override
     public void onResume() {
         super.onResume();
-        L.e(TAG, "onResume  可见");
         getFridgeInfo();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        L.e(TAG,"onHiddenChanged " + hidden);
+        if(!hidden){
+            L.e(TAG, "onHiddenChanged  可见");
+            getFridgeInfo();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        L.e(TAG,"setUserVisibleHint " + isVisibleToUser);
     }
 }

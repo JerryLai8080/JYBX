@@ -86,6 +86,7 @@
         </meta-data>
 
         <service android:name="com.joyoungdevlibrary.service.JoyounglinkDevServers"/>
+        <service android:name=".service.ListenSocketService"/>
 
     </application>
 

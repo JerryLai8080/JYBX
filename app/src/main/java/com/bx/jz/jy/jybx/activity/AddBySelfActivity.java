@@ -1,7 +1,13 @@
 package com.bx.jz.jy.jybx.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,7 +19,10 @@ import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +31,7 @@ import android.widget.TextView;
 import com.broadcom.cooee.Cooee;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
+import com.bx.jz.jy.jybx.service.ListenSocketService;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.Settings;
@@ -60,11 +70,36 @@ public class AddBySelfActivity extends BaseActivity {
     ImageView imgEye;
     @BindView(R.id.btn_deploy)
     AppCompatButton btnDeploy;
+    @BindView(R.id.complete_img)
+    TextView completeImg;
+    @BindView(R.id.connect_mac)
+    TextView connectMac;
 
     private boolean eyeStatus = false;
     private int mLocalIp;
     private boolean mDone = false;
     private Thread mThread;
+    private Intent intent;
+    private MsgReceiver msgReceiver;
+    private AlertDialog.Builder builder;
+
+    /**
+     * 广播接收器
+     *
+     * @author len
+     */
+    public class MsgReceiver extends BroadcastReceiver {
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //拿到进度，更新UI
+            String mac = intent.getStringExtra("wifimac");
+            connectMac.setText("已连接设备的mac地址：" + mac);
+            btnDeploy.setText("配置成功");
+            cancelLoadingDialog();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +111,6 @@ public class AddBySelfActivity extends BaseActivity {
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("连接网络");
-
         updateWifiInfo();
     }
 
@@ -84,29 +118,47 @@ public class AddBySelfActivity extends BaseActivity {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         assert connManager != null;
         NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        L.d(TAG, "connected: " + networkInfo.isConnected());
+        Log.d(TAG, "connected: " + networkInfo.isConnected());
         if (!networkInfo.isConnected()) {
-            L.d(TAG, getString(R.string.connect_wifi));
+            Log.d(TAG, getString(R.string.connect_wifi));
             showErrorDialog();
             return;
         }
 
-        WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         assert wifiManager != null;
         WifiInfo info = wifiManager.getConnectionInfo();
         mLocalIp = info.getIpAddress();
-        L.d(TAG, String.format("ip: 0x%x", mLocalIp));
+        Log.d(TAG, String.format("ip: 0x%x", mLocalIp));
 
         String ssid = info.getSSID();
         if (ssid.startsWith("\"")) {
             ssid = ssid.substring(1, ssid.length() - 1);
         }
         tvOpenWifi.setText(ssid);
-        L.d(TAG, "ssid: " + ssid);
+        Log.d(TAG, "ssid: " + ssid);
+    }
+
+    private void showLoadingDialog() {
+        builder = new AlertDialog.Builder(AddBySelfActivity.this);
+        View view = LayoutInflater.from(AddBySelfActivity.this).inflate(R.layout.loading_dialog, null);
+        if(builder != null){
+            builder.setView(view);
+            builder.setCancelable(false);
+            builder.create().show();
+        }
+    }
+
+    private void cancelLoadingDialog() {
+        if(builder != null){
+            AlertDialog mAlertDialog = builder.show();
+            mAlertDialog.dismiss();
+        }
     }
 
     private void showErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddBySelfActivity.this);
+        builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.connect_wifi);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -154,6 +206,7 @@ public class AddBySelfActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_deploy:
+                showLoadingDialog();
                 send();
                 break;
         }
@@ -163,6 +216,19 @@ public class AddBySelfActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateWifiInfo();
+
+        msgReceiver = new MsgReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.signway.wifimac.RECEIVER");
+        registerReceiver(msgReceiver, intentFilter);
+
+        intent = new Intent(this, ListenSocketService.class);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopService(intent);
     }
 
     private void send() {
@@ -172,7 +238,6 @@ public class AddBySelfActivity extends BaseActivity {
             final String ssid = tvOpenWifi.getText().toString();
             final String password = etPwd.getText().toString();
 
-            /* Set packet interval. Default 8ms in lib. Probably you don't need to set it */
             SharedPreferences sp = Settings.getPrefs(AddBySelfActivity.this);
             String packetInterval = sp.getString("packet_interval", getString(R.string.default_packet_interval));
             int interval = Integer.parseInt(packetInterval);
@@ -189,9 +254,17 @@ public class AddBySelfActivity extends BaseActivity {
                 };
             }
             mThread.start();
+            startService(intent);
         } else {
             mDone = false;
             mThread = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelLoadingDialog();
+        builder = null;
     }
 }

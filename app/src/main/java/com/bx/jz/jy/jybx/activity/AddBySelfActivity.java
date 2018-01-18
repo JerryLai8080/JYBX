@@ -1,6 +1,7 @@
 package com.bx.jz.jy.jybx.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,13 +13,14 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +35,7 @@ import com.bx.jz.jy.jybx.utils.DecorViewUtils;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.Settings;
 import com.bx.jz.jy.jybx.utils.T;
+import com.bx.jz.jy.jybx.view.LoadingDialog;
 import com.jaeger.library.StatusBarUtil;
 
 import butterknife.BindView;
@@ -78,7 +81,21 @@ public class AddBySelfActivity extends BaseActivity {
     private Thread mThread;
     private Intent intent;
     private MsgReceiver msgReceiver;
-    private AlertDialog.Builder builder;
+    private String mac;
+    private Dialog loadingDialog;
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1015) {
+                connectMac.setText("已连接设备的mac地址：" + mac);
+                btnDeploy.setText("配置成功");
+                loadingDialog.cancel();
+            }
+        }
+    };
 
     /**
      * 广播接收器
@@ -91,10 +108,9 @@ public class AddBySelfActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             //拿到进度，更新UI
-            String mac = intent.getStringExtra("wifimac");
-            connectMac.setText("已连接设备的mac地址：" + mac);
-            btnDeploy.setText("配置成功");
-            cancelLoadingDialog();
+            mac = intent.getStringExtra("wifimac");
+            T.showLong(AddBySelfActivity.this, "已连接设备的mac地址");
+            mHandler.sendEmptyMessage(1015);
         }
     }
 
@@ -105,6 +121,7 @@ public class AddBySelfActivity extends BaseActivity {
         setContentView(R.layout.add_by_self_activity);
         ButterKnife.bind(this);
 
+        loadingDialog = LoadingDialog.LoadingDialog(AddBySelfActivity.this);
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("连接网络");
@@ -134,23 +151,6 @@ public class AddBySelfActivity extends BaseActivity {
         }
         tvOpenWifi.setText(ssid);
         Log.d(TAG, "ssid: " + ssid);
-    }
-
-    private void showLoadingDialog() {
-        builder = new AlertDialog.Builder(AddBySelfActivity.this);
-        View view = LayoutInflater.from(AddBySelfActivity.this).inflate(R.layout.loading_dialog, null);
-        if(builder != null){
-            builder.setView(view);
-            builder.setCancelable(false);
-            builder.create().show();
-        }
-    }
-
-    private void cancelLoadingDialog() {
-        if(builder != null){
-            AlertDialog mAlertDialog = builder.show();
-            mAlertDialog.dismiss();
-        }
     }
 
     private void showErrorDialog() {
@@ -203,7 +203,7 @@ public class AddBySelfActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_deploy:
-                showLoadingDialog();
+                loadingDialog.show();
                 send();
                 break;
         }
@@ -261,8 +261,7 @@ public class AddBySelfActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cancelLoadingDialog();
+        loadingDialog.cancel();
         unregisterReceiver(msgReceiver);
-        builder = null;
     }
 }

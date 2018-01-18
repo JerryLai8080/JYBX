@@ -27,6 +27,8 @@ import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddBxActivity;
 import com.bx.jz.jy.jybx.activity.ShowCameraActivity;
+import com.bx.jz.jy.jybx.base.BaseEntity;
+import com.bx.jz.jy.jybx.bean.FridgeInfoBean;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
 import com.bx.jz.jy.jybx.utils.L;
@@ -134,7 +136,20 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     TextView tvNum3;
     @BindView(R.id.relativeLayout3)
     RelativeLayout relativeLayout3;
+    @BindView(R.id.leng_cang_10)
+    TextView leng_cang_10;
+    @BindView(R.id.bian_wen_10)
+    TextView bian_wen_10;
+    @BindView(R.id.leng_dong_10)
+    TextView leng_dong_10;
 
+    @BindView(R.id.error_ll)
+    LinearLayout error_ll;
+
+    @BindView(R.id.bian_wen_degree)
+    TextView bian_wen_degree;
+    @BindView(R.id.leng_dong_degree)
+    TextView leng_dong_degree;
     Unbinder unbinder;
 
     private List<View> viewList = new ArrayList<>();
@@ -267,7 +282,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(1)).apply(options).into(img2);
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(2)).apply(options).into(img3);
 
-        @SuppressLint("InflateParams") View view2 = getLayoutInflater().inflate(R.layout.view_pager_layout, null,false);
+        @SuppressLint("InflateParams") View view2 = getLayoutInflater().inflate(R.layout.view_pager_layout, null, false);
         ImageView img4 = view2.findViewById(R.id.img_1);
         ImageView img5 = view2.findViewById(R.id.img_2);
         ImageView img6 = view2.findViewById(R.id.img_3);
@@ -276,7 +291,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         Glide.with(getActivity()).load(imgBean.getLunch().get(1)).apply(options).into(img5);
         Glide.with(getActivity()).load(imgBean.getLunch().get(2)).apply(options).into(img6);
 
-        @SuppressLint("InflateParams") View view3 = getLayoutInflater().inflate(R.layout.view_pager_layout, null,false);
+        @SuppressLint("InflateParams") View view3 = getLayoutInflater().inflate(R.layout.view_pager_layout, null, false);
         ImageView img7 = view3.findViewById(R.id.img_1);
         ImageView img8 = view3.findViewById(R.id.img_2);
         ImageView img9 = view3.findViewById(R.id.img_3);
@@ -719,4 +734,80 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         dialog.setContentView(layout);
     }
 
+    /*
+     * 获取冰箱信息 各个舱室温度，冰箱当前模式，是否有报错信息
+     */
+    private void getFridgeInfo() {
+        OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.FridgeInfo, info(), new OkHttpUtils.RequestCallBack<FridgeInfoBean>() {
+            @Override
+            public void onError(Call call, Exception e) {
+                T.showLong(getActivity(), e.getMessage());
+            }
+
+            @Override
+            public void onResponse(FridgeInfoBean response) {
+                if (null != response && response.getCode() == 1) {
+
+                    if (response.getRefrigerator() != null) {
+                        if (response.getRefrigerator().getPattern() != null && !"".equals(response.getRefrigerator().getPattern())) {
+                            llAiMode.setText(response.getRefrigerator().getPattern());
+                        }
+                        lengCangDegree.setText(String.valueOf(response.getRefrigerator().getRefrigerate()));
+                        bian_wen_degree.setText(String.valueOf(response.getRefrigerator().getHeterotherm()));
+                        leng_dong_degree.setText(String.valueOf(response.getRefrigerator().getFreeze()));
+                        if (response.getRefrigerator().getRefrigerate() < 0) {
+                            leng_cang_10.setVisibility(View.VISIBLE);
+                        } else {
+                            leng_cang_10.setVisibility(View.INVISIBLE);
+                        }
+                        if (response.getRefrigerator().getFreeze() < 0) {
+                            leng_dong_10.setVisibility(View.VISIBLE);
+                        } else {
+                            leng_dong_10.setVisibility(View.INVISIBLE);
+                        }
+                        if (response.getRefrigerator().getHeterotherm() < 0) {
+                            bian_wen_10.setVisibility(View.VISIBLE);
+                        } else {
+                            bian_wen_10.setVisibility(View.INVISIBLE);
+                        }
+
+                        switch (response.getRefrigerator().getAbnormity()) {
+                            case 0:
+                                error_ll.setVisibility(View.VISIBLE);
+                                tvErrorCode.setText("冰箱异常");
+                                break;
+                            case 1:
+                                error_ll.setVisibility(View.GONE);
+                                break;
+                            case 2:
+                                error_ll.setVisibility(View.VISIBLE);
+                                tvErrorCode.setText("冰箱冷藏门未关");
+                                break;
+                            case 3:
+                                error_ll.setVisibility(View.VISIBLE);
+                                tvErrorCode.setText("冰箱变温门未关");
+                                break;
+                            case 4:
+                                error_ll.setVisibility(View.VISIBLE);
+                                tvErrorCode.setText("冰箱冷冻门未关");
+                                break;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private Map<String, Object> info() {
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("refrigerator.refrigeratorid", ConstantPool.FridgeId);
+        return objectMap;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        L.e(TAG, "onResume  可见");
+        getFridgeInfo();
+    }
 }

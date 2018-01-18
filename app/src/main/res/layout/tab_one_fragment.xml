@@ -201,7 +201,6 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="智能模式"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -274,6 +273,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/leng_cang_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
@@ -285,7 +285,6 @@
                             android:id="@+id/leng_cang_degree"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5"
                             android:textColor="@color/white"
                             android:textSize="30sp" />
 
@@ -340,16 +339,18 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/bian_wen_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
+                            android:visibility="invisible"
                             android:textColor="@color/white"
                             android:textSize="30sp" />
 
                         <TextView
+                            android:id="@+id/bian_wen_degree"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="30sp" />
 
@@ -402,16 +403,18 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/leng_dong_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
+                            android:visibility="invisible"
                             android:textColor="@color/white"
                             android:textSize="30sp" />
 
                         <TextView
+                            android:id="@+id/leng_dong_degree"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="18"
                             android:textColor="@color/white"
                             android:textSize="30sp" />
 
@@ -437,7 +440,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/error_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -580,7 +583,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignBottom="@+id/ll_bx_info"
-            android:layout_alignEnd="@+id/linearLayout"
+            android:layout_alignEnd="@+id/error_ll"
             android:orientation="vertical"
             android:visibility="gone">
 

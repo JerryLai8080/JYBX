@@ -26,6 +26,8 @@ public class ConstantPool {
     public static String ALBUM = BASE_URL + "in/img!list";//获取图片集合
     public static String SIMILAR = BASE_URL + "in/ingredients!similar";//模糊查询食材名字
     public static String saveOrUpdate = BASE_URL + "in/ingredients!saveOrUpdate";//食材新增/修改接口
+    public static String FridgeInfo = BASE_URL + "in/refrigerator!getinfo";//冰箱信息
+
 
     public static String GETNEWCODE = TEST_URL + "/rms/v1/common/vcode?action=getNewCode";//获取登录验证码
     public static String MOBILELOGIN = TEST_URL + "/rms/v1/app/login?action=mobileLogin";//获取登录验证码

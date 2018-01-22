@@ -206,7 +206,7 @@ public class FragmentTwo extends Fragment {
         }
     };
 
-    private void deleteFoods(final Long ingredientsId, final int adapterPosition) {
+    private void deleteFoods(final int ingredientsId, final int adapterPosition) {
         OkHttpUtils.getInstance().postForMapAsynchronization(ConstantPool.DELETEFOODS, deleteRequest(ingredientsId), new OkHttpUtils.RequestCallBack<BaseEntity>() {
             @Override
             public void onError(Call call, Exception e) {
@@ -226,7 +226,7 @@ public class FragmentTwo extends Fragment {
         });
     }
 
-    private Map<String, Object> deleteRequest(Long ingredientsId) {
+    private Map<String, Object> deleteRequest(int ingredientsId) {
         Map<String, Object> object = new HashMap<>();
         object.put("ingredients.refrigeratorId", 1);
         object.put("ingredients.ingredientsId", ingredientsId);
@@ -278,10 +278,12 @@ public class FragmentTwo extends Fragment {
                 LinearLayout llOnClick = helper.getView(R.id.ll_onClick);
                 helper.setText(R.id.tv_goods_name, item.getIngredientsName());
 
-                Glide.with(getActivity())
-                        .load(item.getImgUrl())
-                        .apply(options)
-                        .into(imageView);
+                if(item.getImgUrl() != null){
+                    Glide.with(getActivity())
+                            .load(item.getImgUrl())
+                            .apply(options)
+                            .into(imageView);
+                }
 
                 if (item.getSubordinatePosition() != null) {
                     switch (item.getSubordinatePosition()) {//所属位置(1=冷藏，2=变温，3=冷冻)

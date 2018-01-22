@@ -1,333 +1,175 @@
 package com.bx.jz.jy.jybx.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
-* ClassName: Ingredients <br/>
-* Description:  <br/>
-*/
-public class Ingredients implements Serializable{
+ * ClassName: Ingredients <br/>
+ * Description:  <br/>
+ */
+public class Ingredients implements Serializable {
 
-	private boolean isClick = false;
+    private boolean isClick = false;
 
-	public boolean isClick() {
-		return isClick;
-	}
-
-	public void setClick(boolean click) {
-		isClick = click;
-	}
-
-	private int freshness;
-
-	public int getFreshness() {
-		return freshness;
-	}
-
-	public void setFreshness(int freshness) {
-		this.freshness = freshness;
-	}
-
-	private Long userId;
-
-	/**
-	 * 食材id
-	 */
-    private Long ingredientsId;
-	/**
-	 * 图片URL
-	 */
-    private String imgUrl;
-	/**
-	 * 食材名称
-	 */
-    private String ingredientsName;
-	/**
-	 * 保质期时间（保质期时间的时间戳）
-	 */
-    private Double shelfLifeTime;
-	/**
-	 * 保质期剩余时间（时间戳）
-	 */
-    private Long shelfLifeRemaining;
-	/**
-	 * 所属位置(1=冷藏，2=变温，3=冷冻)
-	 */
-    private Integer subordinatePosition;
-	/**
-	 * 所属分类
-	 */
-    private Long classificationId;
-	/**
-	 * 食材分量
-	 */
-    private String foodComponent;
-	/**
-	 * 分量单位
-	 */
-    private String componentUnit;
-	/**
-	 * 对应知识图谱id
-	 */
-    private Long knowledgeGraphId;
-	/**
-	 * 添加方式（1=图片识别添加，2=手动添加）
-	 */
-    private Integer addWay;
-	/**
-	 * 添加时间
-	 */
-    private String addTime;
-	/**
-	 * 修改时间
-	 */
-    private String ingredientsUpdateTime;
-	/**
-	 * 是否删除(1=正常，2=删除)
-	 */
-    private Integer isDelete;
-
-	public Ingredients() {
+    public boolean isClick() {
+        return isClick;
     }
 
-	public Long getUserId() {
-		return userId;
-	}
+    public void setClick(boolean click) {
+        isClick = click;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    private Double shelfLifeTime;
+    private Long classificationId;
+    private String knowledgeGraphId;
+    private Integer refrigeratorId;
+    private Integer ingredientsId;
+    private String ingredientsUpdateTime;
+    private Integer subordinatePosition;
+    private Integer addWay;
+    private String foodComponent;
+    private Integer isDelete;
+    private String imgUrl;
+    private String componentUnit;
+    private Integer shelfLifeRemaining;
+    private Long userId;
+    private Integer freshness;
+    private String ingredientsName;
+    private String addTime;
 
-	/**
-	 * 食材id
-	 */
-	public Ingredients setIngredientsId(Long ingredientsId){
-		this.ingredientsId = ingredientsId;
-		return this;
-	}
+    public Double getShelfLifeTime() {
+        return shelfLifeTime;
+    }
 
-	/**
-	 * 食材id
-	 */
-	public Long getIngredientsId(){
-		return this.ingredientsId;
-	}
+    public void setShelfLifeTime(Double shelfLifeTime) {
+        this.shelfLifeTime = shelfLifeTime;
+    }
 
-	/**
-	 * 图片URL
-	 */
-	public Ingredients setImgUrl(String imgUrl){
-		this.imgUrl = imgUrl;
-		return this;
-	}
+    public Long getClassificationId() {
+        return classificationId;
+    }
 
-	/**
-	 * 图片URL
-	 */
-	public String getImgUrl(){
-		return this.imgUrl;
-	}
+    public void setClassificationId(Long classificationId) {
+        this.classificationId = classificationId;
+    }
 
-	/**
-	 * 食材名称
-	 */
-	public Ingredients setIngredientsName(String ingredientsName){
-		this.ingredientsName = ingredientsName;
-		return this;
-	}
+    public String getKnowledgeGraphId() {
+        return knowledgeGraphId;
+    }
 
-	/**
-	 * 食材名称
-	 */
-	public String getIngredientsName(){
-		return this.ingredientsName;
-	}
+    public void setKnowledgeGraphId(String knowledgeGraphId) {
+        this.knowledgeGraphId = knowledgeGraphId;
+    }
 
-	/**
-	 * 保质期时间（保质期时间的时间戳）
-	 */
-	public Ingredients setShelfLifeTime(Double shelfLifeTime){
-		this.shelfLifeTime = shelfLifeTime;
-		return this;
-	}
+    public Integer getRefrigeratorId() {
+        return refrigeratorId;
+    }
 
-	/**
-	 * 保质期时间（保质期时间的时间戳）
-	 */
-	public Double getShelfLifeTime(){
-		return this.shelfLifeTime;
-	}
+    public void setRefrigeratorId(Integer refrigeratorId) {
+        this.refrigeratorId = refrigeratorId;
+    }
 
-	/**
-	 * 保质期剩余时间（时间戳）
-	 */
-	public Ingredients setShelfLifeRemaining(Long shelfLifeRemaining){
-		this.shelfLifeRemaining = shelfLifeRemaining;
-		return this;
-	}
+    public Integer getIngredientsId() {
+        return ingredientsId;
+    }
 
-	/**
-	 * 保质期剩余时间（时间戳）
-	 */
-	public Long getShelfLifeRemaining(){
-		return this.shelfLifeRemaining;
-	}
+    public void setIngredientsId(Integer ingredientsId) {
+        this.ingredientsId = ingredientsId;
+    }
 
-	/**
-	 * 所属位置(1=冷藏，2=变温，3=冷冻)
-	 */
-	public Ingredients setSubordinatePosition(Integer subordinatePosition){
-		this.subordinatePosition = subordinatePosition;
-		return this;
-	}
+    public String getIngredientsUpdateTime() {
+        return ingredientsUpdateTime;
+    }
 
-	/**
-	 * 所属位置(1=冷藏，2=变温，3=冷冻)
-	 */
-	public Integer getSubordinatePosition(){
-		return this.subordinatePosition;
-	}
+    public void setIngredientsUpdateTime(String ingredientsUpdateTime) {
+        this.ingredientsUpdateTime = ingredientsUpdateTime;
+    }
 
-	/**
-	 * 所属分类
-	 */
-	public Ingredients setClassificationId(Long classificationId){
-		this.classificationId = classificationId;
-		return this;
-	}
+    public Integer getSubordinatePosition() {
+        return subordinatePosition;
+    }
 
-	/**
-	 * 所属分类
-	 */
-	public Long getClassificationId(){
-		return this.classificationId;
-	}
+    public void setSubordinatePosition(Integer subordinatePosition) {
+        this.subordinatePosition = subordinatePosition;
+    }
 
-	/**
-	 * 食材分量
-	 */
-	public Ingredients setFoodComponent(String foodComponent){
-		this.foodComponent = foodComponent;
-		return this;
-	}
+    public Integer getAddWay() {
+        return addWay;
+    }
 
-	/**
-	 * 食材分量
-	 */
-	public String getFoodComponent(){
-		return this.foodComponent;
-	}
+    public void setAddWay(Integer addWay) {
+        this.addWay = addWay;
+    }
 
-	/**
-	 * 分量单位
-	 */
-	public Ingredients setComponentUnit(String componentUnit){
-		this.componentUnit = componentUnit;
-		return this;
-	}
+    public String getFoodComponent() {
+        return foodComponent;
+    }
 
-	/**
-	 * 分量单位
-	 */
-	public String getComponentUnit(){
-		return this.componentUnit;
-	}
+    public void setFoodComponent(String foodComponent) {
+        this.foodComponent = foodComponent;
+    }
 
-	/**
-	 * 对应知识图谱id
-	 */
-	public Ingredients setKnowledgeGraphId(Long knowledgeGraphId){
-		this.knowledgeGraphId = knowledgeGraphId;
-		return this;
-	}
+    public Integer getIsDelete() {
+        return isDelete;
+    }
 
-	/**
-	 * 对应知识图谱id
-	 */
-	public Long getKnowledgeGraphId(){
-		return this.knowledgeGraphId;
-	}
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
 
-	/**
-	 * 添加方式（1=图片识别添加，2=手动添加）
-	 */
-	public Ingredients setAddWay(Integer addWay){
-		this.addWay = addWay;
-		return this;
-	}
+    public String getImgUrl() {
+        return imgUrl;
+    }
 
-	/**
-	 * 添加方式（1=图片识别添加，2=手动添加）
-	 */
-	public Integer getAddWay(){
-		return this.addWay;
-	}
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
-	/**
-	 * 添加时间
-	 */
-	public Ingredients setAddTime(String addTime){
-		this.addTime = addTime;
-		return this;
-	}
+    public String getComponentUnit() {
+        return componentUnit;
+    }
 
-	/**
-	 * 添加时间
-	 */
-	public String getAddTime(){
-		return this.addTime;
-	}
+    public void setComponentUnit(String componentUnit) {
+        this.componentUnit = componentUnit;
+    }
 
-	/**
-	 * 修改时间
-	 */
-	public Ingredients setIngredientsUpdateTime(String ingredientsUpdateTime){
-		this.ingredientsUpdateTime = ingredientsUpdateTime;
-		return this;
-	}
+    public Integer getShelfLifeRemaining() {
+        return shelfLifeRemaining;
+    }
 
-	/**
-	 * 修改时间
-	 */
-	public String getIngredientsUpdateTime(){
-		return this.ingredientsUpdateTime;
-	}
+    public void setShelfLifeRemaining(Integer shelfLifeRemaining) {
+        this.shelfLifeRemaining = shelfLifeRemaining;
+    }
 
-	/**
-	 * 是否删除(1=正常，2=删除)
-	 */
-	public Ingredients setIsDelete(Integer isDelete){
-		this.isDelete = isDelete;
-		return this;
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
-	/**
-	 * 是否删除(1=正常，2=删除)
-	 */
-	public Integer getIsDelete(){
-		return this.isDelete;
-	}
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	@Override
-	public String toString() {
-		return "Ingredients{" +
-				"isClick=" + isClick +
-				", freshness=" + freshness +
-				", userId=" + userId +
-				", ingredientsId=" + ingredientsId +
-				", imgUrl='" + imgUrl + '\'' +
-				", ingredientsName='" + ingredientsName + '\'' +
-				", shelfLifeTime=" + shelfLifeTime +
-				", shelfLifeRemaining=" + shelfLifeRemaining +
-				", subordinatePosition=" + subordinatePosition +
-				", classificationId=" + classificationId +
-				", foodComponent='" + foodComponent + '\'' +
-				", componentUnit='" + componentUnit + '\'' +
-				", knowledgeGraphId=" + knowledgeGraphId +
-				", addWay=" + addWay +
-				", addTime='" + addTime + '\'' +
-				", ingredientsUpdateTime='" + ingredientsUpdateTime + '\'' +
-				", isDelete=" + isDelete +
-				'}';
-	}
+    public Integer getFreshness() {
+        return freshness;
+    }
+
+    public void setFreshness(Integer freshness) {
+        this.freshness = freshness;
+    }
+
+    public String getIngredientsName() {
+        return ingredientsName;
+    }
+
+    public void setIngredientsName(String ingredientsName) {
+        this.ingredientsName = ingredientsName;
+    }
+
+    public String getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
 }

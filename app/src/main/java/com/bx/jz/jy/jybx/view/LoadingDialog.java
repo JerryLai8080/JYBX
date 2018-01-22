@@ -17,14 +17,14 @@ import com.bx.jz.jy.jybx.R;
 
 public class LoadingDialog {
 
-    public static Dialog LoadingDialog(Context context) {
+    public static Dialog createDialog(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.loading_dialog, null);// 得到加载view
         Dialog loadingDialog = new Dialog(context);// 创建自定义样式dialog
         loadingDialog.setCancelable(false);// 不可以用“返回键”取消
         loadingDialog.setContentView(v, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));// 设置布局
+                LinearLayout.LayoutParams.MATCH_PARENT));// 设置布局
         return loadingDialog;
     }
 }

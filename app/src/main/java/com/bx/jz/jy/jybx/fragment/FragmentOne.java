@@ -1,5 +1,7 @@
 package com.bx.jz.jy.jybx.fragment;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +26,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bx.jz.jy.jybx.ConstantPool;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.activity.AddBxActivity;
+import com.bx.jz.jy.jybx.adapter.MyPagerAdapter1;
+import com.bx.jz.jy.jybx.adapter.MyPagerAdapter2;
+import com.bx.jz.jy.jybx.adapter.MyPagerAdapter3;
 import com.bx.jz.jy.jybx.bean.FridgeInfoBean;
 import com.bx.jz.jy.jybx.bean.ImgBean;
 import com.bx.jz.jy.jybx.bean.WeatherBean;
@@ -44,7 +47,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,7 +107,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     LinearLayout bxAdd;
 
     @BindView(R.id.img_page_1)
-    ImageSwitcher imgPage1;
+    ViewPager imgPage1;
     @BindView(R.id.tv_food_name_1)
     TextView tvFoodName1;
     @BindView(R.id.tv_data_1)
@@ -115,7 +117,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     @BindView(R.id.relativeLayout1)
     RelativeLayout relativeLayout1;
     @BindView(R.id.img_page_2)
-    ImageSwitcher imgPage2;
+    ViewPager imgPage2;
     @BindView(R.id.tv_food_name_2)
     TextView tvFoodName2;
     @BindView(R.id.tv_data_2)
@@ -125,7 +127,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     @BindView(R.id.relativeLayout2)
     RelativeLayout relativeLayout2;
     @BindView(R.id.img_page_3)
-    ImageSwitcher imgPage3;
+    ViewPager imgPage3;
     @BindView(R.id.tv_food_name_3)
     TextView tvFoodName3;
     @BindView(R.id.tv_data_3)
@@ -158,112 +160,215 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     private boolean overDue3 = false;//冷冻室过期开关
 
     // 图片数组
-    private int[] arrayPictures = {R.mipmap.shipu_1, R.mipmap.shipu_2, R.mipmap.shipu_3};
-    private String[] arrayFoods = {"米糊", "蛋糕", "法拉卷"};
-    private String[] arrayOverDue = {"2天过期", "4天过期", "8天过期"};
+    private List<String> arrayPictures1 = new ArrayList<>();
+    private List<String> arrayPictures2 = new ArrayList<>();
+    private List<String> arrayPictures3 = new ArrayList<>();
+
+    // 图片数组
+    private List<ImageView> imageList1 = new ArrayList<>();
+    private List<ImageView> imageList2 = new ArrayList<>();
+    private List<ImageView> imageList3 = new ArrayList<>();
+
+    private List<String> arrayFoods1 = new ArrayList<>();
+    private List<String> arrayFoods2 = new ArrayList<>();
+    private List<String> arrayFoods3 = new ArrayList<>();
+
+    private List<Double> arrayOverDue1 = new ArrayList<>();
+    private List<Double> arrayOverDue2 = new ArrayList<>();
+    private List<Double> arrayOverDue3 = new ArrayList<>();
+
+    private MyPagerAdapter1 mPagerAdapter1;
+    private MyPagerAdapter2 mPagerAdapter2;
+    private MyPagerAdapter3 mPagerAdapter3;
+
     // 要显示的图片在图片数组中的Index
-    private int pictureIndex1 = 0;
-    private int pictureIndex2 = 0;
-    private int pictureIndex3 = 0;
+    private RequestOptions options = new RequestOptions()
+            .centerCrop().placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).priority(Priority.HIGH);
 
     @Override
     public View makeView() {
         return new ImageView(getActivity());
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    if (pictureIndex1 == arrayPictures.length) {
-                        pictureIndex1 = 0;
+                    for (int i = 0; i < arrayPictures1.size(); i++) {
+                        ImageView imageView = new ImageView(getActivity());
+                        imageList1.add(imageView);
+                        Glide.with(getActivity()).load(arrayPictures1.get(i)).apply(options).into(imageView);
                     }
-                    relativeLayout1.setVisibility(View.VISIBLE);
-                    // 设置图片切换的动画
-                    imgPage1.setInAnimation(AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.slide_in_right));
-                    imgPage1.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.slide_out_left));
-                    // 设置当前要看的图片
-                    imgPage1.setImageResource(arrayPictures[pictureIndex1]);
+                    if (imageList1 != null && imageList1.size() != 0) {
+                        mPagerAdapter1 = new MyPagerAdapter1(imageList1, imgPage1);
+                        imgPage1.setAdapter(mPagerAdapter1);
+                        imgPage1.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                            @Override
+                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                    tvFoodName1.setText(arrayFoods[pictureIndex1]);
-                    tvData1.setText(arrayOverDue[pictureIndex1]);
-                    tvNum1.setText(1 + pictureIndex1 + "/" + arrayFoods.length);
-                    pictureIndex1++;
+                            }
+
+                            @Override
+                            public void onPageSelected(int position) {
+                                tvFoodName1.setText(arrayFoods1.get(position));
+                                tvNum1.setText(1 + position + "/" + arrayPictures1.size());
+                                if (arrayOverDue1.get(position) > 0) {
+                                    tvData1.setText("还有" + String.valueOf(Math.abs(arrayOverDue1.get(position))) + "天过期");
+                                } else {
+                                    tvData1.setText("已经过期" + String.valueOf(Math.abs(arrayOverDue1.get(position))) + "天");
+                                }
+                            }
+
+                            @Override
+                            public void onPageScrollStateChanged(int state) {
+
+                            }
+                        });
+                    }
+
+                    tvFoodName1.setText(arrayFoods1.get(0));
+                    if (arrayOverDue1.get(0) > 0) {
+                        tvData1.setText("还有" + String.valueOf(Math.abs(arrayOverDue1.get(0))) + "天过期");
+                    } else {
+                        tvData1.setText("已经过期" + String.valueOf(Math.abs(arrayOverDue1.get(0))) + "天");
+                    }
+                    tvNum1.setText(1 + 0 + "/" + arrayPictures1.size());
+
+                    ViewAnimation(relativeLayout1);
                     break;
                 case 1:
-                    if (pictureIndex2 == arrayPictures.length) {
-                        pictureIndex2 = 0;
+                    for (int i = 0; i < arrayPictures2.size(); i++) {
+                        ImageView imageView = new ImageView(getActivity());
+                        imageList2.add(imageView);
+                        Glide.with(getActivity()).load(arrayPictures2.get(i)).apply(options).into(imageView);
                     }
-                    relativeLayout2.setVisibility(View.VISIBLE);
-                    // 设置图片切换的动画
-                    imgPage2.setInAnimation(AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.slide_in_right));
-                    imgPage2.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.slide_out_left));
-                    // 设置当前要看的图片
-                    imgPage2.setImageResource(arrayPictures[pictureIndex2]);
+                    if (imageList2 != null && imageList2.size() != 0) {
+                        mPagerAdapter2 = new MyPagerAdapter2(imageList2, imgPage2);
+                        imgPage2.setAdapter(mPagerAdapter2);
+                        imgPage2.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                            @Override
+                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                    tvFoodName2.setText(arrayFoods[pictureIndex2]);
-                    tvData2.setText(arrayOverDue[pictureIndex2]);
-                    tvNum2.setText(1 + pictureIndex2 + "/" + arrayFoods.length);
-                    pictureIndex2++;
+                            }
+
+                            @Override
+                            public void onPageSelected(int position) {
+                                tvFoodName2.setText(arrayFoods2.get(position));
+
+                                if (arrayOverDue2.get(position) > 0) {
+                                    tvData2.setText("还有" + String.valueOf(Math.abs(arrayOverDue2.get(position))) + "天过期");
+                                } else {
+                                    tvData2.setText("已经过期" + String.valueOf(Math.abs(arrayOverDue2.get(position))) + "天");
+                                }
+
+                                tvNum2.setText(1 + position + "/" + arrayPictures2.size());
+                            }
+
+                            @Override
+                            public void onPageScrollStateChanged(int state) {
+
+                            }
+                        });
+                    }
+
+                    tvFoodName2.setText(arrayFoods2.get(0));
+                    if (arrayOverDue2.get(0) > 0) {
+                        tvData2.setText("还有" + String.valueOf(Math.abs(arrayOverDue2.get(0))) + "天过期");
+                    } else {
+                        tvData2.setText("已经过期" + String.valueOf(Math.abs(arrayOverDue2.get(0))) + "天");
+                    }
+                    tvNum2.setText(1 + 0 + "/" + arrayPictures2.size());
+
+                    ViewAnimation(relativeLayout2);
                     break;
                 case 2:
-                    if (pictureIndex3 == arrayPictures.length) {
-                        pictureIndex3 = 0;
+                    for (int i = 0; i < arrayPictures3.size(); i++) {
+                        ImageView imageView = new ImageView(getActivity());
+                        imageList3.add(imageView);
+                        Glide.with(getActivity()).load(arrayPictures3.get(i)).apply(options).into(imageView);
                     }
-                    relativeLayout3.setVisibility(View.VISIBLE);
-                    // 设置图片切换的动画
-                    imgPage3.setInAnimation(AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.slide_in_right));
-                    imgPage3.setOutAnimation(AnimationUtils.loadAnimation(getActivity(),
-                            R.anim.slide_out_left));
-                    // 设置当前要看的图片
-                    imgPage3.setImageResource(arrayPictures[pictureIndex3]);
+                    if (imageList3 != null && imageList3.size() != 0) {
+                        mPagerAdapter3 = new MyPagerAdapter3(imageList3, imgPage3);
+                        imgPage3.setAdapter(mPagerAdapter3);
+                        imgPage3.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                            @Override
+                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                    tvFoodName3.setText(arrayFoods[pictureIndex3]);
-                    tvData3.setText(arrayOverDue[pictureIndex3]);
-                    tvNum3.setText(1 + pictureIndex3 + "/" + arrayFoods.length);
-                    pictureIndex3++;
+                            }
+
+                            @Override
+                            public void onPageSelected(int position) {
+                                tvFoodName3.setText(arrayFoods3.get(position));
+                                if (arrayOverDue3.get(position) > 0) {
+                                    tvData3.setText("还有" + String.valueOf(Math.abs(arrayOverDue3.get(position))) + "天过期");
+                                } else {
+                                    tvData3.setText("已经过期" + String.valueOf(Math.abs(arrayOverDue3.get(position))) + "天");
+                                }
+                                tvNum3.setText(1 + position + "/" + arrayPictures3.size());
+                            }
+
+                            @Override
+                            public void onPageScrollStateChanged(int state) {
+
+                            }
+                        });
+                    }
+
+                    tvFoodName3.setText(arrayFoods3.get(0));
+                    if (arrayOverDue2.get(0) > 0) {
+                        tvData3.setText("还有" + String.valueOf(Math.abs(arrayOverDue3.get(0))) + "天过期");
+                    } else {
+                        tvData3.setText("已经过期" + String.valueOf(Math.abs(arrayOverDue3.get(0))) + "天");
+                    }
+                    tvNum3.setText(1 + "/" + arrayPictures3.size());
+
+                    ViewAnimation(relativeLayout3);
                     break;
             }
         }
     };
+
+    private void ViewAnimation(View view) {
+        view.setVisibility(View.VISIBLE);
+        PropertyValuesHolder holder7 = PropertyValuesHolder.ofFloat("scaleX", 0, 1);
+        PropertyValuesHolder holder8 = PropertyValuesHolder.ofFloat("scaleY", 0, 1);
+        PropertyValuesHolder holder9 = PropertyValuesHolder.ofFloat("alpha", 0, 1);
+        ObjectAnimator.ofPropertyValuesHolder(view, holder7, holder8, holder9).start();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_one_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        startImageView();
         getWeather();
         getGoodList();
         return view;
     }
 
-    private void startImageView() {
+    @SuppressLint("SetTextI18n")
+    private void startImageView(final int sw) {
 
-        imgPage1.setFactory(this);
-        imgPage2.setFactory(this);
-        imgPage3.setFactory(this);
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
+        switch (sw) {
+            case 0:
                 if (overDue1) {
-                    handler.sendEmptyMessage(0);
+                    handler.sendEmptyMessage(sw);
                 }
+                break;
+            case 1:
                 if (overDue2) {
-                    handler.sendEmptyMessage(1);
+                    handler.sendEmptyMessage(sw);
                 }
+                break;
+            case 2:
                 if (overDue3) {
-                    handler.sendEmptyMessage(2);
+                    handler.sendEmptyMessage(sw);
                 }
-            }
-        }, 0, 5000);
+                break;
+        }
     }
 
     private void initView(ImgBean imgBean) {
@@ -272,9 +377,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         ImageView img1 = view1.findViewById(R.id.img_1);
         ImageView img2 = view1.findViewById(R.id.img_2);
         ImageView img3 = view1.findViewById(R.id.img_3);
-
-        RequestOptions options = new RequestOptions()
-                .centerCrop().placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).priority(Priority.HIGH);
 
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(0)).apply(options).into(img1);
         Glide.with(getActivity()).load(imgBean.getBreakfast().get(1)).apply(options).into(img2);
@@ -745,31 +847,50 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onResponse(FridgeInfoBean response) {
                 if (null != response && response.getCode() == 1) {
+                    arrayPictures1.clear();
+                    arrayPictures2.clear();
+                    arrayPictures3.clear();
+                    arrayOverDue1.clear();
+                    arrayOverDue2.clear();
+                    arrayOverDue3.clear();
+                    imageList1.clear();
+                    imageList2.clear();
+                    imageList3.clear();
 
-                    if (response.getRefrigerator() != null) {
-                        if (response.getRefrigerator().getPattern() != null && !"".equals(response.getRefrigerator().getPattern())) {
-                            llAiMode.setText(response.getRefrigerator().getPattern());
+                    if(mPagerAdapter1 != null){
+                        mPagerAdapter1.notifyDataSetChanged();
+                    }
+                    if(mPagerAdapter2 != null){
+                        mPagerAdapter2.notifyDataSetChanged();
+                    }
+                    if(mPagerAdapter3 != null){
+                        mPagerAdapter3.notifyDataSetChanged();
+                    }
+
+                    if (response.getRefrigerators() != null) {
+                        if (response.getRefrigerators().getPattern() != null && !"".equals(response.getRefrigerators().getPattern())) {
+                            llAiMode.setText(response.getRefrigerators().getPattern());
                         }
-                        lengCangDegree.setText(String.valueOf(response.getRefrigerator().getRefrigerate()));
-                        bian_wen_degree.setText(String.valueOf(response.getRefrigerator().getHeterotherm()));
-                        leng_dong_degree.setText(String.valueOf(response.getRefrigerator().getFreeze()));
-                        if (response.getRefrigerator().getRefrigerate() < 0) {
+                        lengCangDegree.setText(String.valueOf(response.getRefrigerators().getRefrigerate()));
+                        bian_wen_degree.setText(String.valueOf(response.getRefrigerators().getHeterotherm()));
+                        leng_dong_degree.setText(String.valueOf(response.getRefrigerators().getFreeze()));
+                        if (response.getRefrigerators().getRefrigerate() < 0) {
                             leng_cang_10.setVisibility(View.VISIBLE);
                         } else {
                             leng_cang_10.setVisibility(View.INVISIBLE);
                         }
-                        if (response.getRefrigerator().getFreeze() < 0) {
+                        if (response.getRefrigerators().getFreeze() < 0) {
                             leng_dong_10.setVisibility(View.VISIBLE);
                         } else {
                             leng_dong_10.setVisibility(View.INVISIBLE);
                         }
-                        if (response.getRefrigerator().getHeterotherm() < 0) {
+                        if (response.getRefrigerators().getHeterotherm() < 0) {
                             bian_wen_10.setVisibility(View.VISIBLE);
                         } else {
                             bian_wen_10.setVisibility(View.INVISIBLE);
                         }
 
-                        switch (response.getRefrigerator().getAbnormity()) {
+                        switch (response.getRefrigerators().getAbnormity()) {
                             case 0:
                                 error_ll.setVisibility(View.VISIBLE);
                                 tvErrorCode.setText("冰箱异常");
@@ -791,6 +912,48 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                                 break;
                         }
                     }
+                    //冷藏有食材快过期了
+                    if (response.getRefrigerate() != null && response.getRefrigerate().size() > 0) {
+                        overDue1 = true;
+                        for (int i = 0; i < response.getRefrigerate().size(); i++) {
+                            if (response.getRefrigerate().get(i).getImgUrl() != null && !"".equals(response.getRefrigerate().get(i).getImgUrl())) {
+                                arrayPictures1.add(response.getRefrigerate().get(i).getImgUrl());
+                                arrayOverDue1.add(response.getRefrigerate().get(i).getShelfLifeRemaining());
+                                arrayFoods1.add(response.getRefrigerate().get(i).getIngredientsName());
+                            }
+                        }
+                        startImageView(0);
+                    } else {
+                        overDue1 = false;
+                    }
+                    //冷冻室有食材快过期了
+                    if (response.getFreeze() != null && response.getFreeze().size() > 0) {
+                        overDue2 = true;
+                        for (int i = 0; i < response.getFreeze().size(); i++) {
+                            if (response.getFreeze().get(i).getImgUrl() != null && !"".equals(response.getFreeze().get(i).getImgUrl())) {
+                                arrayPictures2.add(response.getFreeze().get(i).getImgUrl());
+                                arrayOverDue2.add(response.getFreeze().get(i).getShelfLifeRemaining());
+                                arrayFoods2.add(response.getFreeze().get(i).getIngredientsName());
+                            }
+                        }
+                        startImageView(1);
+                    } else {
+                        overDue2 = false;
+                    }
+                    //变温室有食材快过期了
+                    if (response.getHeterotherm() != null && response.getHeterotherm().size() > 0) {
+                        overDue3 = true;
+                        for (int i = 0; i < response.getHeterotherm().size(); i++) {
+                            if (response.getHeterotherm().get(i).getImgUrl() != null && !"".equals(response.getHeterotherm().get(i).getImgUrl())) {
+                                arrayPictures3.add(response.getHeterotherm().get(i).getImgUrl());
+                                arrayOverDue3.add(response.getHeterotherm().get(i).getShelfLifeRemaining());
+                                arrayFoods3.add(response.getHeterotherm().get(i).getIngredientsName());
+                            }
+                        }
+                        startImageView(2);
+                    } else {
+                        overDue3 = false;
+                    }
                 }
             }
         });
@@ -811,8 +974,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        L.e(TAG,"onHiddenChanged " + hidden);
-        if(!hidden){
+        L.e(TAG, "onHiddenChanged " + hidden);
+        if (!hidden) {
             L.e(TAG, "onHiddenChanged  可见");
             getFridgeInfo();
         }
@@ -821,6 +984,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        L.e(TAG,"setUserVisibleHint " + isVisibleToUser);
+        L.e(TAG, "setUserVisibleHint " + isVisibleToUser);
     }
 }

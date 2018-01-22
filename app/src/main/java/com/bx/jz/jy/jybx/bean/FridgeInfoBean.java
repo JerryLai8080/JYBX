@@ -1,5 +1,7 @@
 package com.bx.jz.jy.jybx.bean;
 
+import java.util.List;
+
 /**
  * author: zhy
  * email: 760982661@qq.com
@@ -11,8 +13,11 @@ public class FridgeInfoBean {
 
     private String msg;
     private int code;
+    private RefrigeratorsBean refrigerators;
     private int type;
-    private RefrigeratorBean refrigerator;
+    private List<FreezeBean> freeze;
+    private List<RefrigerateBean> refrigerate;
+    private List<HeterothermBean> heterotherm;
 
     public String getMsg() {
         return msg;
@@ -30,6 +35,14 @@ public class FridgeInfoBean {
         this.code = code;
     }
 
+    public RefrigeratorsBean getRefrigerators() {
+        return refrigerators;
+    }
+
+    public void setRefrigerators(RefrigeratorsBean refrigerators) {
+        this.refrigerators = refrigerators;
+    }
+
     public int getType() {
         return type;
     }
@@ -38,15 +51,31 @@ public class FridgeInfoBean {
         this.type = type;
     }
 
-    public RefrigeratorBean getRefrigerator() {
-        return refrigerator;
+    public List<FreezeBean> getFreeze() {
+        return freeze;
     }
 
-    public void setRefrigerator(RefrigeratorBean refrigerator) {
-        this.refrigerator = refrigerator;
+    public void setFreeze(List<FreezeBean> freeze) {
+        this.freeze = freeze;
     }
 
-    public static class RefrigeratorBean {
+    public List<RefrigerateBean> getRefrigerate() {
+        return refrigerate;
+    }
+
+    public void setRefrigerate(List<RefrigerateBean> refrigerate) {
+        this.refrigerate = refrigerate;
+    }
+
+    public List<HeterothermBean> getHeterotherm() {
+        return heterotherm;
+    }
+
+    public void setHeterotherm(List<HeterothermBean> heterotherm) {
+        this.heterotherm = heterotherm;
+    }
+
+    public static class RefrigeratorsBean {
 
         private int abnormity;
         private String addTime;
@@ -57,8 +86,6 @@ public class FridgeInfoBean {
         private int isDelete;
         private String pattern;
         private int refrigerate;
-        private String refrigeratorCode;
-        private String refrigeratorName;
         private int refrigeratorid;
         private String updateTime;
 
@@ -134,22 +161,6 @@ public class FridgeInfoBean {
             this.refrigerate = refrigerate;
         }
 
-        public String getRefrigeratorCode() {
-            return refrigeratorCode;
-        }
-
-        public void setRefrigeratorCode(String refrigeratorCode) {
-            this.refrigeratorCode = refrigeratorCode;
-        }
-
-        public String getRefrigeratorName() {
-            return refrigeratorName;
-        }
-
-        public void setRefrigeratorName(String refrigeratorName) {
-            this.refrigeratorName = refrigeratorName;
-        }
-
         public int getRefrigeratorid() {
             return refrigeratorid;
         }
@@ -164,6 +175,99 @@ public class FridgeInfoBean {
 
         public void setUpdateTime(String updateTime) {
             this.updateTime = updateTime;
+        }
+    }
+
+    public static class FreezeBean {
+
+        private String imgUrl;
+        private double shelfLifeRemaining;
+        private String ingredientsName;
+
+        public String getIngredientsName() {
+            return ingredientsName;
+        }
+
+        public void setIngredientsName(String ingredientsName) {
+            this.ingredientsName = ingredientsName;
+        }
+
+        public String getImgUrl() {
+            return imgUrl;
+        }
+
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
+        }
+
+        public double getShelfLifeRemaining() {
+            return shelfLifeRemaining;
+        }
+
+        public void setShelfLifeRemaining(double shelfLifeRemaining) {
+            this.shelfLifeRemaining = shelfLifeRemaining;
+        }
+    }
+
+    public static class RefrigerateBean {
+
+        private String imgUrl;
+        private double shelfLifeRemaining;
+        private String ingredientsName;
+
+        public String getIngredientsName() {
+            return ingredientsName;
+        }
+
+        public void setIngredientsName(String ingredientsName) {
+            this.ingredientsName = ingredientsName;
+        }
+
+        public String getImgUrl() {
+            return imgUrl;
+        }
+
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
+        }
+
+        public double getShelfLifeRemaining() {
+            return shelfLifeRemaining;
+        }
+
+        public void setShelfLifeRemaining(double shelfLifeRemaining) {
+            this.shelfLifeRemaining = shelfLifeRemaining;
+        }
+    }
+
+    public static class HeterothermBean {
+
+        private String imgUrl;
+        private double shelfLifeRemaining;
+        private String ingredientsName;
+
+        public String getIngredientsName() {
+            return ingredientsName;
+        }
+
+        public void setIngredientsName(String ingredientsName) {
+            this.ingredientsName = ingredientsName;
+        }
+
+        public String getImgUrl() {
+            return imgUrl;
+        }
+
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
+        }
+
+        public double getShelfLifeRemaining() {
+            return shelfLifeRemaining;
+        }
+
+        public void setShelfLifeRemaining(double shelfLifeRemaining) {
+            this.shelfLifeRemaining = shelfLifeRemaining;
         }
     }
 }

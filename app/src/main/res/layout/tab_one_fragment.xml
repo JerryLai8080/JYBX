@@ -56,6 +56,7 @@
             <com.bx.jz.jy.jybx.view.MyViewPager
                 android:id="@+id/tab_one_viewpager"
                 android:layout_width="match_parent"
+                android:overScrollMode="never"
                 android:layout_height="110dp" />
 
             <LinearLayout
@@ -106,13 +107,19 @@
             android:layout_alignEnd="@+id/tab_one_title"
             android:layout_alignTop="@+id/ll_bx_info"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="invisible">
 
-            <ImageSwitcher
+            <!--<ImageSwitcher-->
+                <!--android:id="@+id/img_page_1"-->
+                <!--android:layout_width="70dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:scaleType="centerCrop" />-->
+
+            <android.support.v4.view.ViewPager
                 android:id="@+id/img_page_1"
+                android:overScrollMode="never"
                 android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:scaleType="centerCrop" />
+                android:layout_height="50dp"/>
 
             <LinearLayout
                 android:layout_width="70dp"
@@ -147,9 +154,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
-                android:text="1/8"
-                android:textColor="@color/theme_other"
-                android:textSize="10sp" />
+                android:textColor="#1969df"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
@@ -532,13 +538,19 @@
             android:layout_above="@+id/relativeLayout3"
             android:layout_alignStart="@+id/ll_ai_mode"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="invisible">
 
-            <ImageSwitcher
+            <!--<ImageSwitcher-->
+                <!--android:id="@+id/img_page_2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:scaleType="centerCrop" />-->
+
+            <android.support.v4.view.ViewPager
                 android:id="@+id/img_page_2"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:scaleType="centerCrop" />
+                android:overScrollMode="never"
+                android:layout_width="70dp"
+                android:layout_height="50dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -572,9 +584,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
-                android:text="1/8"
-                android:textColor="@color/theme_other"
-                android:textSize="10sp" />
+                android:textColor="#1969df"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
@@ -583,15 +594,21 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignBottom="@+id/ll_bx_info"
-            android:layout_alignEnd="@+id/error_ll"
+            android:layout_alignEnd="@+id/relativeLayout1"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="invisible">
 
-            <ImageSwitcher
+            <!--<ImageSwitcher-->
+                <!--android:id="@+id/img_page_3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:scaleType="centerCrop" />-->
+
+            <android.support.v4.view.ViewPager
                 android:id="@+id/img_page_3"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:scaleType="centerCrop" />
+                android:overScrollMode="never"
+                android:layout_width="70dp"
+                android:layout_height="50dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -625,9 +642,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
-                android:text="1/8"
-                android:textColor="@color/theme_other"
-                android:textSize="10sp" />
+                android:textColor="#1969df"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 

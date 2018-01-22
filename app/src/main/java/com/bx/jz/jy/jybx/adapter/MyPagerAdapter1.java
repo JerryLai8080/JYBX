@@ -1,16 +1,13 @@
 package com.bx.jz.jy.jybx.adapter;
 
-import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.request.RequestOptions;
-import com.bx.jz.jy.jybx.R;
+import com.bx.jz.jy.jybx.utils.L;
 
 import java.util.List;
 
@@ -24,12 +21,12 @@ import java.util.List;
 public class MyPagerAdapter1 extends PagerAdapter {
     private List<ImageView> imageList;
     private ViewPager viewPager;
-    private RequestOptions options = new RequestOptions()
-            .centerCrop().placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).priority(Priority.HIGH);
+    private FragmentActivity mContext;
 
-    public MyPagerAdapter1(List<ImageView> imageList, ViewPager viewPager) {
+    public MyPagerAdapter1(List<ImageView> imageList, ViewPager viewPager, FragmentActivity context) {
         this.imageList = imageList;
         this.viewPager = viewPager;
+        this.mContext = context;
     }
 
     /**
@@ -56,6 +53,12 @@ public class MyPagerAdapter1 extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         // 把position对应位置的ImageView添加到ViewPager中
         ImageView iv = imageList.get(position % imageList.size());
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                L.e("instantiateItem", "点击了  MyPagerAdapter1");
+            }
+        });
         viewPager.addView(iv);
         // 把当前添加ImageView返回回去.
         return iv;

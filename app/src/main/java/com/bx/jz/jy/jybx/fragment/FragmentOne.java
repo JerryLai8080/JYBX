@@ -203,7 +203,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         Glide.with(getActivity()).load(arrayPictures1.get(i)).apply(options).into(imageView);
                     }
                     if (imageList1 != null && imageList1.size() != 0) {
-                        mPagerAdapter1 = new MyPagerAdapter1(imageList1, imgPage1);
+                        mPagerAdapter1 = new MyPagerAdapter1(imageList1, imgPage1, getActivity());
                         imgPage1.setAdapter(mPagerAdapter1);
                         imgPage1.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                             @Override
@@ -246,7 +246,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         Glide.with(getActivity()).load(arrayPictures2.get(i)).apply(options).into(imageView);
                     }
                     if (imageList2 != null && imageList2.size() != 0) {
-                        mPagerAdapter2 = new MyPagerAdapter2(imageList2, imgPage2);
+                        mPagerAdapter2 = new MyPagerAdapter2(imageList2, imgPage2, getActivity());
                         imgPage2.setAdapter(mPagerAdapter2);
                         imgPage2.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                             @Override
@@ -291,7 +291,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         Glide.with(getActivity()).load(arrayPictures3.get(i)).apply(options).into(imageView);
                     }
                     if (imageList3 != null && imageList3.size() != 0) {
-                        mPagerAdapter3 = new MyPagerAdapter3(imageList3, imgPage3);
+                        mPagerAdapter3 = new MyPagerAdapter3(imageList3, imgPage3, getActivity());
                         imgPage3.setAdapter(mPagerAdapter3);
                         imgPage3.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                             @Override
@@ -337,6 +337,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         PropertyValuesHolder holder8 = PropertyValuesHolder.ofFloat("scaleY", 0, 1);
         PropertyValuesHolder holder9 = PropertyValuesHolder.ofFloat("alpha", 0, 1);
         ObjectAnimator.ofPropertyValuesHolder(view, holder7, holder8, holder9).start();
+
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                L.e(TAG, "点击了  " + v.getId() + "/////");
+            }
+        });
     }
 
     @Nullable
@@ -591,7 +599,9 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
         timer = null;
     }
 
@@ -857,13 +867,13 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     imageList2.clear();
                     imageList3.clear();
 
-                    if(mPagerAdapter1 != null){
+                    if (mPagerAdapter1 != null) {
                         mPagerAdapter1.notifyDataSetChanged();
                     }
-                    if(mPagerAdapter2 != null){
+                    if (mPagerAdapter2 != null) {
                         mPagerAdapter2.notifyDataSetChanged();
                     }
-                    if(mPagerAdapter3 != null){
+                    if (mPagerAdapter3 != null) {
                         mPagerAdapter3.notifyDataSetChanged();
                     }
 

@@ -25,7 +25,7 @@ import java.util.List;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener,EasyPermissions.PermissionCallbacks {
+public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener, EasyPermissions.PermissionCallbacks {
 
     BottomNavigationBar mBottomNavigationBar;
 
@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void setStatusBar() {
-        StatusBarUtil.setTranslucentForImageViewInFragment(MainActivity.this,null);
+        StatusBarUtil.setTranslucentForImageViewInFragment(MainActivity.this, null);
     }
 
     @Override

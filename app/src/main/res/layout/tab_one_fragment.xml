@@ -56,7 +56,6 @@
             <com.bx.jz.jy.jybx.view.MyViewPager
                 android:id="@+id/tab_one_viewpager"
                 android:layout_width="match_parent"
-                android:overScrollMode="never"
                 android:layout_height="110dp" />
 
             <LinearLayout
@@ -109,17 +108,12 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <!--<ImageSwitcher-->
-                <!--android:id="@+id/img_page_1"-->
-                <!--android:layout_width="70dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:scaleType="centerCrop" />-->
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/img_page_1"
-                android:overScrollMode="never"
                 android:layout_width="70dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:focusable="false"
+                android:overScrollMode="never" />
 
             <LinearLayout
                 android:layout_width="70dp"
@@ -349,9 +343,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
-                            android:visibility="invisible"
                             android:textColor="@color/white"
-                            android:textSize="30sp" />
+                            android:textSize="30sp"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/bian_wen_degree"
@@ -413,9 +407,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
-                            android:visibility="invisible"
                             android:textColor="@color/white"
-                            android:textSize="30sp" />
+                            android:textSize="30sp"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/leng_dong_degree"
@@ -540,17 +534,12 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <!--<ImageSwitcher-->
-                <!--android:id="@+id/img_page_2"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:scaleType="centerCrop" />-->
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/img_page_2"
-                android:overScrollMode="never"
                 android:layout_width="70dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:focusable="false"
+                android:overScrollMode="never" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -598,17 +587,12 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <!--<ImageSwitcher-->
-                <!--android:id="@+id/img_page_3"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:scaleType="centerCrop" />-->
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/img_page_3"
-                android:overScrollMode="never"
                 android:layout_width="70dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:focusable="false"
+                android:overScrollMode="never" />
 
             <LinearLayout
                 android:layout_width="match_parent"

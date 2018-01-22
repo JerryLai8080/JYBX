@@ -935,6 +935,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         startImageView(0);
                     } else {
                         overDue1 = false;
+                        relativeLayout1.setVisibility(View.INVISIBLE);
                     }
                     //冷冻室有食材快过期了
                     if (response.getFreeze() != null && response.getFreeze().size() > 0) {
@@ -949,6 +950,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         startImageView(1);
                     } else {
                         overDue2 = false;
+                        relativeLayout2.setVisibility(View.INVISIBLE);
                     }
                     //变温室有食材快过期了
                     if (response.getHeterotherm() != null && response.getHeterotherm().size() > 0) {
@@ -963,6 +965,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         startImageView(2);
                     } else {
                         overDue3 = false;
+                        relativeLayout3.setVisibility(View.INVISIBLE);
                     }
                 }
             }

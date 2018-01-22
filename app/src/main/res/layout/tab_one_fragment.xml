@@ -55,6 +55,7 @@
 
             <com.bx.jz.jy.jybx.view.MyViewPager
                 android:id="@+id/tab_one_viewpager"
+                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="110dp" />
 

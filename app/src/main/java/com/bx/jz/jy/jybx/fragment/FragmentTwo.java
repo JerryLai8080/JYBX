@@ -510,7 +510,7 @@ public class FragmentTwo extends Fragment {
             @Override
             public void onResponse(BaseListEntity<Ingredients> response) {
                 if (response != null && response.getList() != null) {
-                    if (response.getList().size() == 0) {
+                    if (response.getList().size() == 0 && isRefresh) {
                         setData(true, null);
                         mAdapter.setEmptyView(notDataView);
                     } else {

@@ -70,6 +70,6 @@ dependencies {
     compile project(':PushSDK')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation files('libs/com.broadcom.cooee.jar')
-    compile project(':joyoungdevlibrary')
     implementation files('libs/Native_Libs2.jar')
+    implementation files('libs/codec.jar')
 }

@@ -1,1 +1,1 @@
-include ':app', ':zxinglite', ':PushSDK', ':joyoungdevlibrary'
+include ':app', ':zxinglite', ':PushSDK'

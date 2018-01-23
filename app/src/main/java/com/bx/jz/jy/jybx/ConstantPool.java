@@ -9,7 +9,11 @@ public class ConstantPool {
     public static final int FridgeId = 1;
     public static final int UserID = 12345;
 
-        private static final String BASE_URL = "http://112.124.102.114:8090/imgTest/";
+
+    private static final String BASE_URL = "http://112.124.102.114:8090/imgTest/";
+//    public static final String BASE_URL_RMS = "http://apitest.jouyoung.com:8389/rms/v1/app/register?action=register";//注册
+    public static final String BASE_URL_RMS = "http://apitest.jouyoung.com:8389/rms/v1/app/login?action=login";//注册
+
 //    public static final String BASE_URL = "http://192.168.199.188:8080/imgTest/";
 
     private static final String TEST_URL = "http://apitest.joyoung.com:8389";

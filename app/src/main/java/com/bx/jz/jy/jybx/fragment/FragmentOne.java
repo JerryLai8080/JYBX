@@ -613,7 +613,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                 startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
             case R.id.setting:
-//                showSettingView();
+                showSettingView();
                 break;
             case R.id.ll_ai_mode:
                 break;

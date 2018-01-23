@@ -85,7 +85,11 @@
             android:value="05f9cbf50ede664ed506ef2dc7e39a99">
         </meta-data>
 
-        <service android:name="com.joyoungdevlibrary.service.JoyounglinkDevServers"/>
+        <service
+            android:name="com.joyoung.sdk.service.JoyounglinkServers"
+            android:enabled="true"
+            android:exported="true"/>
+
         <service android:name=".service.ListenSocketService"/>
 
     </application>

@@ -1,7 +1,10 @@
 package com.bx.jz.jy.jybx.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,15 +13,27 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bx.jz.jy.jybx.R;
 import com.bx.jz.jy.jybx.base.BaseActivity;
+import com.bx.jz.jy.jybx.bean.CodeBean;
 import com.bx.jz.jy.jybx.fragment.FragmentFour;
 import com.bx.jz.jy.jybx.fragment.FragmentOne;
 import com.bx.jz.jy.jybx.fragment.FragmentThree;
 import com.bx.jz.jy.jybx.fragment.FragmentTwo;
+import com.bx.jz.jy.jybx.utils.BaseResult;
 import com.bx.jz.jy.jybx.utils.DecorViewUtils;
+import com.bx.jz.jy.jybx.utils.JyHttpDSG1;
 import com.bx.jz.jy.jybx.utils.L;
+import com.bx.jz.jy.jybx.utils.T;
+import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
+import com.joyoung.sdk.info.UserConfirmData;
+import com.joyoung.sdk.interface_sdk.ChangeDevCallBack;
+import com.joyoung.sdk.interface_sdk.CommandCallBack;
+import com.joyoung.sdk.interface_sdk.JoyoungLinkCallBack;
+import com.joyoung.sdk.interface_sdk.SendCmdCallback;
 import com.joyoung.sdk.utils.JoyoungSDK;
+import com.joyoung.sdk.utils.encryptdecryptutil.Encrypt;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +42,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener, EasyPermissions.PermissionCallbacks {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     BottomNavigationBar mBottomNavigationBar;
 
     private FragmentOne mFragmentOne;
@@ -34,21 +51,41 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private FragmentThree mFragmentThree;
     private FragmentFour mFragmentFour;
     private ArrayList<Fragment> fragments;
+    private String phonenumber = "15823427797";
+    private String passwd = "123456";
+    private String xxteaKey;
+    private String devTypeId = "18432";
+    private String devId = "379e548b5ade4afabf29343d2067c348";
+    private String cmd = "CC00000000000D00000000B000060001000000000000";
 
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.CHANGE_WIFI_STATE};
     private int RC_CAMERA_AND_WIFI = 1;
+    private String loginData;
+    private Gson gson;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DecorViewUtils.getDarkDecorView(this);
         setContentView(R.layout.activity_main);
+        gson = new Gson();
+        xxteaKey = Encrypt.MD5(phonenumber + passwd).substring(0, 16);
 
-//        JoyoungSDK.getInstance().init(MainActivity.this,"","","","");
+        JyHttpDSG1 jyHttpDSG1 = new JyHttpDSG1();
+        jyHttpDSG1.login(phonenumber, passwd, new JyHttpDSG1.JoyoungCallBack<BaseResult<UserConfirmData>>() {
+            @Override
+            public void Success(BaseResult<UserConfirmData> userConfirmDataBaseResult) {
+                L.e(TAG, "登录成功");
+                loginData = gson.toJson(userConfirmDataBaseResult);
+                JoyoungSDK.getInstance().init(MainActivity.this, loginData, phonenumber, passwd, "1", mCommandCallBack, joyoungLinkCallBack);
+            }
 
-
-
-
+            @Override
+            public void failed(String msg) {
+                L.e(TAG, "登录失败");
+            }
+        });
 
         mFragmentOne = new FragmentOne();
         mFragmentTwo = new FragmentTwo();
@@ -172,4 +209,78 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+    private CommandCallBack mCommandCallBack = new CommandCallBack() {
+        @Override
+        public void connectionLost(String msg) {
+            L.e(TAG, "mCommandCallBack  connectionLost" + msg);
+        }
+
+        @Override
+        public void messageArrived(String topic, String msg) {
+            L.e(TAG, "mCommandCallBack  messageArrived " + msg);
+        }
+
+        @Override
+        public void deliveryComplete(String token) {
+
+        }
+    };
+
+    private JoyoungLinkCallBack joyoungLinkCallBack = new JoyoungLinkCallBack() {
+        @Override
+        public void onSuccess() {
+            JoyoungSDK joyoungSDK1 = JoyoungSDK.getInstance();
+            joyoungSDK1.changeDev(MainActivity.this, xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    private ChangeDevCallBack changeDevCallBack = new ChangeDevCallBack() {
+        @Override
+        public void onSuccess() {
+            try {
+                JoyoungSDK.getInstance().sendCMD(
+                        cmd, devId, true, sendCmdCallback);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                T.showShort(MainActivity.this, "设备不在线");
+            }
+        }
+    };
+
+    private SendCmdCallback sendCmdCallback = new SendCmdCallback() {
+        @Override
+        public void onResponse(String s) {
+            L.e(TAG, "指令发送成功" + s);
+            CodeBean codeBean = gson.fromJson(s, CodeBean.class);
+            if (codeBean.getCode() == 103) {
+                mHandler.sendEmptyMessage(0);
+            }
+        }
+
+        @Override
+        public void onFailure(String s, IOException e) {
+            L.e(TAG, "指令发送失败" + s);
+        }
+    };
 }

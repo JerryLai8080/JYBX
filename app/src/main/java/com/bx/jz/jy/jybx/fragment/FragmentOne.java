@@ -613,7 +613,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                 startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
             case R.id.setting:
-                showSettingView();
+//                showSettingView();
                 break;
             case R.id.ll_ai_mode:
                 break;
@@ -884,21 +884,21 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         lengCangDegree.setText(String.valueOf(response.getRefrigerators().getRefrigerate()));
                         bian_wen_degree.setText(String.valueOf(response.getRefrigerators().getHeterotherm()));
                         leng_dong_degree.setText(String.valueOf(response.getRefrigerators().getFreeze()));
-                        if (response.getRefrigerators().getRefrigerate() < 0) {
-                            leng_cang_10.setVisibility(View.VISIBLE);
-                        } else {
-                            leng_cang_10.setVisibility(View.INVISIBLE);
-                        }
-                        if (response.getRefrigerators().getFreeze() < 0) {
-                            leng_dong_10.setVisibility(View.VISIBLE);
-                        } else {
-                            leng_dong_10.setVisibility(View.INVISIBLE);
-                        }
-                        if (response.getRefrigerators().getHeterotherm() < 0) {
-                            bian_wen_10.setVisibility(View.VISIBLE);
-                        } else {
-                            bian_wen_10.setVisibility(View.INVISIBLE);
-                        }
+//                        if (response.getRefrigerators().getRefrigerate() < 0) {
+//                            leng_cang_10.setVisibility(View.VISIBLE);
+//                        } else {
+//                            leng_cang_10.setVisibility(View.INVISIBLE);
+//                        }
+//                        if (response.getRefrigerators().getFreeze() < 0) {
+//                            leng_dong_10.setVisibility(View.VISIBLE);
+//                        } else {
+//                            leng_dong_10.setVisibility(View.INVISIBLE);
+//                        }
+//                        if (response.getRefrigerators().getHeterotherm() < 0) {
+//                            bian_wen_10.setVisibility(View.VISIBLE);
+//                        } else {
+//                            bian_wen_10.setVisibility(View.INVISIBLE);
+//                        }
                         //0异常1正常2冷藏门3变温门4冷冻门5冷藏变温6冷藏冷冻7变温冷冻8冷藏变温冷冻 type=0异常 1正常
                         switch (response.getRefrigerators().getAbnormity()) {
                             case 0:

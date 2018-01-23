@@ -79,7 +79,7 @@ public class FridgeInfoBean {
 
         private int abnormity;
         private String addTime;
-        private byte[] data;
+        private String data;
         private int freeze;
         private int heterotherm;
         private int id;
@@ -105,11 +105,11 @@ public class FridgeInfoBean {
             this.addTime = addTime;
         }
 
-        public byte[] getData() {
+        public String getData() {
             return data;
         }
 
-        public void setData(byte[] data) {
+        public void setData(String data) {
             this.data = data;
         }
 

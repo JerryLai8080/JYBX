@@ -39,6 +39,12 @@ import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static com.bx.jz.jy.jybx.ConstantPool.cmd;
+import static com.bx.jz.jy.jybx.ConstantPool.devId;
+import static com.bx.jz.jy.jybx.ConstantPool.devTypeId;
+import static com.bx.jz.jy.jybx.ConstantPool.passwd;
+import static com.bx.jz.jy.jybx.ConstantPool.phonenumber;
+
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener, EasyPermissions.PermissionCallbacks {
 
@@ -51,18 +57,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private FragmentThree mFragmentThree;
     private FragmentFour mFragmentFour;
     private ArrayList<Fragment> fragments;
-    private String phonenumber = "15823427797";
-    private String passwd = "123456";
-    private String xxteaKey;
-    private String devTypeId = "18432";
-    private String devId = "379e548b5ade4afabf29343d2067c348";
-    private String cmd = "CC00000000000D00000000B000060001000000000000";
 
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.CHANGE_WIFI_STATE};
     private int RC_CAMERA_AND_WIFI = 1;
     private String loginData;
     private Gson gson;
-
+    public static String xxteaKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,8 +262,25 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                T.showShort(MainActivity.this, "设备不在线");
+            switch (msg.what) {
+                case 100:
+                    T.showShort(MainActivity.this, "设备未注册");
+                    break;
+                case 1001:
+                    T.showShort(MainActivity.this, "系统错误");
+                    break;
+                case 1003:
+                    T.showShort(MainActivity.this, "请求第三方接口超时");
+                    break;
+                case 101:
+                    T.showShort(MainActivity.this, "key失效，需要同步");
+                    break;
+                case 102:
+                    T.showShort(MainActivity.this, "seq 失效，需要同步");
+                    break;
+                case 103:
+                    T.showShort(MainActivity.this, "设备不在线");
+                    break;
             }
         }
     };
@@ -273,8 +290,26 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         public void onResponse(String s) {
             L.e(TAG, "指令发送成功" + s);
             CodeBean codeBean = gson.fromJson(s, CodeBean.class);
-            if (codeBean.getCode() == 103) {
-                mHandler.sendEmptyMessage(0);
+
+            switch (codeBean.getCode()) {
+                case 100:
+                    mHandler.sendEmptyMessage(100);
+                    break;
+                case 1001:
+                    mHandler.sendEmptyMessage(1001);
+                    break;
+                case 1003:
+                    mHandler.sendEmptyMessage(1003);
+                    break;
+                case 101:
+                    mHandler.sendEmptyMessage(101);
+                    break;
+                case 102:
+                    mHandler.sendEmptyMessage(102);
+                    break;
+                case 103:
+                    mHandler.sendEmptyMessage(103);
+                    break;
             }
         }
 

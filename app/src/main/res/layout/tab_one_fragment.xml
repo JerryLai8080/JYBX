@@ -55,9 +55,9 @@
 
             <com.bx.jz.jy.jybx.view.MyViewPager
                 android:id="@+id/tab_one_viewpager"
-                android:overScrollMode="never"
                 android:layout_width="match_parent"
-                android:layout_height="110dp" />
+                android:layout_height="110dp"
+                android:overScrollMode="never" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -262,6 +262,7 @@
                     android:textSize="12sp" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -284,7 +285,7 @@
 
                         <TextView
                             android:id="@+id/leng_cang_degree"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:textSize="30sp" />
@@ -306,14 +307,21 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/img_leco"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp"
+                    android:src="@mipmap/leco"
+                    android:visibility="invisible" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/ll_bian_wen"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
                 android:background="@mipmap/bg_2">
 
                 <TextView

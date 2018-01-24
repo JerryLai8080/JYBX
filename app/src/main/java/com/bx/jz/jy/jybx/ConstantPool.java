@@ -36,4 +36,35 @@ public class ConstantPool {
     public static String GETNEWCODE = TEST_URL + "/rms/v1/common/vcode?action=getNewCode";//获取登录验证码
     public static String MOBILELOGIN = TEST_URL + "/rms/v1/app/login?action=mobileLogin";//获取登录验证码
 
+
+    public static String phonenumber = "15823427797";
+    public static String passwd = "123456";
+    public static String devTypeId = "18432";
+    public static String devId = "379e548b5ade4afabf29343d2067c348";
+    public static String cmd = "CC00000000000D00000000B000060001000000000000";
+
+
+
+
+
+
+    public static final byte Zero = 0x00;
+    public static final byte Default = 10;
+    public static final byte Data0_beginning_commend = 0x55;
+    public static final byte Data1_beginning_commend = (byte) 0xAA;
+    public static final byte Data2_Modify_Temperature = 0x01;
+    public static final byte Data2_Modify_Mode = 0x02;
+    public static final byte Data2_Setting_time = 0x03;
+    public static final byte Data2_Running_State = 0x04;
+    public static final byte Data2_System_Timing = 0x05;
+    public static final byte Data2_Remote_Maintenance = 0x06;
+    public static final byte Intelligent_Model = 0x01;// 智能模式
+    public static final byte LengCang_Shutdown_Model = 0x02;// 冷藏关闭
+    public static final byte Holiday_Mode = 0x04;// 假日
+    public static final byte BianWen_Shutdown_Model = 0x08;// 关闭变温
+    public static final byte Quick_Freezing_Mode = 0x10;// 速冻
+    public static final byte Quick_Cooling_Mode = 0x20;// 速冷
+    public static final byte Child_Lock_Mode = 0x40;
+    public static final byte LECO_Mode = (byte) 0x80;
+
 }

@@ -88,6 +88,15 @@ public class FridgeInfoBean {
         private int refrigerate;
         private int refrigeratorid;
         private String updateTime;
+        private boolean LECO;
+
+        public boolean isLECO() {
+            return LECO;
+        }
+
+        public void setLECO(boolean LECO) {
+            this.LECO = LECO;
+        }
 
         public int getAbnormity() {
             return abnormity;

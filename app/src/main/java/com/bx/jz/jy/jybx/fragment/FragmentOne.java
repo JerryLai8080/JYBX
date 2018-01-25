@@ -458,7 +458,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         View view = inflater.inflate(R.layout.tab_one_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         getWeather();
-        getGoodList();
         return view;
     }
 
@@ -574,40 +573,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         viewList.add(view1);
         viewList.add(view2);
         viewList.add(view3);
-
-        PagerAdapter adapter = new PagerAdapter() {
-            @Override
-            public boolean isViewFromObject(View arg0, Object arg1) {
-                // TODO Auto-generated method stub
-                return arg0 == arg1;
-            }
-
-            @Override
-            public int getCount() {
-                // TODO Auto-generated method stub
-                return viewList.size();
-            }
-
-            @Override
-            public int getItemPosition(Object object) {
-                return POSITION_NONE;
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position,
-                                    Object object) {
-                // TODO Auto-generated method stub
-                container.removeView(viewList.get(position % viewList.size()));
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                // TODO Auto-generated method stub
-                container.addView(viewList.get(position % viewList.size()));
-
-                return viewList.get(position % viewList.size());
-            }
-        };
 
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1410,9 +1375,44 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     @Override
     public void onResume() {
         super.onResume();
+        viewList.clear();
         getFridgeInfo();
         getGoodList();
     }
+
+    private PagerAdapter adapter = new PagerAdapter() {
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            // TODO Auto-generated method stub
+            return arg0 == arg1;
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return viewList.size();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position,
+                                Object object) {
+            // TODO Auto-generated method stub
+            container.removeView(viewList.get(position % viewList.size()));
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            // TODO Auto-generated method stub
+            container.addView(viewList.get(position % viewList.size()));
+
+            return viewList.get(position % viewList.size());
+        }
+    };
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -1420,6 +1420,11 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         L.e(TAG, "onHiddenChanged " + hidden);
         if (!hidden) {
             L.e(TAG, "onHiddenChanged  可见");
+            viewList.clear();
+            tvRecommend.setText("早餐推荐");
+            point1.setImageResource(R.mipmap.point);
+            point2.setImageResource(R.mipmap.point_no);
+            point3.setImageResource(R.mipmap.point_no);
             getFridgeInfo();
             getGoodList();
         }
@@ -1524,6 +1529,12 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         llAiMode.setText("速冷,速冻模式");
                     } else if (Mode_100 && Mode_5) {
                         llAiMode.setText("冷藏关闭,速冻模式");
+                    } else if (Mode_100 && Mode_101) {
+                        llAiMode.setText("冷藏关闭,变温关闭模式");
+                    } else if (Mode_101 && Mode_5) {
+                        llAiMode.setText("变温关闭,速冻模式");
+                    } else if (Mode_101 && Mode_5) {
+                        llAiMode.setText("变温关闭,速冷模式");
                     } else if (Mode_1) {
                         llAiMode.setText("自定义模式");
                     } else if (Mode_2) {
@@ -1536,6 +1547,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         llAiMode.setText("速冻模式");
                     } else if (Mode_100) {
                         llAiMode.setText("冷藏关闭模式");
+                    } else if (Mode_101) {
+                        llAiMode.setText("变温关闭模式");
                     }
                     dialog.cancel();
 

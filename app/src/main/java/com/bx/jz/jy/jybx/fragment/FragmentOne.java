@@ -286,6 +286,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     private DiscreteSeekBar seekBar2;
     private DiscreteSeekBar seekBar3;
 
+    private boolean isBar = false;
+
     @Override
     public View makeView() {
         return new ImageView(getActivity());
@@ -786,6 +788,20 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
                 tvConfirm.setVisibility(View.VISIBLE);
+                isBar = true;
+                seekBar.setMax(8);
+                if (switchbutton2.isChecked()) {
+                    switchbutton2.setChecked(false);
+                }
+                if (switchbutton3.isChecked()) {
+                    switchbutton3.setChecked(false);
+                }
+                if (switchbutton4.isChecked()) {
+                    switchbutton4.setChecked(false);
+                }
+                if (switchbutton100.isChecked()) {
+                    switchbutton100.setChecked(false);
+                }
             }
 
             @Override
@@ -810,6 +826,13 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
                 tvConfirm.setVisibility(View.VISIBLE);
+                isBar = true;
+                if (switchbutton2.isChecked()) {
+                    switchbutton2.setChecked(false);
+                }
+                if (switchbutton101.isChecked()) {
+                    switchbutton101.setChecked(false);
+                }
             }
 
             @Override
@@ -834,11 +857,13 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
                 tvConfirm.setVisibility(View.VISIBLE);
-//                if (switchbutton2.isChecked()) {
-//                    switchbutton2.setChecked(false);
-//                } else if (switchbutton5.isClickable()) {
-//                    switchbutton5.setChecked(false);
-//                }
+                isBar = true;
+                seekBar.setMin(-24);
+                if (switchbutton2.isChecked()) {
+                    switchbutton2.setChecked(false);
+                } else if (switchbutton5.isClickable()) {
+                    switchbutton5.setChecked(false);
+                }
             }
 
             @Override
@@ -879,6 +904,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
+                    isBar = false;
                     if (switchbutton3.isChecked()) {
                         switchbutton3.setChecked(false);
                     }
@@ -896,14 +922,16 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     }
                     setProgress(5, 0, -18);
                 } else {
-                    if (!switchbutton3.isChecked() && !switchbutton4.isChecked() && !switchbutton5.isChecked()) {
-                        setProgress(100, 100, 100);
-                    } else if (switchbutton3.isChecked()) {
-                        setProgress(14, 100, 100);
-                    } else if (switchbutton4.isChecked()) {
-                        setProgress(2, 100, 100);
-                    } else if (switchbutton5.isChecked()) {
-                        setProgress(100, 100, -32);
+                    if (!isBar) {
+                        if (!switchbutton3.isChecked() && !switchbutton4.isChecked() && !switchbutton5.isChecked()) {
+                            setProgress(100, 100, 100);
+                        } else if (switchbutton3.isChecked()) {
+                            setProgress(14, 100, 100);
+                        } else if (switchbutton4.isChecked()) {
+                            setProgress(2, 100, 100);
+                        } else if (switchbutton5.isChecked()) {
+                            setProgress(100, 100, -32);
+                        }
                     }
                 }
             }
@@ -923,6 +951,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
+                    isBar = false;
+                    seekBar1.setMax(14);
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
                     }
@@ -937,16 +967,16 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     } else {
                         setProgress(14, 100, 100);
                     }
-                    L.e(TAG, "switchbutton3  " + isChecked);
                 } else {
-                    if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked()) {
-                        setProgress(100, 100, 100);
-                    } else if (switchbutton5.isChecked() && switchbutton4.isChecked()) {
-                        setProgress(2, 100, -32);
-                    } else if (switchbutton5.isChecked()) {
-                        setProgress(100, 100, -32);
+                    if (!isBar) {
+                        if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked()) {
+                            setProgress(100, 100, 100);
+                        } else if (switchbutton5.isChecked() && switchbutton4.isChecked()) {
+                            setProgress(2, 100, -32);
+                        } else if (switchbutton5.isChecked()) {
+                            setProgress(100, 100, -32);
+                        }
                     }
-                    L.e(TAG, "switchbutton3  " + isChecked);
                 }
             }
         });
@@ -965,6 +995,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
+                    isBar = false;
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
                     }
@@ -979,14 +1010,15 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     } else {
                         setProgress(2, 100, 100);
                     }
-                    L.e(TAG, "switchbutton4  " + isChecked);
                 } else {
-                    if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked() && !switchbutton3.isChecked()) {
-                        setProgress(100, 100, 100);
-                    } else if (switchbutton5.isChecked() && !switchbutton3.isChecked() && !switchbutton2.isChecked()) {
-                        setProgress(100, 100, -32);
+                    if (!isBar) {
+                        if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked() && !switchbutton3.isChecked()) {
+                            setProgress(100, 100, 100);
+                        } else if (switchbutton5.isChecked() && !switchbutton3.isChecked() && !switchbutton2.isChecked()) {
+                            setProgress(100, 100, -32);
+                        }
                     }
-                    L.e(TAG, "switchbutton4  " + isChecked);
+
                 }
             }
         });
@@ -1006,6 +1038,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
+                    isBar = false;
+                    seekBar3.setMin(-32);
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
                     }
@@ -1017,12 +1051,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         setProgress(100, 100, -32);
                     }
                 } else {
-                    if (!switchbutton2.isChecked() && !switchbutton4.isChecked() && !switchbutton3.isChecked()) {
-                        setProgress(100, 100, 100);
-                    } else if (switchbutton3.isChecked()) {
-                        setProgress(14, 100, 100);
-                    } else if (switchbutton4.isChecked()) {
-                        setProgress(2, 100, 100);
+                    if (!isBar) {
+                        if (!switchbutton2.isChecked() && !switchbutton4.isChecked() && !switchbutton3.isChecked()) {
+                            setProgress(100, 100, 100);
+                        } else if (switchbutton3.isChecked()) {
+                            setProgress(14, 100, 100);
+                        } else if (switchbutton4.isChecked()) {
+                            setProgress(2, 100, 100);
+                        }
                     }
                 }
             }

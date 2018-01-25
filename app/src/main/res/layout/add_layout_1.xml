@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:text="冷藏室"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -36,7 +36,7 @@
             android:id="@+id/c_1"
             android:layout_width="35dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:text="变温室"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -73,7 +73,7 @@
             android:id="@+id/c_2"
             android:layout_width="35dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:text="冷冻室"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -108,7 +108,7 @@
             android:id="@+id/c_3"
             android:layout_width="35dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>

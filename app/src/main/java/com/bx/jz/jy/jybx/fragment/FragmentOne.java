@@ -288,6 +288,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
     private boolean isBar = false;
 
+    private boolean isGetInfoSuccess = false;
+
     @Override
     public View makeView() {
         return new ImageView(getActivity());
@@ -715,7 +717,11 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                 startActivity(new Intent(getActivity(), AddBxActivity.class));
                 break;
             case R.id.setting:
-                showSettingView();
+                if (isGetInfoSuccess) {
+                    showSettingView();
+                } else {
+                    T.showShort(getActivity(), "请稍等");
+                }
                 break;
             case R.id.ll_ai_mode:
                 break;
@@ -787,7 +793,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-                tvConfirm.setVisibility(View.VISIBLE);
+//                tvConfirm.setVisibility(View.VISIBLE);
                 isBar = true;
                 seekBar.setMax(8);
                 if (switchbutton2.isChecked()) {
@@ -806,6 +812,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
 
             }
         });
@@ -825,7 +839,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-                tvConfirm.setVisibility(View.VISIBLE);
+//                tvConfirm.setVisibility(View.VISIBLE);
                 isBar = true;
                 if (switchbutton2.isChecked()) {
                     switchbutton2.setChecked(false);
@@ -837,7 +851,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -856,7 +877,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-                tvConfirm.setVisibility(View.VISIBLE);
+//                tvConfirm.setVisibility(View.VISIBLE);
                 isBar = true;
                 seekBar.setMin(-24);
                 if (switchbutton2.isChecked()) {
@@ -868,7 +889,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -905,6 +933,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
+//                    tvConfirm.setVisibility(View.VISIBLE);
                     if (switchbutton3.isChecked()) {
                         switchbutton3.setChecked(false);
                     }
@@ -934,6 +963,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         }
                     }
                 }
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -952,6 +989,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
+//                    tvConfirm.setVisibility(View.VISIBLE);
                     seekBar1.setMax(14);
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
@@ -978,6 +1016,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         }
                     }
                 }
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -996,6 +1042,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
+//                    tvConfirm.setVisibility(View.VISIBLE);
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
                     }
@@ -1020,6 +1067,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     }
 
                 }
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1039,6 +1094,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
+//                    tvConfirm.setVisibility(View.VISIBLE);
                     seekBar3.setMin(-32);
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
@@ -1061,6 +1117,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         }
                     }
                 }
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1068,7 +1132,15 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         switchbutton6.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-
+//                    tvConfirm.setVisibility(View.VISIBLE);
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1077,6 +1149,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
+//                    tvConfirm.setVisibility(View.VISIBLE);
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
                     }
@@ -1087,6 +1160,15 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         switchbutton4.setChecked(false);
                     }
                 }
+
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1095,6 +1177,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
+//                    tvConfirm.setVisibility(View.VISIBLE);
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
                     }
@@ -1104,6 +1187,16 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     if (switchbutton4.isChecked()) {
                         switchbutton4.setChecked(false);
                     }
+                }
+
+
+                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
+                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
+                        , switchbutton5.isChecked(), switchbutton6.isChecked()
+                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
+                    tvConfirm.setVisibility(View.VISIBLE);
+                } else {
+                    tvConfirm.setVisibility(View.GONE);
                 }
             }
         });
@@ -1153,6 +1246,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     }
 
                     if (response.getRefrigerators() != null) {
+                        isGetInfoSuccess = true;
                         if (response.getRefrigerators().getPattern() != null && !"".equals(response.getRefrigerators().getPattern())) {
                             switch (response.getRefrigerators().getPattern()) {
                                 case "自定义模式":
@@ -1317,6 +1411,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     public void onResume() {
         super.onResume();
         getFridgeInfo();
+        getGoodList();
     }
 
     @Override
@@ -1326,6 +1421,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         if (!hidden) {
             L.e(TAG, "onHiddenChanged  可见");
             getFridgeInfo();
+            getGoodList();
         }
     }
 
@@ -1469,6 +1565,16 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             }
         }
     };
+
+
+    private boolean isChanged(int a, int b, int c
+            , boolean m2, boolean m3, boolean m4, boolean m5, boolean m6
+            , boolean m100, boolean m101) {
+
+        return !(a == Refrigerate && b == Heterotherm && c == Freeze && m2 == Mode_2
+                && m3 == Mode_3 && m4 == Mode_4 && m5 == Mode_5 && m6 == Mode_6
+                && m100 == Mode_100 && m101 == Mode_101);
+    }
 
 
     private String sendCMD() {

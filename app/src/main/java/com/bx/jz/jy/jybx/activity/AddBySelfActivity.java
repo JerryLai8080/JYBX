@@ -121,7 +121,7 @@ public class AddBySelfActivity extends BaseActivity {
         setContentView(R.layout.add_by_self_activity);
         ButterKnife.bind(this);
 
-        loadingDialog = LoadingDialog.createDialog(AddBySelfActivity.this);
+        loadingDialog = LoadingDialog.createDialog(AddBySelfActivity.this,"正在为您配网...");
         baseLl.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("连接网络");

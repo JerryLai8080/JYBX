@@ -43,11 +43,6 @@ public class ConstantPool {
     public static String devId = "379e548b5ade4afabf29343d2067c348";
     public static String cmd = "CC00000000000D00000000B000060001000000000000";
 
-
-
-
-
-
     public static final byte Zero = 0x00;
     public static final byte Default = 10;
     public static final byte Data0_beginning_commend = 0x55;

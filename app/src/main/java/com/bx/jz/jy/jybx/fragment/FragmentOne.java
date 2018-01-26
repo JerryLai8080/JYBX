@@ -3,6 +3,7 @@ package com.bx.jz.jy.jybx.fragment;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import com.bx.jz.jy.jybx.bean.WeatherBean;
 import com.bx.jz.jy.jybx.utils.L;
 import com.bx.jz.jy.jybx.utils.OkHttpUtils;
 import com.bx.jz.jy.jybx.utils.T;
+import com.bx.jz.jy.jybx.view.LoadingDialog;
 import com.bx.jz.jy.jybx.view.MarqueeText;
 import com.bx.jz.jy.jybx.view.MyViewPager;
 import com.bx.jz.jy.jybx.view.SettingDialog;
@@ -172,6 +174,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     private List<View> viewList = new ArrayList<>();
     private Timer timer = new Timer();
     private SettingDialog dialog;
+    private Dialog loadingDialog;
 
     private boolean overDue1 = false;//冷藏室过期开关
     private boolean overDue2 = false;//变温室过期开关
@@ -217,7 +220,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     private int Freeze_1;//冷冻室温度
 
     //向MQTT发送的指令
-    private String CMD;
+    private String FridgeCMD;
     //冰箱指令
     private String[] FridgeData;
 
@@ -272,8 +275,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     private byte DATA_45 = ConstantPool.Zero;
     private byte DATA_46;
 
-    private byte MODE;
-
     private SwitchButton switchbutton2;
     private SwitchButton switchbutton3;
     private SwitchButton switchbutton4;
@@ -287,6 +288,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     private DiscreteSeekBar seekBar3;
 
     private boolean isBar = false;
+
+    private boolean isSwitchBtn2 = false;
+    private boolean isSwitchBtn3 = false;
+    private boolean isSwitchBtn4 = false;
+    private boolean isSwitchBtn5 = false;
+    private boolean isSwitchBtn6 = false;
+    private boolean isSwitchBtn100 = false;
+    private boolean isSwitchBtn101 = false;
 
     private boolean isGetInfoSuccess = false;
 
@@ -458,6 +467,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         View view = inflater.inflate(R.layout.tab_one_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         getWeather();
+        loadingDialog = LoadingDialog.createDialog(getActivity(), "正在与设备通信,请稍等...");
         return view;
     }
 
@@ -708,15 +718,91 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         LayoutInflater inflater = getLayoutInflater();
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.setting_view, null);
         ImageView imageView = layout.findViewById(R.id.setting_back);
-        TextView tvConfirm = layout.findViewById(R.id.confirm);
         mContainerView = layout.findViewById(R.id.container);
 
-        tvConfirm.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                dialog.cancel();
             }
         });
+
+
+//        tvConfirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                loadingDialog.show();
+//                if (!witchBar1 && !witchBar2 && !witchBar3) {//没有动温度条
+//                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+//                } else {//动了温度条
+//
+//                    if (witchBar1 && witchBar2 && witchBar3) {
+//
+//                    }
+//                    if (witchBar1 && witchBar2) {
+//
+//                    }
+//                    if (witchBar1 && witchBar3) {
+//
+//                    }
+//                    if (witchBar2 && witchBar3) {
+//
+//                    }
+//                    if(witchBar1){
+//
+//                    }
+//                    if(witchBar2){
+//
+//                    }
+//                    if(witchBar3){
+//
+//                    }
+//
+//                    switch (witchBar) {
+//                        case 1://动了冷藏室温度条
+//                            if (!Mode_2 && !Mode_3 && !Mode_4) {
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+//                            }
+//                            if (Mode_2) {
+//                                //一开始智能模式打开了的   先发指令关闭智能模式  再修改温度
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack2);
+//                            }
+//                            if (Mode_3) {
+//                                //一开始假日模式打开了的   先发指令关闭假日模式  再修改温度
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack3);
+//                            }
+//                            if (Mode_4) {
+//                                //一开始速冷模式打开了的   先发指令关闭速冷模式  再修改温度
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack4);
+//                            }
+//                            break;
+//                        case 2://动了变温室温度条
+//                            if (!Mode_2) {
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+//                            }
+//                            if (Mode_2) {
+//                                //一开始智能模式打开了的   先发指令关闭智能模式  再修改温度
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack2);
+//                            }
+//                            break;
+//                        case 3://动了冷冻室温度条
+//                            if (!Mode_2 && !Mode_5) {
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+//                            }
+//                            if (Mode_2) {
+//                                //一开始智能模式打开了的   先发指令关闭智能模式  再修改温度
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack2);
+//                            }
+//                            if (Mode_5) {
+//                                //一开始速冻模式打开了的   先发指令关闭速冻模式  再修改温度
+//                                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack5);
+//                            }
+//                            break;
+//                    }
+//                }
+//
+//            }
+//        });
 
         final ViewGroup newView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(
                 R.layout.add_layout_1, mContainerView, false);
@@ -756,7 +842,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-//                tvConfirm.setVisibility(View.VISIBLE);
                 isBar = true;
                 seekBar.setMax(8);
 
@@ -783,21 +868,29 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         switchbutton101.setChecked(false);
                     }
                 }
-
-
             }
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
+                DATA_2 = ConstantPool.Data2_Modify_Temperature;
+                if (Mode_2 || Mode_3 || Mode_4) {
+                    DATA_3 = (byte) (seekBar.getProgress() + 100);
+                    FridgeCMD = sendCMD(DATA_3, ConstantPool.Zero, ConstantPool.Zero);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                    if (Mode_2) {
+                        Mode_2 = false;
+                    }
+                    if (Mode_3) {
+                        Mode_3 = false;
+                    }
+                    if (Mode_4) {
+                        Mode_4 = false;
+                    }
                 } else {
-                    tvConfirm.setVisibility(View.GONE);
+                    DATA_3 = (byte) (seekBar.getProgress() + 100);
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 }
-
             }
         });
 
@@ -816,8 +909,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-//                tvConfirm.setVisibility(View.VISIBLE);
                 isBar = true;
+
                 if (switchbutton2.isChecked()) {
                     switchbutton2.setChecked(false);
                 }
@@ -849,13 +942,21 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
+                DATA_2 = ConstantPool.Data2_Modify_Temperature;
+                if (Mode_2 || Mode_101) {
+                    DATA_4 = (byte) (seekBar.getProgress() + 100);
+                    FridgeCMD = sendCMD(ConstantPool.Zero, DATA_4, ConstantPool.Zero);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                    if (Mode_2) {
+                        Mode_2 = false;
+                    }
+                    if (Mode_101) {
+                        Mode_101 = false;
+                    }
                 } else {
-                    tvConfirm.setVisibility(View.GONE);
+                    DATA_4 = (byte) (seekBar.getProgress() + 100);
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 }
             }
         });
@@ -875,8 +976,8 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-//                tvConfirm.setVisibility(View.VISIBLE);
                 isBar = true;
+
                 seekBar.setMin(-24);
                 if (switchbutton2.isChecked()) {
                     switchbutton2.setChecked(false);
@@ -908,21 +1009,22 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
+                DATA_2 = ConstantPool.Data2_Modify_Temperature;
+                if (Mode_2 || Mode_5) {
+                    DATA_5 = (byte) (seekBar.getProgress() + 100);
+                    FridgeCMD = sendCMD(ConstantPool.Zero, ConstantPool.Zero, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                    if (Mode_2) {
+                        Mode_2 = false;
+                    }
+                    if (Mode_5) {
+                        Mode_5 = false;
+                    }
                 } else {
-                    tvConfirm.setVisibility(View.GONE);
+                    DATA_5 = (byte) (seekBar.getProgress() + 100);
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 }
-            }
-        });
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
             }
         });
 
@@ -952,43 +1054,65 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
-//                    tvConfirm.setVisibility(View.VISIBLE);
+                    isSwitchBtn2 = false;
                     if (switchbutton3.isChecked()) {
                         switchbutton3.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Holiday_Mode);
+                        isSwitchBtn3 = true;
                     }
                     if (switchbutton4.isChecked()) {
                         switchbutton4.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Quick_Cooling_Mode);
+                        isSwitchBtn4 = true;
                     }
                     if (switchbutton5.isChecked()) {
                         switchbutton5.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Quick_Freezing_Mode);
+                        isSwitchBtn5 = true;
                     }
                     if (switchbutton100.isChecked()) {
                         switchbutton100.setChecked(false);
+                        DATA_9 &= (~ConstantPool.LengCang_Shutdown_Model);
+                        isSwitchBtn100 = true;
                     }
                     if (switchbutton101.isChecked()) {
                         switchbutton101.setChecked(false);
+                        DATA_9 &= (~ConstantPool.BianWen_Shutdown_Model);
+                        isSwitchBtn101 = true;
                     }
                     setProgress(5, 0, -18);
+                    DATA_9 |= ConstantPool.Intelligent_Model;
+                    DATA_2 = ConstantPool.Data2_Modify_Mode;
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 } else {
                     if (!isBar) {
-                        if (!switchbutton3.isChecked() && !switchbutton4.isChecked() && !switchbutton5.isChecked()) {
-                            setProgress(100, 100, 100);
-                        } else if (switchbutton3.isChecked()) {
-                            setProgress(14, 100, 100);
-                        } else if (switchbutton4.isChecked()) {
-                            setProgress(2, 100, 100);
-                        } else if (switchbutton5.isChecked()) {
-                            setProgress(100, 100, -32);
+                        if (!isSwitchBtn2) {
+                            if (!switchbutton3.isChecked() && !switchbutton4.isChecked() && !switchbutton5.isChecked()) {
+                                setProgress(100, 100, 100);
+                            } else if (switchbutton3.isChecked()) {
+                                setProgress(14, 100, 100);
+                            } else if (switchbutton4.isChecked()) {
+                                setProgress(2, 100, 100);
+                            } else if (switchbutton5.isChecked()) {
+                                setProgress(100, 100, -32);
+                            }
+                            DATA_9 &= (~ConstantPool.Intelligent_Model);
+                            DATA_2 = ConstantPool.Data2_Modify_Mode;
+                            FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                            joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                        } else {
+                            if (!switchbutton3.isChecked() && !switchbutton4.isChecked() && !switchbutton5.isChecked()) {
+                                setProgress(100, 100, 100);
+                            } else if (switchbutton3.isChecked()) {
+                                setProgress(14, 100, 100);
+                            } else if (switchbutton4.isChecked()) {
+                                setProgress(2, 100, 100);
+                            } else if (switchbutton5.isChecked()) {
+                                setProgress(100, 100, -32);
+                            }
                         }
                     }
-                }
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
-                } else {
-                    tvConfirm.setVisibility(View.GONE);
                 }
             }
         });
@@ -1008,40 +1132,56 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
-//                    tvConfirm.setVisibility(View.VISIBLE);
                     seekBar1.setMax(14);
+                    isSwitchBtn3 = false;
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Intelligent_Model);
+                        isSwitchBtn2 = true;
                     }
                     if (switchbutton4.isChecked()) {
                         switchbutton4.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Quick_Cooling_Mode);
+                        isSwitchBtn4 = true;
                     }
                     if (switchbutton100.isChecked()) {
                         switchbutton100.setChecked(false);
+                        DATA_9 &= (~ConstantPool.LengCang_Shutdown_Model);
+                        isSwitchBtn100 = true;
                     }
                     if (switchbutton5.isChecked()) {
                         setProgress(14, 100, -32);
                     } else {
                         setProgress(14, 100, 100);
                     }
+                    DATA_9 |= ConstantPool.Holiday_Mode;
+                    DATA_2 = ConstantPool.Data2_Modify_Mode;
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 } else {
                     if (!isBar) {
-                        if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked()) {
-                            setProgress(100, 100, 100);
-                        } else if (switchbutton5.isChecked() && switchbutton4.isChecked()) {
-                            setProgress(2, 100, -32);
-                        } else if (switchbutton5.isChecked()) {
-                            setProgress(100, 100, -32);
+                        if(!isSwitchBtn3){
+                            if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked()) {
+                                setProgress(100, 100, 100);
+                            } else if (switchbutton5.isChecked() && switchbutton4.isChecked()) {
+                                setProgress(2, 100, -32);
+                            } else if (switchbutton5.isChecked() && !switchbutton2.isChecked()) {
+                                setProgress(100, 100, -32);
+                            }
+                            DATA_9 &= (~ConstantPool.Holiday_Mode);
+                            DATA_2 = ConstantPool.Data2_Modify_Mode;
+                            FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                            joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                        }else {
+                            if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked()) {
+                                setProgress(100, 100, 100);
+                            } else if (switchbutton5.isChecked() && switchbutton4.isChecked()) {
+                                setProgress(2, 100, -32);
+                            } else if (switchbutton5.isChecked() && !switchbutton2.isChecked()) {
+                                setProgress(100, 100, -32);
+                            }
                         }
                     }
-                }
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
-                } else {
-                    tvConfirm.setVisibility(View.GONE);
                 }
             }
         });
@@ -1061,38 +1201,50 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
-//                    tvConfirm.setVisibility(View.VISIBLE);
+                    isSwitchBtn4 = false;
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Intelligent_Model);
+                        isSwitchBtn2 = true;
                     }
                     if (switchbutton3.isChecked()) {
                         switchbutton3.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Holiday_Mode);
+                        isSwitchBtn3 = true;
                     }
                     if (switchbutton100.isChecked()) {
                         switchbutton100.setChecked(false);
+                        DATA_9 &= (~ConstantPool.LengCang_Shutdown_Model);
+                        isSwitchBtn100 = true;
                     }
                     if (switchbutton5.isChecked()) {
                         setProgress(2, 100, -32);
                     } else {
                         setProgress(2, 100, 100);
                     }
+                    DATA_9 |= ConstantPool.Quick_Cooling_Mode;
+                    DATA_2 = ConstantPool.Data2_Modify_Mode;
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 } else {
                     if (!isBar) {
+                        if(!isSwitchBtn4){
+                            if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked() && !switchbutton3.isChecked()) {
+                                setProgress(100, 100, 100);
+                            } else if (switchbutton5.isChecked() && !switchbutton3.isChecked() && !switchbutton2.isChecked()) {
+                                setProgress(100, 100, -32);
+                            }
+                            DATA_9 &= (~ConstantPool.Quick_Cooling_Mode);
+                            DATA_2 = ConstantPool.Data2_Modify_Mode;
+                            FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                            joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                        }
                         if ((!switchbutton2.isChecked() && !switchbutton4.isChecked()) && !switchbutton5.isChecked() && !switchbutton3.isChecked()) {
                             setProgress(100, 100, 100);
                         } else if (switchbutton5.isChecked() && !switchbutton3.isChecked() && !switchbutton2.isChecked()) {
                             setProgress(100, 100, -32);
                         }
                     }
-
-                }
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
-                } else {
-                    tvConfirm.setVisibility(View.GONE);
                 }
             }
         });
@@ -1113,10 +1265,12 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
                     isBar = false;
-//                    tvConfirm.setVisibility(View.VISIBLE);
                     seekBar3.setMin(-32);
+                    isSwitchBtn5 = false;
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Intelligent_Model);
+                        isSwitchBtn2 = true;
                     }
                     if (switchbutton3.isChecked()) {
                         setProgress(14, 100, -32);
@@ -1125,24 +1279,34 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     } else {
                         setProgress(100, 100, -32);
                     }
+                    DATA_9 |= ConstantPool.Quick_Freezing_Mode;
+                    DATA_2 = ConstantPool.Data2_Modify_Mode;
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 } else {
                     if (!isBar) {
-                        if (!switchbutton2.isChecked() && !switchbutton4.isChecked() && !switchbutton3.isChecked()) {
-                            setProgress(100, 100, 100);
-                        } else if (switchbutton3.isChecked()) {
-                            setProgress(14, 100, 100);
-                        } else if (switchbutton4.isChecked()) {
-                            setProgress(2, 100, 100);
+                        if(!isSwitchBtn5){
+                            if (!switchbutton2.isChecked() && !switchbutton4.isChecked() && !switchbutton3.isChecked()) {
+                                setProgress(100, 100, 100);
+                            } else if (switchbutton3.isChecked()) {
+                                setProgress(14, 100, 100);
+                            } else if (switchbutton4.isChecked()) {
+                                setProgress(2, 100, 100);
+                            }
+                            DATA_9 &= (~ConstantPool.Quick_Freezing_Mode);
+                            DATA_2 = ConstantPool.Data2_Modify_Mode;
+                            FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                            joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                        }else {
+                            if (!switchbutton2.isChecked() && !switchbutton4.isChecked() && !switchbutton3.isChecked()) {
+                                setProgress(100, 100, 100);
+                            } else if (switchbutton3.isChecked()) {
+                                setProgress(14, 100, 100);
+                            } else if (switchbutton4.isChecked()) {
+                                setProgress(2, 100, 100);
+                            }
                         }
                     }
-                }
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
-                } else {
-                    tvConfirm.setVisibility(View.GONE);
                 }
             }
         });
@@ -1151,15 +1315,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         switchbutton6.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-//                    tvConfirm.setVisibility(View.VISIBLE);
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
+                if (isChecked) {
+                    DATA_9 |= ConstantPool.LECO_Mode;
                 } else {
-                    tvConfirm.setVisibility(View.GONE);
+                    DATA_9 &= (~ConstantPool.LECO_Mode);
                 }
+                DATA_2 = ConstantPool.Data2_Modify_Mode;
+                FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
             }
         });
 
@@ -1168,25 +1331,33 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
-//                    tvConfirm.setVisibility(View.VISIBLE);
+                    isSwitchBtn100 = false;
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Intelligent_Model);
+                        isSwitchBtn2 = true;
                     }
                     if (switchbutton3.isChecked()) {
                         switchbutton3.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Holiday_Mode);
+                        isSwitchBtn3 = true;
                     }
                     if (switchbutton4.isChecked()) {
                         switchbutton4.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Quick_Cooling_Mode);
+                        isSwitchBtn4 = true;
                     }
-                }
-
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
+                    DATA_9 |= ConstantPool.LengCang_Shutdown_Model;
+                    DATA_2 = ConstantPool.Data2_Modify_Mode;
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 } else {
-                    tvConfirm.setVisibility(View.GONE);
+                    if(!isSwitchBtn100){
+                        DATA_9 &= (~ConstantPool.LengCang_Shutdown_Model);
+                        DATA_2 = ConstantPool.Data2_Modify_Mode;
+                        FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                        joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                    }
                 }
             }
         });
@@ -1196,26 +1367,33 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if (isChecked) {
-//                    tvConfirm.setVisibility(View.VISIBLE);
+                    isSwitchBtn101 = false;
                     if (switchbutton2.isChecked()) {
                         switchbutton2.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Intelligent_Model);
+                        isSwitchBtn2 = true;
                     }
                     if (switchbutton3.isChecked()) {
                         switchbutton3.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Holiday_Mode);
+                        isSwitchBtn3 = true;
                     }
                     if (switchbutton4.isChecked()) {
                         switchbutton4.setChecked(false);
+                        DATA_9 &= (~ConstantPool.Quick_Cooling_Mode);
+                        isSwitchBtn4 = true;
                     }
-                }
-
-
-                if (isChanged(Refrigerate_1, Heterotherm_1, Freeze_1
-                        , switchbutton2.isChecked(), switchbutton3.isChecked(), switchbutton4.isChecked()
-                        , switchbutton5.isChecked(), switchbutton6.isChecked()
-                        , switchbutton100.isChecked(), switchbutton101.isChecked())) {
-                    tvConfirm.setVisibility(View.VISIBLE);
+                    DATA_9 |= ConstantPool.BianWen_Shutdown_Model;
+                    DATA_2 = ConstantPool.Data2_Modify_Mode;
+                    FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                    joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
                 } else {
-                    tvConfirm.setVisibility(View.GONE);
+                    if(!isSwitchBtn101){
+                        DATA_9 &= (~ConstantPool.BianWen_Shutdown_Model);
+                        DATA_2 = ConstantPool.Data2_Modify_Mode;
+                        FridgeCMD = sendCMD(DATA_3, DATA_4, DATA_5);
+                        joyoungSDK.changeDev(getActivity(), xxteaKey, devTypeId, devId, mCommandCallBack, changeDevCallBack);
+                    }
                 }
             }
         });
@@ -1320,7 +1498,14 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 //                            bian_wen_10.setVisibility(View.INVISIBLE);
 //                        }
 
-                        FridgeData = response.getRefrigerators().getData().substring(1,response.getRefrigerators().getData().length()-1).trim().replace(" ","").split(",");
+                        FridgeData = response.getRefrigerators().getData().substring(1, response.getRefrigerators().getData().length() - 1).trim().replace(" ", "").split(",");
+                        L.e(TAG, "sendByte  FridgeData" + Arrays.toString(FridgeData));
+
+                        DATA_3 = Byte.parseByte(FridgeData[5]);
+                        DATA_4 = Byte.parseByte(FridgeData[6]);
+                        DATA_5 = Byte.parseByte(FridgeData[7]);
+                        DATA_9 = Byte.parseByte(FridgeData[2]);
+
                         if (response.getRefrigerators().isLECO()) {
                             imgLeco.setVisibility(View.VISIBLE);
                             Mode_6 = true;
@@ -1512,7 +1697,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         public void onSuccess() {
             try {
                 JoyoungSDK.getInstance().sendCMD(
-                        sendCMD(), devId, true, sendCmdCallback);
+                        FridgeCMD, devId, true, sendCmdCallback);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1528,6 +1713,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         @Override
         public void onResponse(String s) {
             L.e(TAG, "指令发送成功" + s);
+            loadingDialog.cancel();
             Gson gson = new Gson();
             CodeBean codeBean = gson.fromJson(s, CodeBean.class);
 
@@ -1558,6 +1744,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
         @Override
         public void onFailure(String s, IOException e) {
+            loadingDialog.cancel();
             L.e(TAG, "指令发送失败" + s);
         }
     };
@@ -1641,48 +1828,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                 && m100 == Mode_100 && m101 == Mode_101);
     }
 
-    private String sendCMD() {
-        if (isBar) {//修改了温度
-            DATA_2 = ConstantPool.Data2_Modify_Temperature;
-            DATA_3 = (byte) (Refrigerate_1 + 100);
-            DATA_4 = (byte) (Heterotherm_1 + 100);
-            DATA_5 = (byte) (Freeze_1 + 100);
-            DATA_9 = 0x00;
-        } else {//没有修改温度
-            DATA_2 = ConstantPool.Data2_Modify_Mode;
-            MODE = Byte.parseByte(FridgeData[2]);
-            //智能模式
-            if (switchbutton2.isChecked()) {
-                MODE |= ConstantPool.Intelligent_Model;
-            }
-            //假日模式
-            if (switchbutton3.isChecked()) {
-                MODE |= ConstantPool.Holiday_Mode;
-            }
-            //速冷模式
-            if (switchbutton4.isChecked()) {
-                MODE |= ConstantPool.Quick_Cooling_Mode;
-            }
-            //速冻模式
-            if (switchbutton5.isChecked()) {
-                MODE |= ConstantPool.Quick_Freezing_Mode;
-            }
-            //冷藏关闭模式
-            if (switchbutton100.isChecked()) {
-                MODE |= ConstantPool.LengCang_Shutdown_Model;
-            }
-            //变温关闭模式
-            if (switchbutton101.isChecked()) {
-                MODE |= ConstantPool.BianWen_Shutdown_Model;
-            }
-            //去味模式
-            if (switchbutton6.isChecked()) {
-                MODE |= ConstantPool.LECO_Mode;
-            }
-            DATA_9 = MODE;
-        }
-        //===================================================
-
+    private String sendCMD(byte DATA_3, byte DATA_4, byte DATA_5) {
         DATA_23 = (byte) (DATA_0 + DATA_1 + DATA_2 + DATA_3 + DATA_4 + DATA_5 + DATA_6
                 + DATA_7 + DATA_8 + DATA_9 + DATA_10 + DATA_11 + DATA_12 + DATA_13 + DATA_14
                 + DATA_15 + DATA_16 + DATA_17 + DATA_18 + DATA_19 + DATA_20 + DATA_21 + DATA_22);

@@ -15,11 +15,11 @@
         android:layout_marginRight="25dp"/>
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="正在为您配网..."
-        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
         android:textColor="#333"
         android:textSize="16sp" />
 

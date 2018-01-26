@@ -70,7 +70,7 @@ import static com.bx.jz.jy.jybx.activity.MainActivity.xxteaKey;
 
 public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
-    private static final String TAG = "FragmentOne";
+    private static final String TAG = FragmentOne.class.getSimpleName();
     @BindView(R.id.img_weather)
     ImageView imgWeather;
     @BindView(R.id.tv_weather)
@@ -219,7 +219,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     //向MQTT发送的指令
     private String CMD;
     //冰箱指令
-    private byte[] FridgeData;
+    private String[] FridgeData;
 
     private RequestOptions options = new RequestOptions()
             .centerCrop().placeholder(R.mipmap.placeholder).error(R.mipmap.placeholder).priority(Priority.HIGH);
@@ -272,7 +272,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
     private byte DATA_45 = ConstantPool.Zero;
     private byte DATA_46;
 
-    private int MODE;
+    private byte MODE;
 
     private SwitchButton switchbutton2;
     private SwitchButton switchbutton3;
@@ -569,7 +569,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
             }
         });
 
-
         viewList.add(view1);
         viewList.add(view2);
         viewList.add(view3);
@@ -610,7 +609,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 
             }
         });
-
     }
 
     private void getWeather() {
@@ -761,6 +759,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 //                tvConfirm.setVisibility(View.VISIBLE);
                 isBar = true;
                 seekBar.setMax(8);
+
                 if (switchbutton2.isChecked()) {
                     switchbutton2.setChecked(false);
                 }
@@ -773,6 +772,19 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                 if (switchbutton100.isChecked()) {
                     switchbutton100.setChecked(false);
                 }
+
+                if (switchbutton5.isChecked() != Mode_5) {
+                    if (switchbutton5.isChecked()) {
+                        switchbutton5.setChecked(false);
+                    }
+                }
+                if (switchbutton101.isChecked() != Mode_101) {
+                    if (switchbutton101.isChecked()) {
+                        switchbutton101.setChecked(false);
+                    }
+                }
+
+
             }
 
             @Override
@@ -812,6 +824,27 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                 if (switchbutton101.isChecked()) {
                     switchbutton101.setChecked(false);
                 }
+
+                if (switchbutton3.isChecked() != Mode_3) {
+                    if (switchbutton3.isChecked()) {
+                        switchbutton3.setChecked(false);
+                    }
+                }
+                if (switchbutton4.isChecked() != Mode_4) {
+                    if (switchbutton4.isChecked()) {
+                        switchbutton4.setChecked(false);
+                    }
+                }
+                if (switchbutton5.isChecked() != Mode_5) {
+                    if (switchbutton5.isChecked()) {
+                        switchbutton5.setChecked(false);
+                    }
+                }
+                if (switchbutton100.isChecked() != Mode_100) {
+                    if (switchbutton100.isChecked()) {
+                        switchbutton100.setChecked(false);
+                    }
+                }
             }
 
             @Override
@@ -849,6 +882,27 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                     switchbutton2.setChecked(false);
                 } else if (switchbutton5.isClickable()) {
                     switchbutton5.setChecked(false);
+                }
+
+                if (switchbutton3.isChecked() != Mode_3) {
+                    if (switchbutton3.isChecked()) {
+                        switchbutton3.setChecked(false);
+                    }
+                }
+                if (switchbutton4.isChecked() != Mode_4) {
+                    if (switchbutton4.isChecked()) {
+                        switchbutton4.setChecked(false);
+                    }
+                }
+                if (switchbutton100.isChecked() != Mode_100) {
+                    if (switchbutton100.isChecked()) {
+                        switchbutton100.setChecked(false);
+                    }
+                }
+                if (switchbutton101.isChecked() != Mode_101) {
+                    if (switchbutton101.isChecked()) {
+                        switchbutton101.setChecked(false);
+                    }
                 }
             }
 
@@ -1266,7 +1320,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
 //                            bian_wen_10.setVisibility(View.INVISIBLE);
 //                        }
 
-                        FridgeData = response.getRefrigerators().getData().getBytes();
+                        FridgeData = response.getRefrigerators().getData().substring(1,response.getRefrigerators().getData().length()-1).trim().replace(" ","").split(",");
                         if (response.getRefrigerators().isLECO()) {
                             imgLeco.setVisibility(View.VISIBLE);
                             Mode_6 = true;
@@ -1453,7 +1507,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         }
     };
 
-
     private ChangeDevCallBack changeDevCallBack = new ChangeDevCallBack() {
         @Override
         public void onSuccess() {
@@ -1533,7 +1586,7 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                         llAiMode.setText("冷藏关闭,变温关闭模式");
                     } else if (Mode_101 && Mode_5) {
                         llAiMode.setText("变温关闭,速冻模式");
-                    } else if (Mode_101 && Mode_5) {
+                    } else if (Mode_101 && Mode_4) {
                         llAiMode.setText("变温关闭,速冷模式");
                     } else if (Mode_1) {
                         llAiMode.setText("自定义模式");
@@ -1579,7 +1632,6 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
         }
     };
 
-
     private boolean isChanged(int a, int b, int c
             , boolean m2, boolean m3, boolean m4, boolean m5, boolean m6
             , boolean m100, boolean m101) {
@@ -1589,128 +1641,46 @@ public class FragmentOne extends Fragment implements ViewSwitcher.ViewFactory {
                 && m100 == Mode_100 && m101 == Mode_101);
     }
 
-
     private String sendCMD() {
-//
-//        //自定义模式
-//        if (Mode_1 && !Mode_2 && !Mode_3_1 && !Mode_4_1 && !Mode_5_1 && !Mode_6_1 && !Mode_100_1) {//无去味儿
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Temperature;
-//            DATA_3 = (byte) (Refrigerate_1 + 100);
-//            DATA_4 = (byte) (Heterotherm_1 + 100);
-//            DATA_5 = (byte) (Freeze_1 + 100);
-//            DATA_9 = 0x00;
-//        } else if (Mode_1_1 && !Mode_2_1 && !Mode_3_1 && !Mode_4_1 && !Mode_5_1 && Mode_6_1 && !Mode_100_1) {//有去味儿
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LECO_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Temperature;
-//            DATA_3 = (byte) (Refrigerate_1 + 100);
-//            DATA_4 = (byte) (Heterotherm_1 + 100);
-//            DATA_5 = (byte) (Freeze_1 + 100);
-//            DATA_9 = (byte) MODE;
-//        }
-//
-//        //冰箱模式判断
-//        //去味模式
-//        //===================================================
-//        if (!Mode_1_1 && Mode_6_1 & Mode_4_1 & Mode_5_1) {
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LECO_Mode;
-//            MODE |= ConstantPool.Quick_Cooling_Mode;
-//            MODE |= ConstantPool.Quick_Freezing_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_6_1 & Mode_2_1) {
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LECO_Mode;
-//            MODE |= ConstantPool.Intelligent_Model;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_6_1 & Mode_3_1) {
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LECO_Mode;
-//            MODE |= ConstantPool.Holiday_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_6_1 & Mode_4_1) {
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LECO_Mode;
-//            MODE |= ConstantPool.Quick_Cooling_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_6_1 & Mode_5_1) {
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LECO_Mode;
-//            MODE |= ConstantPool.Quick_Freezing_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_6_1 & Mode_100_1) {
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LECO_Mode;
-//            MODE |= ConstantPool.LengCang_Shutdown_Model;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        }
-//        //===================================================
-//        else if (!Mode_1_1 && Mode_4_1 & Mode_5_1) {//速冷速冻
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.Quick_Cooling_Mode;
-//            MODE |= ConstantPool.Quick_Freezing_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_2_1) {//智能模式
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.Intelligent_Model;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_100_1) {//冷藏关闭模式
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.LengCang_Shutdown_Model;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_3_1) {//假日模式
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.Holiday_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_4_1) {//速冷模式
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.Quick_Cooling_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        } else if (!Mode_1_1 && Mode_5_1) {//速冻模式
-//            MODE = FridgeData[2];
-//            MODE |= ConstantPool.Quick_Freezing_Mode;
-//            DATA_0 = ConstantPool.Data0_beginning_commend;
-//            DATA_1 = ConstantPool.Data1_beginning_commend;
-//            DATA_2 = ConstantPool.Data2_Modify_Mode;
-//            DATA_9 = (byte) MODE;
-//        }
+        if (isBar) {//修改了温度
+            DATA_2 = ConstantPool.Data2_Modify_Temperature;
+            DATA_3 = (byte) (Refrigerate_1 + 100);
+            DATA_4 = (byte) (Heterotherm_1 + 100);
+            DATA_5 = (byte) (Freeze_1 + 100);
+            DATA_9 = 0x00;
+        } else {//没有修改温度
+            DATA_2 = ConstantPool.Data2_Modify_Mode;
+            MODE = Byte.parseByte(FridgeData[2]);
+            //智能模式
+            if (switchbutton2.isChecked()) {
+                MODE |= ConstantPool.Intelligent_Model;
+            }
+            //假日模式
+            if (switchbutton3.isChecked()) {
+                MODE |= ConstantPool.Holiday_Mode;
+            }
+            //速冷模式
+            if (switchbutton4.isChecked()) {
+                MODE |= ConstantPool.Quick_Cooling_Mode;
+            }
+            //速冻模式
+            if (switchbutton5.isChecked()) {
+                MODE |= ConstantPool.Quick_Freezing_Mode;
+            }
+            //冷藏关闭模式
+            if (switchbutton100.isChecked()) {
+                MODE |= ConstantPool.LengCang_Shutdown_Model;
+            }
+            //变温关闭模式
+            if (switchbutton101.isChecked()) {
+                MODE |= ConstantPool.BianWen_Shutdown_Model;
+            }
+            //去味模式
+            if (switchbutton6.isChecked()) {
+                MODE |= ConstantPool.LECO_Mode;
+            }
+            DATA_9 = MODE;
+        }
         //===================================================
 
         DATA_23 = (byte) (DATA_0 + DATA_1 + DATA_2 + DATA_3 + DATA_4 + DATA_5 + DATA_6
